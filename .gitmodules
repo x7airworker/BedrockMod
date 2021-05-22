@@ -1,0 +1,6 @@
+[submodule "BedrockModNative/lib/Dyncall"]
+	path = BedrockModNative/lib/Dyncall
+	url = https://github.com/x7airworker/dyncall
+[submodule "BedrockModNative/lib/Detours"]
+	path = BedrockModNative/lib/Detours
+	url = https://github.com/0xeb/detours-cmake

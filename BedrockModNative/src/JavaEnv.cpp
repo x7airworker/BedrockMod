@@ -201,7 +201,6 @@ jobject JavaEnv::ValueToJVM(jclass retType, DCpointer address)
 		return obj;
 	}
 
-
 	return jobject();
 }
 
@@ -210,12 +209,11 @@ jobject JavaEnv::JavaFunctionPointerInvoke(jobject instance, jobjectArray args)
 	jfieldID aField = this->env->GetFieldID(this->pointerClass, "address", "J");
 	std::cout << "Found field " << aField << std::endl;
 	__int64 address = (__int64) GetModuleHandle(0) + this->env->GetLongField(instance, aField);
-	std::cout << "Invoking function at address " << address << std::endl;
 	int argsLength = this->env->GetArrayLength(args);
 	dcReset(callVM);
 	for (jsize i = 1; i < argsLength; i++)
 		PushValueToCallVM(this->env->GetObjectArrayElement(args, i));
-
+	std::cout << "Invoking function at address " << address << std::endl;
 	return this->ValueToJVM((jclass) this->env->GetObjectArrayElement(args, 0), (DCpointer) address);
 }
 

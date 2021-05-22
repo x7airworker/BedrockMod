@@ -1,6 +1,0 @@
-[submodule "lib/Dyncall"]
-	path = lib/Dyncall
-	url = https://github.com/x7airworker/dyncall
-[submodule "lib/Detours"]
-	path = lib/Detours
-	url = https://github.com/0xeb/detours-cmake

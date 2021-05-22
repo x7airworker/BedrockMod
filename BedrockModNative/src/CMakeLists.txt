@@ -23,6 +23,13 @@ target_include_directories(dbghelp PRIVATE
     ../lib/Dyncall/dyncall
 )
 
+if(MSVC)
+	target_compile_definitions(dbghelp PRIVATE
+		_CRT_SECURE_NO_WARNINGS
+		NOMINMAX
+	)
+endif()
+
 target_link_libraries(dbghelp 
     ${JNI_LIBRARIES} 
     lib_detours 

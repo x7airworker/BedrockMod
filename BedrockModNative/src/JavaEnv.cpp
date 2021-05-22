@@ -86,6 +86,7 @@ JavaEnv::JavaEnv(std::string classPath)
 
 		jmethodID mainMethod = this->env->GetStaticMethodID(this->loaderClass, "main", "([Ljava/lang/String;)V");
 		this->env->CallStaticVoidMethod(this->loaderClass, mainMethod);
+		this->FireEvent("Startup");
 	}
 }
 
@@ -217,4 +218,16 @@ jobject JavaEnv::JavaFunctionPointerInvoke(jobject instance, jobjectArray args)
 		PushValueToCallVM(this->env->GetObjectArrayElement(args, i));
 
 	return this->ValueToJVM((jclass) this->env->GetObjectArrayElement(args, 0), (DCpointer) address);
+}
+
+void JavaEnv::FireEvent(static std::string name)
+{
+	this->vm->AttachCurrentThread((void**)&this->env, NULL);
+
+	std::cout << "FireEvent" << std::endl;
+	jmethodID fireEventMethod = this->env->GetStaticMethodID(this->loaderClass, "fireEvent", "(Ljava/lang/String;)V");
+	jstring jName = this->env->NewStringUTF(name.c_str());
+	this->env->CallStaticVoidMethod(this->loaderClass, fireEventMethod, jName);
+
+	this->vm->DetachCurrentThread();
 }

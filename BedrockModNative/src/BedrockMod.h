@@ -12,7 +12,6 @@ public:
 	std::unique_ptr<void*> minecraft;
 	std::unique_ptr<JavaEnv> javaEnv;
 	void Init();
-	void OnReady();
 };
 
 extern BedrockMod* g_BedrockMod;

@@ -28,4 +28,5 @@ public:
 		return this->env;
 	}
 	jobject JavaFunctionPointerInvoke(jobject instance, jobjectArray args);
+	void FireEvent(static std::string name);
 };

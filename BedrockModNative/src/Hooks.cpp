@@ -7,14 +7,14 @@
 
 void hkDedicatedServerStart(void* instance)
 {
-	std::cout << "Start Hook" << std::endl;
+	g_BedrockMod->javaEnv->FireEvent("DedicatedServer::Start");
 	Function::_DedicatedServer_Start(instance);
 }
 
 void hkMinecraftInit(void* instance)
 {
 	g_BedrockMod->minecraft = std::make_unique<void*>(instance);
-	g_BedrockMod->OnReady();
+	g_BedrockMod->javaEnv->FireEvent("Minecraft::Init");
 	Function::_Minecraft_Init(instance);
 }
 

@@ -7,6 +7,7 @@
 
 void hkDedicatedServerStart(void* instance)
 {
+	g_BedrockMod->javaEnv = std::make_unique<JavaEnv>(".;loader.jar");
 	g_BedrockMod->javaEnv->FireEvent("DedicatedServer::Start");
 	Function::_DedicatedServer_Start(instance);
 }

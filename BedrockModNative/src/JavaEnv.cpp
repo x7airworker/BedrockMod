@@ -222,12 +222,8 @@ jobject JavaEnv::JavaFunctionPointerInvoke(jobject instance, jobjectArray args)
 
 void JavaEnv::FireEvent(static std::string name)
 {
-	this->vm->AttachCurrentThread((void**)&this->env, NULL);
-
 	std::cout << "FireEvent" << std::endl;
 	jmethodID fireEventMethod = this->env->GetStaticMethodID(this->loaderClass, "fireEvent", "(Ljava/lang/String;)V");
 	jstring jName = this->env->NewStringUTF(name.c_str());
 	this->env->CallStaticVoidMethod(this->loaderClass, fireEventMethod, jName);
-
-	this->vm->DetachCurrentThread();
 }

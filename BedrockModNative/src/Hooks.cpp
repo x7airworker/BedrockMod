@@ -14,8 +14,9 @@ void hkDedicatedServerStart(void* instance)
 
 void hkMinecraftInit(void* instance)
 {
-	g_BedrockMod->minecraft = std::make_unique<void*>(instance);
-	g_BedrockMod->javaEnv->FireEvent("Minecraft::Init");
+	JavaArrayList args(g_BedrockMod->javaEnv->GetEnv());
+	args.Add(g_BedrockMod->javaEnv->CreatePointer(instance));
+	g_BedrockMod->javaEnv->FireEvent("Minecraft::Init", args);
 	Function::_Minecraft_Init(instance);
 }
 

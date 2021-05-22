@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 #include <dyncall.h>
+#include "JavaArrayList.h"
 
 class JavaEnv
 {
@@ -28,5 +29,7 @@ public:
 		return this->env;
 	}
 	jobject JavaFunctionPointerInvoke(jobject instance, jobjectArray args);
+	void FireEvent(static std::string name, JavaArrayList list);
 	void FireEvent(static std::string name);
+	jobject CreatePointer(void* address);
 };

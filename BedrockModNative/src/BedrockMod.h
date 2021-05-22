@@ -9,7 +9,6 @@ class BedrockMod
 private:
 	DWORD threadID;
 public:
-	std::unique_ptr<void*> minecraft;
 	std::unique_ptr<JavaEnv> javaEnv;
 	void Init();
 };

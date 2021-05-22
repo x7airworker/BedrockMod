@@ -16,7 +16,8 @@ add_library(dbghelp SHARED
         Hooks.h
         JavaEnv.cpp
         JavaEnv.h
-)
+        JavaArrayList.cpp
+        JavaArrayList.h)
 
 target_include_directories(dbghelp PRIVATE
     ${JNI_INCLUDE_DIRS}

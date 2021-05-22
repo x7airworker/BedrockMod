@@ -86,7 +86,6 @@ JavaEnv::JavaEnv(std::string classPath)
 
 		jmethodID mainMethod = this->env->GetStaticMethodID(this->loaderClass, "main", "([Ljava/lang/String;)V");
 		this->env->CallStaticVoidMethod(this->loaderClass, mainMethod);
-		this->FireEvent("Startup");
 	}
 }
 
@@ -104,7 +103,7 @@ void JavaEnv::PushValueToCallVM(jobject object)
 
 	if (jenv->IsInstanceOf(object, pointerClass)) {
 		jfieldID aField = this->env->GetFieldID(this->pointerClass, "address", "J");
-		long address = this->env->GetLongField(object, aField);
+		__int64 address = this->env->GetLongField(object, aField);
 		dcArgPointer(callVM, (DCpointer)address);
 	} else if (jenv->IsInstanceOf(object, longClass)) {
 		jmethodID longValueMethod = jenv->GetMethodID(jcls, "longValue", "()J");
@@ -220,10 +219,24 @@ jobject JavaEnv::JavaFunctionPointerInvoke(jobject instance, jobjectArray args)
 	return this->ValueToJVM((jclass) this->env->GetObjectArrayElement(args, 0), (DCpointer) address);
 }
 
-void JavaEnv::FireEvent(static std::string name)
+void JavaEnv::FireEvent(static std::string name, JavaArrayList list)
 {
-	std::cout << "FireEvent" << std::endl;
-	jmethodID fireEventMethod = this->env->GetStaticMethodID(this->loaderClass, "fireEvent", "(Ljava/lang/String;)V");
+	std::cout << "Fire 1" << std::endl;
+	jmethodID fireEventMethod = this->env->GetStaticMethodID(this->loaderClass, "fireEvent", "(Ljava/lang/String;Ljava/util/List;)V");
+	std::cout << "Fire 2" << std::endl;
 	jstring jName = this->env->NewStringUTF(name.c_str());
-	this->env->CallStaticVoidMethod(this->loaderClass, fireEventMethod, jName);
+	std::cout << "Fire 3" << std::endl;
+	this->env->CallStaticVoidMethod(this->loaderClass, fireEventMethod, jName, list.GetInstance());
+}
+
+void JavaEnv::FireEvent(std::string name)
+{
+	JavaArrayList emptyList(env);
+	FireEvent(name, emptyList);
+}
+
+jobject JavaEnv::CreatePointer(void* address)
+{
+	static jmethodID constructor = env->GetMethodID(this->pointerClass, "<init>", "(J)V");
+	return env->NewObject(this->pointerClass, constructor, (int64_t) address);
 }

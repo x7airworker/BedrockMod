@@ -14,14 +14,15 @@ DCCallVM* callVM = dcNewCallVM(4096);
 
 void InitCallVM()
 {
-	dcMode(callVM, DC_CALL_C_DEFAULT);
 	dcReset(callVM);
-	std::cout << "Init Dyncall" << std::endl;
+	dcMode(callVM, DC_CALL_C_X86_WIN32_THIS_MS);
+	std::cout << dcGetError(callVM) << std::endl;
 }
 
-jobject JFunctionPointerInvoke(JNIEnv* jenv, jobject instance, jobjectArray args)
+jobject JFunctionPointerInvoke(JNIEnv* jenv, jobject instance, jclass clazz, jobjectArray args)
 {
-	return g_BedrockMod->javaEnv->JavaFunctionPointerInvoke(instance, args);
+	std::cout << clazz << std::endl;
+	return g_BedrockMod->javaEnv->JavaFunctionPointerInvoke(instance, clazz, args);
 }
 
 JavaEnv::JavaEnv(std::string classPath)
@@ -42,7 +43,6 @@ JavaEnv::JavaEnv(std::string classPath)
 		return;
 	}
 	HINSTANCE jvmDLL = LoadLibrary(outputJdkDll);
-	std::cout << "Loading JVM libraries" << std::endl;
 	if (!jvmDLL) {
 		jvmDLL = LoadLibrary(outputJreDll);
 
@@ -71,7 +71,6 @@ JavaEnv::JavaEnv(std::string classPath)
 	vm_args.options = options;
 	vm_args.ignoreUnrecognized = false;
 
-	std::cout << "Creating JVM!" << std::endl;
 	int res = createJavaVMFunction(&this->vm, (void**)&this->env, &vm_args);
 	std::cout << "Created JVM!" << std::endl;
 
@@ -145,58 +144,65 @@ void JavaEnv::PushValueToCallVM(jobject object)
 	jenv->DeleteGlobalRef(booleanClass);
 }
 
-jobject JavaEnv::ValueToJVM(jclass retType, DCpointer address)
+jobject JavaEnv::ValueToJVM(jobject retType, DCpointer address)
 {
-	JNIEnv* jenv = this->GetEnv();
+	jclass jcls = env->GetObjectClass(retType);
 
-	jclass stringClass = jenv->FindClass("java/lang/String");
-	jclass integerClass = jenv->FindClass("java/lang/Integer");
-	jclass doubleClass = jenv->FindClass("java/lang/Double");
-	jclass floatClass = jenv->FindClass("java/lang/Float");
-	jclass longClass = jenv->FindClass("java/lang/Long");
-	jclass booleanClass = jenv->FindClass("java/lang/Boolean");
+	jclass stringClass = env->FindClass("java/lang/String");
+	jclass integerClass = env->FindClass("java/lang/Integer");
+	jclass doubleClass = env->FindClass("java/lang/Double");
+	jclass floatClass = env->FindClass("java/lang/Float");
+	jclass longClass = env->FindClass("java/lang/Long");
+	jclass booleanClass = env->FindClass("java/lang/Boolean");
+
+	jmethodID equals = env->GetMethodID(jcls, "equals", "(Ljava/lang/Object;)Z");
 	
 	auto cleanup = [&]()
 	{
-		jenv->DeleteGlobalRef(stringClass);
-		jenv->DeleteGlobalRef(integerClass);
-		jenv->DeleteGlobalRef(doubleClass);
-		jenv->DeleteGlobalRef(floatClass);
-		jenv->DeleteGlobalRef(longClass);
-		jenv->DeleteGlobalRef(booleanClass);
+		env->DeleteGlobalRef(jcls);
+		env->DeleteGlobalRef(stringClass);
+		env->DeleteGlobalRef(integerClass);
+		env->DeleteGlobalRef(doubleClass);
+		env->DeleteGlobalRef(floatClass);
+		env->DeleteGlobalRef(longClass);
+		env->DeleteGlobalRef(booleanClass);
 	};
 
-	if (retType == stringClass) {
+	if (env->CallBooleanMethod(retType, equals, stringClass)) {
 		cleanup();
-		return (jobject)jenv->NewStringUTF((char*)dcCallPointer(callVM, address));
+		return (jobject)env->NewStringUTF((char*)dcCallPointer(callVM, address));
 	}
-	else if (retType == integerClass) {
-		jobject obj = jenv->NewObject(integerClass, jenv->GetMethodID(integerClass, "<init>", "(I)V"), dcCallInt(callVM, address));
-		cleanup();
-		return obj;
-	}
-	else if (retType == doubleClass) {
-		jobject obj = jenv->NewObject(doubleClass, jenv->GetMethodID(doubleClass, "<init>", "(D)V"), dcCallDouble(callVM, address));
+	else if (env->CallBooleanMethod(retType, equals, integerClass)) {
+		jobject obj = env->NewObject(integerClass, env->GetMethodID(integerClass, "<init>", "(I)V"), dcCallInt(callVM, address));
 		cleanup();
 		return obj;
 	}
-	else if (retType == booleanClass) { 
-		jobject obj = jenv->NewObject(booleanClass, jenv->GetMethodID(booleanClass, "<init>", "(Z)V"), dcCallBool(callVM, address));
+	else if (env->CallBooleanMethod(retType, equals, doubleClass)) {
+		jobject obj = env->NewObject(doubleClass, env->GetMethodID(doubleClass, "<init>", "(D)V"), dcCallDouble(callVM, address));
 		cleanup();
 		return obj;
 	}
-	else if (retType == floatClass) {
-		jobject obj = jenv->NewObject(floatClass, jenv->GetMethodID(floatClass, "<init>", "(F)V"), dcCallFloat(callVM, address));
+	else if (env->CallBooleanMethod(retType, equals, booleanClass)) {
+		jobject obj = env->NewObject(booleanClass, env->GetMethodID(booleanClass, "<init>", "(Z)V"), dcCallBool(callVM, address));
 		cleanup();
 		return obj;
 	}
-	else if (retType == longClass) {
-		jobject obj = jenv->NewObject(longClass, jenv->GetMethodID(longClass, "<init>", "(J)V"), dcCallLong(callVM, address));
+	else if (env->CallBooleanMethod(retType, equals, floatClass)) {
+		jobject obj = env->NewObject(floatClass, env->GetMethodID(floatClass, "<init>", "(F)V"), dcCallFloat(callVM, address));
 		cleanup();
 		return obj;
 	}
-	else if (retType == this->pointerClass) {
-		jobject obj = jenv->NewObject(this->pointerClass, jenv->GetMethodID(this->pointerClass, "<init>", "(J)V"), dcCallPointer(callVM, address));
+	else if (env->CallBooleanMethod(retType, equals, longClass)) {
+		jobject obj = env->NewObject(longClass, env->GetMethodID(longClass, "<init>", "(J)V"), dcCallLong(callVM, address));
+		cleanup();
+		return obj;
+	}
+	else if (env->CallBooleanMethod(retType, equals, pointerClass)) {
+		std::cout << "Making pointer of result calling " << address << std::endl;
+		void* res = dcCallPointer(callVM, address);
+		std::cout << "Got pointer" << std::endl;
+		jobject obj = CreatePointer(res);
+		std::cout << "Made object!" << std::endl;
 		cleanup();
 		return obj;
 	}
@@ -204,26 +210,21 @@ jobject JavaEnv::ValueToJVM(jclass retType, DCpointer address)
 	return jobject();
 }
 
-jobject JavaEnv::JavaFunctionPointerInvoke(jobject instance, jobjectArray args)
+jobject JavaEnv::JavaFunctionPointerInvoke(jobject instance, jclass clazz, jobjectArray args)
 {
 	jfieldID aField = this->env->GetFieldID(this->pointerClass, "address", "J");
-	std::cout << "Found field " << aField << std::endl;
 	__int64 address = (__int64) GetModuleHandle(0) + this->env->GetLongField(instance, aField);
 	int argsLength = this->env->GetArrayLength(args);
 	dcReset(callVM);
 	for (jsize i = 1; i < argsLength; i++)
 		PushValueToCallVM(this->env->GetObjectArrayElement(args, i));
-	std::cout << "Invoking function at address " << address << std::endl;
-	return this->ValueToJVM((jclass) this->env->GetObjectArrayElement(args, 0), (DCpointer) address);
+	return this->ValueToJVM(clazz, (DCpointer) address);
 }
 
 void JavaEnv::FireEvent(static std::string name, JavaArrayList list)
 {
-	std::cout << "Fire 1" << std::endl;
 	jmethodID fireEventMethod = this->env->GetStaticMethodID(this->loaderClass, "fireEvent", "(Ljava/lang/String;Ljava/util/List;)V");
-	std::cout << "Fire 2" << std::endl;
 	jstring jName = this->env->NewStringUTF(name.c_str());
-	std::cout << "Fire 3" << std::endl;
 	this->env->CallStaticVoidMethod(this->loaderClass, fireEventMethod, jName, list.GetInstance());
 }
 

@@ -16,7 +16,7 @@ private:
 	jclass pointerClass;
 	jclass loaderClass;
 	void PushValueToCallVM(jobject object);
-	jobject ValueToJVM(jclass retType, DCpointer address);
+	jobject ValueToJVM(jobject retType, DCpointer address);
 public:
 	JavaEnv(std::string classPath);
 	void Destroy() {
@@ -28,7 +28,7 @@ public:
 	JNIEnv* GetEnv() {
 		return this->env;
 	}
-	jobject JavaFunctionPointerInvoke(jobject instance, jobjectArray args);
+	jobject JavaFunctionPointerInvoke(jobject instance, jclass clazz, jobjectArray args);
 	void FireEvent(static std::string name, JavaArrayList list);
 	void FireEvent(static std::string name);
 	jobject CreatePointer(void* address);

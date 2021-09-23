@@ -8,7 +8,7 @@ SET(CMAKE_ASM_FLAGS "${CFLAGS} -x assembler-with-cpp")
 
 enable_language(ASM_MASM)
 
+include_directories(include)
 add_subdirectory(lib/Detours)
 add_subdirectory(src)
-add_subdirectory(lib/Dyncall/dyncall)
 set_target_properties(dbghelp PROPERTIES LINK_FLAGS /EXPORT:DetourFinishHelperProcess,@1,NONAME)

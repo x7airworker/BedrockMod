@@ -1,7 +1,3 @@
-find_package(Java REQUIRED)
-find_package(JNI REQUIRED)
-include(UseJava)
-
 add_library(dbghelp SHARED 
         dbghelp.asm
         dbghelp.def
@@ -14,14 +10,6 @@ add_library(dbghelp SHARED
         Helper.h
         Hooks.cpp
         Hooks.h
-        JavaEnv.cpp
-        JavaEnv.h
-        JavaArrayList.cpp
-        JavaArrayList.h)
-
-target_include_directories(dbghelp PRIVATE
-    ${JNI_INCLUDE_DIRS}
-    ../lib/Dyncall/dyncall
 )
 
 if(MSVC)
@@ -32,7 +20,5 @@ if(MSVC)
 endif()
 
 target_link_libraries(dbghelp 
-    ${JNI_LIBRARIES} 
     lib_detours 
-    dyncall_s
 )

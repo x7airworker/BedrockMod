@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\x7air\Documents\Coding\BedrockEditionMod\BedrockModNative\build64\CMakeFiles\4078ffb2bd0d8d22dc8a15fdf724c261\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{30BD307B-486C-3FB7-98B4-2FBDB25EF6A8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

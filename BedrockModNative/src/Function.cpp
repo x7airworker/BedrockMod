@@ -1,6 +1,6 @@
 #include "Function.h"
 #include <Windows.h>
-#include "Helper.h"
+#include "bedrock.h"
 
 namespace Function
 {

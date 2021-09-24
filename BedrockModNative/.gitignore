@@ -2,3 +2,4 @@ out/
 .idea
 *.iml
 .vs
+build64/

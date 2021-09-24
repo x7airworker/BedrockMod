@@ -4,15 +4,13 @@
 #include <iostream>
 #include "Function.h"
 #include "BedrockMod.h"
+#include "bedrock.h"
 
-
-typedef bool(__thiscall* DedicatedServer_isEduMode)(void*);
-
-int __cdecl hkDedicatedServerStart(void* self, void* param1)
+int hkDedicatedServerStart(DedicatedServer* instance)
 {
-	DedicatedServer_isEduMode func = reinterpret_cast<DedicatedServer_isEduMode>(GetModuleHandle(0) + 0x00714410);
-	std::cout << "IsEduMode: " << func(self) << std::endl;
-	return Function::_DedicatedServer_Start(self, param1);
+	std::cout << "IsEduMode: " << instance->isEduMode() << std::endl;
+	std::cout << "0x" << std::hex << instance << std::endl;
+	return Function::_DedicatedServer_Start(instance);
 }
 
 void hkMinecraftInit(void* instance)

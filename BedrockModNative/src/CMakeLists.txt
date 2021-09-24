@@ -6,10 +6,9 @@ add_library(dbghelp SHARED
         dllmain.cpp
         Function.cpp
         Function.h
-        Helper.cpp
-        Helper.h
         Hooks.cpp
         Hooks.h
+        util.cpp
 )
 
 if(MSVC)

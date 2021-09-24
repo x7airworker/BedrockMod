@@ -13,9 +13,15 @@ int hkDedicatedServerStart(DedicatedServer* instance)
 	return Function::_DedicatedServer_Start(instance);
 }
 
-void hkMinecraftInit(void* instance)
+void hkMinecraftInit(Minecraft* instance)
 {
 	Function::_Minecraft_Init(instance);
+}
+
+void hkMinecraftUpdate(Minecraft* instance)
+{
+	Function::_Minecraft_Update(instance);
+	std::cout << "Seed: " << instance->getLevel()->getSeed() << std::endl;
 }
 
 void Hooks::Install()
@@ -24,5 +30,6 @@ void Hooks::Install()
 	DetourUpdateThread(GetCurrentThread());
 	DetourAttach(&(LPVOID&)Function::_DedicatedServer_Start, &hkDedicatedServerStart);
 	DetourAttach(&(LPVOID&)Function::_Minecraft_Init, &hkMinecraftInit);
+	DetourAttach(&(LPVOID&)Function::_Minecraft_Update, &hkMinecraftUpdate);
 	DetourTransactionCommit();
 }

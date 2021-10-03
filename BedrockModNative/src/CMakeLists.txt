@@ -8,7 +8,13 @@ add_library(dbghelp SHARED
         Function.h
         Hooks.cpp
         Hooks.h
-        util.cpp
+        util.cpp)
+
+add_custom_command(
+	TARGET dbghelp
+	COMMAND $<TARGET_FILE:BedrockMod> --proj ${PROJECT_SOURCE_DIR}/sdk.json --gen CppGen --output ${PROJECT_SOURCE_DIR}/include/api/sdk/
+	DEPENDS ClassBuilder ${PROJECT_SOURCE_DIR}/sdk.json
+    VERBATIM
 )
 
 if(MSVC)
@@ -18,6 +24,10 @@ if(MSVC)
 	)
 endif()
 
+target_include_directories(dbghelp PRIVATE "${PROJECT_SOURCE_DIR}/lib/GSL/include/")
+
 target_link_libraries(dbghelp 
-    lib_detours 
+    lib_detours
 )
+
+set_target_properties(dbghelp PROPERTIES LINK_FLAGS /EXPORT:DetourFinishHelperProcess,@1,NONAME)

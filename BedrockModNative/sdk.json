@@ -1,0 +1,1079 @@
+[
+  {
+    "ClassName": "#INCLUDES",
+    "Extends": null,
+    "Fields": [
+      {
+        "Name": "../../util.h",
+        "Offset": "0",
+        "Type": {
+          "TypeName": "",
+          "TypeSize": "0"
+        }
+      },
+      {
+        "Name": "../../mem.h",
+        "Offset": "0",
+        "Type": {
+          "TypeName": "",
+          "TypeSize": "0"
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "AABB",
+    "Extends": null,
+    "Fields": [
+      {
+        "Name": "firstCorner",
+        "Offset": "0",
+        "Type": {
+          "TypeName": "Vector3<float>",
+          "TypeSize": 12
+        }
+      },
+      {
+        "Name": "secondCorner",
+        "Offset": "C",
+        "Type": {
+          "TypeName": "Vector3<float>",
+          "TypeSize": 12
+        }
+      },
+      {
+        "Name": "allZero",
+        "Offset": "10",
+        "Type": {
+          "TypeName": "bool",
+          "TypeSize": 1
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "Option",
+    "Extends": null,
+    "Fields": [],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "IntOption",
+    "Extends": "Option",
+    "Fields": [
+      {
+        "Name": "maximum",
+        "Offset": "10",
+        "Type": {
+          "TypeName": "int",
+          "TypeSize": 4
+        }
+      },
+      {
+        "Name": "value",
+        "Offset": "18",
+        "Type": {
+          "TypeName": "int",
+          "TypeSize": 4
+        }
+      },
+      {
+        "Name": "minimum",
+        "Offset": "20",
+        "Type": {
+          "TypeName": "int",
+          "TypeSize": 4
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "Options",
+    "Extends": null,
+    "Fields": [
+      {
+        "Name": "cameraState",
+        "Offset": "28",
+        "Type": {
+          "TypeName": "class IntOption*",
+          "TypeSize": 8
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "ClientInstance",
+    "Extends": null,
+    "Fields": [
+      {
+        "Name": "minecraftGame",
+        "Offset": "A8",
+        "Type": {
+          "TypeName": "class MinecraftGame*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "loopbackPacketSender",
+        "Offset": "D0",
+        "Type": {
+          "TypeName": "class LoopbackPacketSender*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "clientPlayer",
+        "Offset": "138",
+        "Type": {
+          "TypeName": "class LocalPlayer*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "guiData",
+        "Offset": "4E8",
+        "Type": {
+          "TypeName": "class GuiData*",
+          "TypeSize": 8
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": [
+      {
+        "Name": "getOptions",
+        "Offset": "161",
+        "Parameters": [],
+        "Type": "class Options*"
+      },
+      {
+        "Name": "getGuiData",
+        "Offset": "198",
+        "Parameters": [],
+        "Type": "class GuiData*"
+      }
+    ]
+  },
+  {
+    "ClassName": "Packet",
+    "Extends": null,
+    "Fields": [],
+    "Functions": [],
+    "Virtuals": [
+      {
+        "Name": "getId",
+        "Offset": "1",
+        "Parameters": [],
+        "Type": "int"
+      },
+      {
+        "Name": "getName",
+        "Offset": "2",
+        "Parameters": [],
+        "Type": "nuv::string"
+      }
+    ]
+  },
+  {
+    "ClassName": "PlayerAuthInputPacket",
+    "Extends": "Packet",
+    "Fields": [],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "MovePlayerPacket",
+    "Extends": "Packet",
+    "Fields": [
+      {
+        "Name": "actorRuntimeID",
+        "Offset": "30",
+        "Type": {
+          "TypeName": "size_t",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "pos",
+        "Offset": "38",
+        "Type": {
+          "TypeName": "Vector3<float>",
+          "TypeSize": 12
+        }
+      },
+      {
+        "Name": "lookingVec",
+        "Offset": "44",
+        "Type": {
+          "TypeName": "Vector2<float>",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "onGround",
+        "Offset": "51",
+        "Type": {
+          "TypeName": "bool",
+          "TypeSize": 1
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "LoopbackPacketSender",
+    "Extends": null,
+    "Includes": [
+      "Packet"
+    ],
+    "Fields": [],
+    "Functions": [],
+    "Virtuals": [
+      {
+        "Name": "sendToServer",
+        "Offset": "2",
+        "Parameters": [
+          {
+            "Name": "packet",
+            "Type": "Packet*"
+          }
+        ],
+        "Type": "void"
+      }
+    ]
+  },
+  {
+    "ClassName": "NamespacedKey",
+    "Extends": null,
+    "Fields": [
+      {
+        "Name": "name",
+        "Offset": 0,
+        "Type": {
+          "TypeName": "nuv::string",
+          "TypeSize": 32
+        }
+      },
+      {
+        "Name": "key",
+        "Offset": 20,
+        "Type": {
+          "TypeName": "nuv::string",
+          "TypeSize": 32
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "ActorType",
+    "Extends": null,
+    "Includes": [
+      "NamespacedKey"
+    ],
+    "Fields": [
+      {
+        "Name": "type",
+        "Offset": "8",
+        "Type": {
+          "TypeName": "NamespacedKey",
+          "TypeSize": 64
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "Actor",
+    "Extends": null,
+    "Includes": [
+      "AABB",
+      "ActorType"
+    ],
+    "Fields": [
+      {
+        "Name": "lookingVec",
+        "Offset": "140",
+        "Type": {
+          "TypeName": "Vector2<float>",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "onGround",
+        "Offset": "1E0",
+        "Type": {
+          "TypeName": "bool",
+          "TypeSize": 1
+        }
+      },
+      {
+        "Name": "blockSource",
+        "Offset": "360",
+        "Type": {
+          "TypeName": "class BlockSource*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "dimension",
+        "Offset": "368",
+        "Type": {
+          "TypeName": "class Dimension*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "level",
+        "Offset": "370",
+        "Type": {
+          "TypeName": "class Level*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "entityTypeId",
+        "Offset": "3E8",
+        "Type": {
+          "TypeName": "ActorType",
+          "TypeSize": 72
+        }
+      },
+      {
+        "Name": "hitbox",
+        "Offset": "4D0",
+        "Type": {
+          "TypeName": "AABB",
+          "TypeSize": 28
+        }
+      },
+      {
+        "Name": "size",
+        "Offset": "4EC",
+        "Type": {
+          "TypeName": "Vector2<float>",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "position",
+        "Offset": "4F4",
+        "Type": {
+          "TypeName": "Vector3<float>",
+          "TypeSize": 12
+        }
+      },
+      {
+        "Name": "oldPos",
+        "Offset": "500",
+        "Type": {
+          "TypeName": "Vector3<float>",
+          "TypeSize": 12
+        }
+      },
+      {
+        "Name": "velocity",
+        "Offset": "50C",
+        "Type": {
+          "TypeName": "Vector3<float>",
+          "TypeSize": 12
+        }
+      },
+      {
+        "Name": "actorRuntimeID",
+        "Offset": "558",
+        "Type": {
+          "TypeName": "size_t",
+          "TypeSize": 8
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": [
+      {
+        "Name": "getPos",
+        "Offset": 15,
+        "Parameters": [],
+        "Type": "Vector3<float>*"
+      },
+      {
+        "Name": "isAlive",
+        "Offset": 97,
+        "Parameters": [],
+        "Type": "bool"
+      }
+    ]
+  },
+  {
+    "ClassName": "Mob",
+    "Extends": "Actor",
+    "Fields": [
+      {
+        "Name": "yHeadRot",
+        "Offset": "740",
+        "Type": {
+          "TypeName": "float",
+          "TypeSize": 4
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": [
+      {
+        "Name": "swing",
+        "Offset": 214,
+        "Parameters": [],
+        "Type": "void"
+      }
+    ]
+  },
+  {
+    "ClassName": "Player",
+    "Extends": "Mob",
+    "Fields": [
+      {
+        "Name": "gameMode",
+        "Offset": "1310",
+        "Type": {
+          "TypeName": "class GameMode*",
+          "TypeSize": 8
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "LocalPlayer",
+    "Extends": "Player",
+    "Fields": [],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "MinecraftUIRenderContext",
+    "Extends": null,
+    "Fields": [
+      {
+        "Name": "clientInstance",
+        "Offset": "8",
+        "Type": {
+          "TypeName": "class ClientInstance*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "screenContext",
+        "Offset": "10",
+        "Type": {
+          "TypeName": "class ScreenContext*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "textAlpha",
+        "Offset": "28",
+        "Type": {
+          "TypeName": "float",
+          "TypeSize": 4
+        }
+      },
+      {
+        "Name": "uiScene",
+        "Offset": "F0",
+        "Type": {
+          "TypeName": "class UIScene*",
+          "TypeSize": 8
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": [
+      {
+        "Name": "getLineLength",
+        "Offset": "1",
+        "Parameters": [
+          {
+            "Name": "font",
+            "Type": "class BitmapFont*"
+          },
+          {
+            "Name": "text",
+            "Type": "nuv::string*"
+          },
+          {
+            "Name": "scale",
+            "Type": "float"
+          }
+        ],
+        "Type": "float"
+      },
+      {
+        "Name": "drawText",
+        "Offset": "5",
+        "Parameters": [
+          {
+            "Name": "font",
+            "Type": "class BitmapFont*"
+          },
+          {
+            "Name": "rectArea",
+            "Type": "class RectangleArea*"
+          },
+          {
+            "Name": "text",
+            "Type": "nuv::string*"
+          },
+          {
+            "Name": "color",
+            "Type": "class Color*"
+          },
+          {
+            "Name": "param_5",
+            "Type": "float"
+          },
+          {
+            "Name": "textAlignment",
+            "Type": "class TextAlignment*"
+          },
+          {
+            "Name": "textMeasureData",
+            "Type": "class TextMeasureData*"
+          },
+          {
+            "Name": "caretMeasureData",
+            "Type": "class CaretMeasureData*"
+          }
+        ],
+        "Type": "void"
+      },
+      {
+        "Name": "flushText",
+        "Offset": "6",
+        "Parameters": [
+          {
+            "Name": "param_1",
+            "Type": "float"
+          }
+        ],
+        "Type": "void"
+      },
+      {
+        "Name": "fillRectangle",
+        "Offset": 13,
+        "Parameters": [
+          {
+            "Name": "rect",
+            "Type": "float*"
+          },
+          {
+            "Name": "color",
+            "Type": "float*"
+          },
+          {
+            "Name": "alpha",
+            "Type": "float"
+          }
+        ],
+        "Type": "void"
+      }
+    ]
+  },
+  {
+    "ClassName": "ScreenContext",
+    "Extends": null,
+    "Fields": [
+      {
+        "Name": "shaderColor",
+        "Offset": "30",
+        "Type": {
+          "TypeName": "class Color*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "tessellator",
+        "Offset": "B0",
+        "Type": {
+          "TypeName": "class Tessellator*",
+          "TypeSize": 8
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "Tessellator",
+    "Extends": null,
+    "Fields": [],
+    "Functions": [
+      {
+        "Name": "begin",
+        "Signature": "?? 89 ?? ?? ?? 55 48 83 ?? ?? ?? B9 ?? ?? ?? ?? ?? 45",
+        "Parameters": [
+          {
+            "Name": "this",
+            "Type": "Tessellator"
+          },
+          {
+            "Name": "primitiveMode",
+            "Type": "int"
+          },
+          {
+            "Name": "vertCount",
+            "Type": "int"
+          }
+        ],
+        "Type": "void",
+        "Convention": "__thiscall"
+      },
+      {
+        "Name": "vertex",
+        "Signature": "40 ?? 48 83 ?? ?? ?? 29 ?? ?? ?? ?? 29 ?? ?? ?? ?? 0F",
+        "Parameters": [
+          {
+            "Name": "this",
+            "Type": "Tessellator"
+          },
+          {
+            "Name": "vertX",
+            "Type": "float"
+          },
+          {
+            "Name": "vertY",
+            "Type": "float"
+          },
+          {
+            "Name": "vertZ",
+            "Type": "float"
+          }
+        ],
+        "Type": "void",
+        "Convention": "__thiscall"
+      }
+    ],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "MeshHelpers",
+    "Extends": null,
+    "Fields": [],
+    "Functions": [
+      {
+        "Name": "renderMeshImmediately",
+        "Signature": "40 ?? 56 57 48 81 ?? ?? ?? ?? ?? 49 8B ?? 48 8B ?? 48 8B ?? ?? BA",
+        "Parameters": [
+          {
+            "Name": "screenContext",
+            "Type": "class ScreenContext*"
+          },
+          {
+            "Name": "tessellator",
+            "Type": "class Tessellator*"
+          },
+          {
+            "Name": "material",
+            "Type": "class MaterialPtr*"
+          }
+        ],
+        "Type": "void",
+        "Convention": "__fastcall",
+        "Static": true
+      }
+    ],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "FontEntry",
+    "Extends": null,
+    "Fields": [
+      {
+        "Name": "font",
+        "Offset": "28",
+        "Type": {
+          "TypeName": "class BitmapFont*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "wackyptr",
+        "Offset": "40",
+        "Type": {
+          "TypeName": "void*",
+          "TypeSize": 8
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "FontList",
+    "Extends": null,
+    "Includes": [
+      "FontEntry"
+    ],
+    "Fields": [
+      {
+        "Name": "fontEntries[9]",
+        "Offset": 0,
+        "Type": {
+          "TypeName": "FontEntry",
+          "TypeSize": 90
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "FontRepository",
+    "Extends": null,
+    "Fields": [
+      {
+        "Name": "fontList",
+        "Offset": "10",
+        "Type": {
+          "TypeName": "class FontList*",
+          "TypeSize": 8
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "MinecraftGame",
+    "Extends": null,
+    "Fields": [
+      {
+        "Name": "fontRepository",
+        "Offset": "F8",
+        "Type": {
+          "TypeName": "class FontRepository*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "mcFontA",
+        "Offset": "110",
+        "Type": {
+          "TypeName": "class BitmapFont*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "mcFontB",
+        "Offset": "158",
+        "Type": {
+          "TypeName": "class BitmapFont*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "mcFontC",
+        "Offset": "1A0",
+        "Type": {
+          "TypeName": "class BitmapFont*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "mcFontD",
+        "Offset": "230",
+        "Type": {
+          "TypeName": "class BitmapFont*",
+          "TypeSize": 8
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "GameMode",
+    "Extends": null,
+    "Fields": [
+      {
+        "Name": "player",
+        "Offset": "8",
+        "Type": {
+          "TypeName": "class Player*",
+          "TypeSize": 8
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": [
+      {
+        "Name": "startDestroyBlock",
+        "Offset": "1",
+        "Parameters": [
+          {
+            "Name": "pos",
+            "Type": "class BlockPos*"
+          },
+          {
+            "Name": "blockFace",
+            "Type": "char"
+          },
+          {
+            "Name": "param_3",
+            "Type": "bool"
+          }
+        ],
+        "Type": "bool"
+      },
+      {
+        "Name": "destroyBlock",
+        "Offset": "2",
+        "Parameters": [
+          {
+            "Name": "pos",
+            "Type": "class BlockPos*"
+          },
+          {
+            "Name": "blockFace",
+            "Type": "char"
+          }
+        ],
+        "Type": "bool"
+      },
+      {
+        "Name": "continueDestroyBlock",
+        "Offset": "3",
+        "Parameters": [
+          {
+            "Name": "pos",
+            "Type": "class BlockPos*"
+          },
+          {
+            "Name": "blockFace",
+            "Type": "char"
+          },
+          {
+            "Name": "param_3",
+            "Type": "Vector3<float>*"
+          },
+          {
+            "Name": "param_4",
+            "Type": "bool"
+          }
+        ],
+        "Type": "bool"
+      },
+      {
+        "Name": "stopDestroyBlock",
+        "Offset": "4",
+        "Parameters": [
+          {
+            "Name": "pos",
+            "Type": "class BlockPos*"
+          }
+        ],
+        "Type": "void"
+      },
+      {
+        "Name": "startBuildBlock",
+        "Offset": "5",
+        "Parameters": [
+          {
+            "Name": "pos",
+            "Type": "class BlockPos*"
+          },
+          {
+            "Name": "blockFace",
+            "Type": "char"
+          }
+        ],
+        "Type": "void"
+      },
+      {
+        "Name": "buildBlock",
+        "Offset": "6",
+        "Parameters": [
+          {
+            "Name": "pos",
+            "Type": "class BlockPos*"
+          },
+          {
+            "Name": "blockFacee",
+            "Type": "char"
+          }
+        ],
+        "Type": "bool"
+      },
+      {
+        "Name": "continueBuildBlock",
+        "Offset": "7",
+        "Parameters": [
+          {
+            "Name": "pos",
+            "Type": "class BlockPos*"
+          },
+          {
+            "Name": "blockFace",
+            "Type": "char"
+          }
+        ],
+        "Type": "void"
+      },
+      {
+        "Name": "stopBuildBlock",
+        "Offset": "8",
+        "Parameters": [],
+        "Type": "void"
+      },
+      {
+        "Name": "tick",
+        "Offset": "9",
+        "Parameters": [],
+        "Type": "void"
+      },
+      {
+        "Name": "getPickRange",
+        "Offset": "10",
+        "Parameters": [
+          {
+            "Name": "inputMode",
+            "Type": "class InputMode*"
+          },
+          {
+            "Name": "param_2",
+            "Type": "bool"
+          }
+        ],
+        "Type": "float"
+      },
+      {
+        "Name": "useItem",
+        "Offset": "11",
+        "Parameters": [
+          {
+            "Name": "itemStack",
+            "Type": "class ItemStack*"
+          }
+        ],
+        "Type": "bool"
+      },
+      {
+        "Name": "useItemOn",
+        "Offset": "12",
+        "Parameters": [
+          {
+            "Name": "itemStack",
+            "Type": "class ItemStack*"
+          },
+          {
+            "Name": "pos",
+            "Type": "class BlockPos*"
+          },
+          {
+            "Name": "blockFace",
+            "Type": "char"
+          },
+          {
+            "Name": "param_4",
+            "Type": "Vector3<float>*"
+          },
+          {
+            "Name": "block",
+            "Type": "class Block*"
+          }
+        ],
+        "Type": "bool"
+      },
+      {
+        "Name": "interact",
+        "Offset": "13",
+        "Parameters": [
+          {
+            "Name": "actor",
+            "Type": "class Actor*"
+          },
+          {
+            "Name": "pos",
+            "Type": "Vector3<float>*"
+          }
+        ],
+        "Type": "bool"
+      },
+      {
+        "Name": "attack",
+        "Offset": "14",
+        "Parameters": [
+          {
+            "Name": "actor",
+            "Type": "class Actor*"
+          }
+        ],
+        "Type": "bool"
+      },
+      {
+        "Name": "releaseUsingItem",
+        "Offset": "15",
+        "Parameters": [],
+        "Type": "void"
+      }
+    ]
+  },
+  {
+    "ClassName": "SurvivalMode",
+    "Extends": "GameMode",
+    "Fields": [],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "BlockSource",
+    "Extends": null,
+    "Fields": [],
+    "Functions": [],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "Level",
+    "Extends": null,
+    "Fields": [
+      {
+        "Name": "players",
+        "Offset": "70",
+        "Type": {
+          "TypeName": "std::vector<Player*>",
+          "TypeSize": 24
+        }
+      },
+      {
+        "Name": "targetEntity",
+        "Offset": "A30",
+        "Type": {
+          "TypeName": "class Actor*",
+          "TypeSize": 8
+        }
+      },
+      {
+        "Name": "actors",
+        "Offset": "920",
+        "Type": {
+          "TypeName": "std::vector<Actor*>",
+          "TypeSize": 24
+        }
+      }
+    ],
+    "Functions": [],
+    "Virtuals": []
+  }
+]

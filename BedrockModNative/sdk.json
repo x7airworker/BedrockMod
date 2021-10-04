@@ -30,5 +30,95 @@
     ],
     "Functions": [],
     "Virtuals": []
+  },
+  {
+    "ClassName": "Minecraft",
+    "Extends": null,
+    "Fields": [],
+    "Functions": [
+      {
+        "Name": "init",
+        "Signature": "48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 30 48 8B D9 E8 ?? ?? ?? ?? F2 0F 11 83 ?? ?? ?? ??",
+        "Parameters": [
+            {
+                "Name": "this",
+                "Type": "Minecraft"
+            }
+        ],
+        "Type": "void",
+        "Convention": "__thiscall"
+      },
+      {
+        "Name": "getLevel",
+        "Signature": "40 53 48 83 EC 20 48 8B 99 ?? ?? ?? ?? 48 85 DB 74 ?? 48 8D 4B ??",
+        "Parameters": [
+            {
+                "Name": "this",
+                "Type": "Minecraft"
+            }
+        ],
+        "Type": "class Level*",
+        "Convention": "__thiscall"
+      }
+    ],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "Minecraft",
+    "Extends": null,
+    "Fields": [],
+    "Functions": [
+      {
+        "Name": "init",
+        "Signature": "48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 30 48 8B D9 E8 ?? ?? ?? ?? F2 0F 11 83 ?? ?? ?? ??",
+        "Parameters": [
+            {
+                "Name": "this",
+                "Type": "Minecraft"
+            }
+        ],
+        "Type": "void",
+        "Convention": "__thiscall"
+      },
+      {
+        "Name": "update",
+        "Signature": "48 8B C4 48 89 58 ?? 48 89 70 ?? 48 89 78 ?? 55 41 54 41 55 41 56 41 57 48 8D 68 ?? 48 81 EC 00 01 00 00 0F 29 70 ?? 0F 29 78 ??",
+        "Parameters": [
+            {
+                "Name": "this",
+                "Type": "Minecraft"
+            }
+        ],
+        "Type": "bool",
+        "Convention": "__thiscall"
+      },
+      {
+        "Name": "getLevel",
+        "Signature": "40 53 48 83 EC 20 48 8B 99 ?? ?? ?? ?? 48 85 DB 74 ?? 48 8D 4B ??",
+        "Parameters": [
+            {
+                "Name": "this",
+                "Type": "Minecraft"
+            }
+        ],
+        "Type": "class Level*",
+        "Convention": "__thiscall"
+      }
+    ],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "Level",
+    "Extends": null,
+    "Fields": [],
+    "Functions": [],
+    "Virtuals": [
+        {
+            "Name": "getSeed",
+            "Offset": "111",
+            "Parameters": [],
+            "Type": "unsigned int"
+        }
+    ]
   }
 ]

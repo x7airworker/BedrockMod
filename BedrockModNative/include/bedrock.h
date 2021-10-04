@@ -1,4 +1,3 @@
 #pragma once
-#include "api/DedicatedServer.h"
-#include "api/Level.h"
-#include "api/Minecraft.h"
+#include "api/sdk/Level.h"
+#include "api/sdk/Minecraft.h"

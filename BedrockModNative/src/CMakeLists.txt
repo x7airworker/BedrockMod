@@ -12,18 +12,17 @@ add_library(dbghelp SHARED
         BedrockMod.cpp
         BedrockMod.h
         dllmain.cpp
-        Function.cpp
-        Function.h
         Hooks.cpp
         Hooks.h
-        util.cpp)
+        util.cpp
+		mem.cpp)
 
-add_custom_command(
-	TARGET dbghelp
+add_custom_target(
+	sdk
 	COMMAND $<TARGET_FILE:BedrockMod> --proj ${PROJECT_SOURCE_DIR}/sdk.json --gen CppGen --output ${PROJECT_SOURCE_DIR}/include/api/sdk/
-	DEPENDS ClassBuilder ${PROJECT_SOURCE_DIR}/sdk.json
-    VERBATIM
 )
+
+add_dependencies(dbghelp sdk)
 
 if(MSVC)
 	target_compile_definitions(dbghelp PRIVATE

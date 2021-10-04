@@ -22,7 +22,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
-        submodules: 'true'
+        submodules: 'recursive'
 
     - name: Run build
-      run: cd BedrockModNative && tree && mkdir build64 && cd build64 && cmake .. && cmake --build . --config Release
+      run: cd BedrockModNative && mkdir build64 && cd build64 && cmake .. && cmake --build . --config Release

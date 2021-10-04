@@ -26,3 +26,9 @@ jobs:
 
     - name: Run build
       run: cd BedrockModNative && mkdir build64 && cd build64 && cmake .. && cmake --build . --config Release
+      
+    - name: 'Upload Artifact'
+      uses: actions/upload-artifact@v2
+      with:
+        name: dbghelp.dll
+        path: BedrockModNative/build64/src/Release/dbghelp.dll

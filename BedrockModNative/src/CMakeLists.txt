@@ -19,7 +19,7 @@ add_library(dbghelp SHARED
 
 add_custom_target(
 	sdk
-	COMMAND $<TARGET_FILE:BedrockMod> --proj ${PROJECT_SOURCE_DIR}/sdk.json --gen CppGen --output ${PROJECT_SOURCE_DIR}/include/api/sdk/
+	COMMAND $<TARGET_FILE:BedrockMod> --proj ${PROJECT_SOURCE_DIR}/sdk.json --gen CppGen --output ${PROJECT_SOURCE_DIR}/include/api/sdk/ || (exit 0)
 )
 
 add_dependencies(dbghelp sdk)

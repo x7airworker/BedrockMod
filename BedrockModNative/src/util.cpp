@@ -1,3 +1,9 @@
 #include "util.h"
 
-uintptr_t baseAddress;
+namespace Utils 
+{
+	void Utils::DebugF(std::string x)
+	{
+		std::cout << "[DEBUG]" << x << std::endl;
+	}
+}

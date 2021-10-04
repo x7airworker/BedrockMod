@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  push:
+    branches: [ master, feature/classbuilder ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    # The CMake configure and build commands are platform agnostic and should work equally
+    # well on Windows or Mac.  You can convert this to a matrix build if you need
+    # cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+
+    - name: Run build
+      run: cd BedrockModNative && mkdir build64 && cd build64 && cmake .. && cmake --build . --config Release
+      
+    - name: 'Upload Artifact'
+      uses: actions/upload-artifact@v2
+      with:
+        name: dbghelp.dll
+        path: BedrockModNative/build64/src/Release/dbghelp.dll

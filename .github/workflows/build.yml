@@ -19,7 +19,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Checkout submodules
+      uses: textbook/git-checkout-submodule-action@master
 
     - name: Run build
       run: cd BedrockModNative && tree && mkdir build64 && cd build64 && cmake .. && cmake --build . --config Release

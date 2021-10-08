@@ -72,13 +72,14 @@
         "Name": "init",
         "Signature": "48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 30 48 8B D9 E8 ?? ?? ?? ?? F2 0F 11 83 ?? ?? ?? ??",
         "Parameters": [
-            {
-                "Name": "this",
-                "Type": "Minecraft"
-            }
+          {
+            "Name": "this",
+            "Type": "Minecraft"
+          }
         ],
         "Type": "void",
-        "Convention": "__thiscall"
+        "Convention": "__thiscall",
+        "PreInit": true
       },
       {
         "Name": "update",
@@ -90,7 +91,8 @@
             }
         ],
         "Type": "bool",
-        "Convention": "__thiscall"
+        "Convention": "__thiscall",
+        "PreInit": true
       },
       {
         "Name": "getLevel",

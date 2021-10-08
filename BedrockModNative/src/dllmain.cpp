@@ -1,767 +1,927 @@
 #include <Windows.h>
+#include <iostream>
+#include "BedrockMod.h"
 
 #pragma region Proxy
-struct dbghelp_dll {
+struct IPHLPAPI_dll {
 	HMODULE dll;
-	FARPROC oDbgHelpCreateUserDump;
-	FARPROC oDbgHelpCreateUserDumpW;
-	FARPROC oEnumDirTree;
-	FARPROC oEnumDirTreeW;
-	FARPROC oEnumerateLoadedModules;
-	FARPROC oEnumerateLoadedModules64;
-	FARPROC oEnumerateLoadedModulesEx;
-	FARPROC oEnumerateLoadedModulesExW;
-	FARPROC oEnumerateLoadedModulesW64;
-	FARPROC oExtensionApiVersion;
-	FARPROC oFindDebugInfoFile;
-	FARPROC oFindDebugInfoFileEx;
-	FARPROC oFindDebugInfoFileExW;
-	FARPROC oFindExecutableImage;
-	FARPROC oFindExecutableImageEx;
-	FARPROC oFindExecutableImageExW;
-	FARPROC oFindFileInPath;
-	FARPROC oFindFileInSearchPath;
-	FARPROC oGetSymLoadError;
-	FARPROC oGetTimestampForLoadedLibrary;
-	FARPROC oImageDirectoryEntryToData;
-	FARPROC oImageDirectoryEntryToDataEx;
-	FARPROC oImageNtHeader;
-	FARPROC oImageRvaToSection;
-	FARPROC oImageRvaToVa;
-	FARPROC oImagehlpApiVersion;
-	FARPROC oImagehlpApiVersionEx;
-	FARPROC oMakeSureDirectoryPathExists;
-	FARPROC oMiniDumpReadDumpStream;
-	FARPROC oMiniDumpWriteDump;
-	FARPROC oRangeMapAddPeImageSections;
-	FARPROC oRangeMapCreate;
-	FARPROC oRangeMapFree;
-	FARPROC oRangeMapRead;
-	FARPROC oRangeMapRemove;
-	FARPROC oRangeMapWrite;
-	FARPROC oRemoveInvalidModuleList;
-	FARPROC oReportSymbolLoadSummary;
-	FARPROC oSearchTreeForFile;
-	FARPROC oSearchTreeForFileW;
-	FARPROC oSetCheckUserInterruptShared;
-	FARPROC oSetSymLoadError;
-	FARPROC oStackWalk;
-	FARPROC oStackWalk64;
-	FARPROC oStackWalkEx;
-	FARPROC oSymAddSourceStream;
-	FARPROC oSymAddSourceStreamA;
-	FARPROC oSymAddSourceStreamW;
-	FARPROC oSymAddSymbol;
-	FARPROC oSymAddSymbolW;
-	FARPROC oSymAddrIncludeInlineTrace;
-	FARPROC oSymAllocDiaString;
-	FARPROC oSymCleanup;
-	FARPROC oSymCompareInlineTrace;
-	FARPROC oSymDeleteSymbol;
-	FARPROC oSymDeleteSymbolW;
-	FARPROC oSymEnumLines;
-	FARPROC oSymEnumLinesW;
-	FARPROC oSymEnumProcesses;
-	FARPROC oSymEnumSourceFileTokens;
-	FARPROC oSymEnumSourceFiles;
-	FARPROC oSymEnumSourceFilesW;
-	FARPROC oSymEnumSourceLines;
-	FARPROC oSymEnumSourceLinesW;
-	FARPROC oSymEnumSym;
-	FARPROC oSymEnumSymbols;
-	FARPROC oSymEnumSymbolsEx;
-	FARPROC oSymEnumSymbolsExW;
-	FARPROC oSymEnumSymbolsForAddr;
-	FARPROC oSymEnumSymbolsForAddrW;
-	FARPROC oSymEnumSymbolsW;
-	FARPROC oSymEnumTypes;
-	FARPROC oSymEnumTypesByName;
-	FARPROC oSymEnumTypesByNameW;
-	FARPROC oSymEnumTypesW;
-	FARPROC oSymEnumerateModules;
-	FARPROC oSymEnumerateModules64;
-	FARPROC oSymEnumerateModulesW64;
-	FARPROC oSymEnumerateSymbols;
-	FARPROC oSymEnumerateSymbols64;
-	FARPROC oSymEnumerateSymbolsW;
-	FARPROC oSymEnumerateSymbolsW64;
-	FARPROC oSymFindDebugInfoFile;
-	FARPROC oSymFindDebugInfoFileW;
-	FARPROC oSymFindExecutableImage;
-	FARPROC oSymFindExecutableImageW;
-	FARPROC oSymFindFileInPath;
-	FARPROC oSymFindFileInPathW;
-	FARPROC oSymFreeDiaString;
-	FARPROC oSymFromAddr;
-	FARPROC oSymFromAddrW;
-	FARPROC oSymFromIndex;
-	FARPROC oSymFromIndexW;
-	FARPROC oSymFromInlineContext;
-	FARPROC oSymFromInlineContextW;
-	FARPROC oSymFromName;
-	FARPROC oSymFromNameW;
-	FARPROC oSymFromToken;
-	FARPROC oSymFromTokenW;
-	FARPROC oSymFunctionTableAccess;
-	FARPROC oSymFunctionTableAccess64;
-	FARPROC oSymFunctionTableAccess64AccessRoutines;
-	FARPROC oSymGetDiaSession;
-	FARPROC oSymGetExtendedOption;
-	FARPROC oSymGetFileLineOffsets64;
-	FARPROC oSymGetHomeDirectory;
-	FARPROC oSymGetHomeDirectoryW;
-	FARPROC oSymGetLineFromAddr;
-	FARPROC oSymGetLineFromAddr64;
-	FARPROC oSymGetLineFromAddrEx;
-	FARPROC oSymGetLineFromAddrW64;
-	FARPROC oSymGetLineFromInlineContext;
-	FARPROC oSymGetLineFromInlineContextW;
-	FARPROC oSymGetLineFromName;
-	FARPROC oSymGetLineFromName64;
-	FARPROC oSymGetLineFromNameEx;
-	FARPROC oSymGetLineFromNameW64;
-	FARPROC oSymGetLineNext;
-	FARPROC oSymGetLineNext64;
-	FARPROC oSymGetLineNextEx;
-	FARPROC oSymGetLineNextW64;
-	FARPROC oSymGetLinePrev;
-	FARPROC oSymGetLinePrev64;
-	FARPROC oSymGetLinePrevEx;
-	FARPROC oSymGetLinePrevW64;
-	FARPROC oSymGetModuleBase;
-	FARPROC oSymGetModuleBase64;
-	FARPROC oSymGetModuleInfo;
-	FARPROC oSymGetModuleInfo64;
-	FARPROC oSymGetModuleInfoW;
-	FARPROC oSymGetModuleInfoW64;
-	FARPROC oSymGetOmapBlockBase;
-	FARPROC oSymGetOmaps;
-	FARPROC oSymGetOptions;
-	FARPROC oSymGetScope;
-	FARPROC oSymGetScopeW;
-	FARPROC oSymGetSearchPath;
-	FARPROC oSymGetSearchPathW;
-	FARPROC oSymGetSourceFile;
-	FARPROC oSymGetSourceFileChecksum;
-	FARPROC oSymGetSourceFileChecksumW;
-	FARPROC oSymGetSourceFileFromToken;
-	FARPROC oSymGetSourceFileFromTokenW;
-	FARPROC oSymGetSourceFileToken;
-	FARPROC oSymGetSourceFileTokenW;
-	FARPROC oSymGetSourceFileW;
-	FARPROC oSymGetSourceVarFromToken;
-	FARPROC oSymGetSourceVarFromTokenW;
-	FARPROC oSymGetSymFromAddr;
-	FARPROC oSymGetSymFromAddr64;
-	FARPROC oSymGetSymFromName;
-	FARPROC oSymGetSymFromName64;
-	FARPROC oSymGetSymNext;
-	FARPROC oSymGetSymNext64;
-	FARPROC oSymGetSymPrev;
-	FARPROC oSymGetSymPrev64;
-	FARPROC oSymGetSymbolFile;
-	FARPROC oSymGetSymbolFileW;
-	FARPROC oSymGetTypeFromName;
-	FARPROC oSymGetTypeFromNameW;
-	FARPROC oSymGetTypeInfo;
-	FARPROC oSymGetTypeInfoEx;
-	FARPROC oSymGetUnwindInfo;
-	FARPROC oSymInitialize;
-	FARPROC oSymInitializeW;
-	FARPROC oSymLoadModule;
-	FARPROC oSymLoadModule64;
-	FARPROC oSymLoadModuleEx;
-	FARPROC oSymLoadModuleExW;
-	FARPROC oSymMatchFileName;
-	FARPROC oSymMatchFileNameW;
-	FARPROC oSymMatchString;
-	FARPROC oSymMatchStringA;
-	FARPROC oSymMatchStringW;
-	FARPROC oSymNext;
-	FARPROC oSymNextW;
-	FARPROC oSymPrev;
-	FARPROC oSymPrevW;
-	FARPROC oSymQueryInlineTrace;
-	FARPROC oSymRefreshModuleList;
-	FARPROC oSymRegisterCallback;
-	FARPROC oSymRegisterCallback64;
-	FARPROC oSymRegisterCallbackW64;
-	FARPROC oSymRegisterFunctionEntryCallback;
-	FARPROC oSymRegisterFunctionEntryCallback64;
-	FARPROC oSymSearch;
-	FARPROC oSymSearchW;
-	FARPROC oSymSetContext;
-	FARPROC oSymSetDiaSession;
-	FARPROC oSymSetExtendedOption;
-	FARPROC oSymSetHomeDirectory;
-	FARPROC oSymSetHomeDirectoryW;
-	FARPROC oSymSetOptions;
-	FARPROC oSymSetParentWindow;
-	FARPROC oSymSetScopeFromAddr;
-	FARPROC oSymSetScopeFromIndex;
-	FARPROC oSymSetScopeFromInlineContext;
-	FARPROC oSymSetSearchPath;
-	FARPROC oSymSetSearchPathW;
-	FARPROC oSymSrvDeltaName;
-	FARPROC oSymSrvDeltaNameW;
-	FARPROC oSymSrvGetFileIndexInfo;
-	FARPROC oSymSrvGetFileIndexInfoW;
-	FARPROC oSymSrvGetFileIndexString;
-	FARPROC oSymSrvGetFileIndexStringW;
-	FARPROC oSymSrvGetFileIndexes;
-	FARPROC oSymSrvGetFileIndexesW;
-	FARPROC oSymSrvGetSupplement;
-	FARPROC oSymSrvGetSupplementW;
-	FARPROC oSymSrvIsStore;
-	FARPROC oSymSrvIsStoreW;
-	FARPROC oSymSrvStoreFile;
-	FARPROC oSymSrvStoreFileW;
-	FARPROC oSymSrvStoreSupplement;
-	FARPROC oSymSrvStoreSupplementW;
-	FARPROC oSymUnDName;
-	FARPROC oSymUnDName64;
-	FARPROC oSymUnloadModule;
-	FARPROC oSymUnloadModule64;
-	FARPROC oUnDecorateSymbolName;
-	FARPROC oUnDecorateSymbolNameW;
-	FARPROC oWinDbgExtensionDllInit;
-	FARPROC o_EFN_DumpImage;
-	FARPROC oblock;
-	FARPROC ochksym;
-	FARPROC odbghelp;
-	FARPROC odh;
-	FARPROC ofptr;
-	FARPROC ohomedir;
-	FARPROC oinlinedbg;
-	FARPROC oitoldyouso;
-	FARPROC olmi;
-	FARPROC olminfo;
-	FARPROC oomap;
-	FARPROC ooptdbgdump;
-	FARPROC ooptdbgdumpaddr;
-	FARPROC osrcfiles;
-	FARPROC ostack_force_ebp;
-	FARPROC ostackdbg;
-	FARPROC osym;
-	FARPROC osymsrv;
-	FARPROC ovc7fpo;
-} dbghelp;
+	FARPROC oAddIPAddress;
+	FARPROC oAllocateAndGetInterfaceInfoFromStack;
+	FARPROC oAllocateAndGetIpAddrTableFromStack;
+	FARPROC oCancelIPChangeNotify;
+	FARPROC oCancelIfTimestampConfigChange;
+	FARPROC oCancelMibChangeNotify2;
+	FARPROC oCaptureInterfaceHardwareCrossTimestamp;
+	FARPROC oCloseCompartment;
+	FARPROC oCloseGetIPPhysicalInterfaceForDestination;
+	FARPROC oConvertCompartmentGuidToId;
+	FARPROC oConvertCompartmentIdToGuid;
+	FARPROC oConvertGuidToStringA;
+	FARPROC oConvertGuidToStringW;
+	FARPROC oConvertInterfaceAliasToLuid;
+	FARPROC oConvertInterfaceGuidToLuid;
+	FARPROC oConvertInterfaceIndexToLuid;
+	FARPROC oConvertInterfaceLuidToAlias;
+	FARPROC oConvertInterfaceLuidToGuid;
+	FARPROC oConvertInterfaceLuidToIndex;
+	FARPROC oConvertInterfaceLuidToNameA;
+	FARPROC oConvertInterfaceLuidToNameW;
+	FARPROC oConvertInterfaceNameToLuidA;
+	FARPROC oConvertInterfaceNameToLuidW;
+	FARPROC oConvertInterfacePhysicalAddressToLuid;
+	FARPROC oConvertIpv4MaskToLength;
+	FARPROC oConvertLengthToIpv4Mask;
+	FARPROC oConvertRemoteInterfaceAliasToLuid;
+	FARPROC oConvertRemoteInterfaceGuidToLuid;
+	FARPROC oConvertRemoteInterfaceIndexToLuid;
+	FARPROC oConvertRemoteInterfaceLuidToAlias;
+	FARPROC oConvertRemoteInterfaceLuidToGuid;
+	FARPROC oConvertRemoteInterfaceLuidToIndex;
+	FARPROC oConvertStringToGuidA;
+	FARPROC oConvertStringToGuidW;
+	FARPROC oConvertStringToInterfacePhysicalAddress;
+	FARPROC oCreateAnycastIpAddressEntry;
+	FARPROC oCreateCompartment;
+	FARPROC oCreateIpForwardEntry;
+	FARPROC oCreateIpForwardEntry2;
+	FARPROC oCreateIpNetEntry;
+	FARPROC oCreateIpNetEntry2;
+	FARPROC oCreatePersistentTcpPortReservation;
+	FARPROC oCreatePersistentUdpPortReservation;
+	FARPROC oCreateProxyArpEntry;
+	FARPROC oCreateSortedAddressPairs;
+	FARPROC oCreateUnicastIpAddressEntry;
+	FARPROC oDeleteAnycastIpAddressEntry;
+	FARPROC oDeleteCompartment;
+	FARPROC oDeleteIPAddress;
+	FARPROC oDeleteIpForwardEntry;
+	FARPROC oDeleteIpForwardEntry2;
+	FARPROC oDeleteIpNetEntry;
+	FARPROC oDeleteIpNetEntry2;
+	FARPROC oDeletePersistentTcpPortReservation;
+	FARPROC oDeletePersistentUdpPortReservation;
+	FARPROC oDeleteProxyArpEntry;
+	FARPROC oDeleteUnicastIpAddressEntry;
+	FARPROC oDisableMediaSense;
+	FARPROC oEnableRouter;
+	FARPROC oFlushIpNetTable;
+	FARPROC oFlushIpNetTable2;
+	FARPROC oFlushIpPathTable;
+	FARPROC oFreeDnsSettings;
+	FARPROC oFreeInterfaceDnsSettings;
+	FARPROC oFreeMibTable;
+	FARPROC oGetAdapterIndex;
+	FARPROC oGetAdapterOrderMap;
+	FARPROC oGetAdaptersAddresses;
+	FARPROC oGetAdaptersInfo;
+	FARPROC oGetAnycastIpAddressEntry;
+	FARPROC oGetAnycastIpAddressTable;
+	FARPROC oGetBestInterface;
+	FARPROC oGetBestInterfaceEx;
+	FARPROC oGetBestRoute;
+	FARPROC oGetBestRoute2;
+	FARPROC oGetCurrentThreadCompartmentId;
+	FARPROC oGetCurrentThreadCompartmentScope;
+	FARPROC oGetDefaultCompartmentId;
+	FARPROC oGetDnsSettings;
+	FARPROC oGetExtendedTcpTable;
+	FARPROC oGetExtendedUdpTable;
+	FARPROC oGetFriendlyIfIndex;
+	FARPROC oGetIcmpStatistics;
+	FARPROC oGetIcmpStatisticsEx;
+	FARPROC oGetIfEntry;
+	FARPROC oGetIfEntry2;
+	FARPROC oGetIfEntry2Ex;
+	FARPROC oGetIfStackTable;
+	FARPROC oGetIfTable;
+	FARPROC oGetIfTable2;
+	FARPROC oGetIfTable2Ex;
+	FARPROC oGetInterfaceCompartmentId;
+	FARPROC oGetInterfaceCurrentTimestampCapabilities;
+	FARPROC oGetInterfaceDnsSettings;
+	FARPROC oGetInterfaceHardwareTimestampCapabilities;
+	FARPROC oGetInterfaceInfo;
+	FARPROC oGetInvertedIfStackTable;
+	FARPROC oGetIpAddrTable;
+	FARPROC oGetIpErrorString;
+	FARPROC oGetIpForwardEntry2;
+	FARPROC oGetIpForwardTable;
+	FARPROC oGetIpForwardTable2;
+	FARPROC oGetIpInterfaceEntry;
+	FARPROC oGetIpInterfaceTable;
+	FARPROC oGetIpNetEntry2;
+	FARPROC oGetIpNetTable;
+	FARPROC oGetIpNetTable2;
+	FARPROC oGetIpNetworkConnectionBandwidthEstimates;
+	FARPROC oGetIpPathEntry;
+	FARPROC oGetIpPathTable;
+	FARPROC oGetIpStatistics;
+	FARPROC oGetIpStatisticsEx;
+	FARPROC oGetJobCompartmentId;
+	FARPROC oGetMulticastIpAddressEntry;
+	FARPROC oGetMulticastIpAddressTable;
+	FARPROC oGetNetworkConnectivityHint;
+	FARPROC oGetNetworkConnectivityHintForInterface;
+	FARPROC oGetNetworkInformation;
+	FARPROC oGetNetworkParams;
+	FARPROC oGetNumberOfInterfaces;
+	FARPROC oGetOwnerModuleFromPidAndInfo;
+	FARPROC oGetOwnerModuleFromTcp6Entry;
+	FARPROC oGetOwnerModuleFromTcpEntry;
+	FARPROC oGetOwnerModuleFromUdp6Entry;
+	FARPROC oGetOwnerModuleFromUdpEntry;
+	FARPROC oGetPerAdapterInfo;
+	FARPROC oGetPerTcp6ConnectionEStats;
+	FARPROC oGetPerTcp6ConnectionStats;
+	FARPROC oGetPerTcpConnectionEStats;
+	FARPROC oGetPerTcpConnectionStats;
+	FARPROC oGetRTTAndHopCount;
+	FARPROC oGetSessionCompartmentId;
+	FARPROC oGetTcp6Table;
+	FARPROC oGetTcp6Table2;
+	FARPROC oGetTcpStatistics;
+	FARPROC oGetTcpStatisticsEx;
+	FARPROC oGetTcpStatisticsEx2;
+	FARPROC oGetTcpTable;
+	FARPROC oGetTcpTable2;
+	FARPROC oGetTeredoPort;
+	FARPROC oGetUdp6Table;
+	FARPROC oGetUdpStatistics;
+	FARPROC oGetUdpStatisticsEx;
+	FARPROC oGetUdpStatisticsEx2;
+	FARPROC oGetUdpTable;
+	FARPROC oGetUniDirectionalAdapterInfo;
+	FARPROC oGetUnicastIpAddressEntry;
+	FARPROC oGetUnicastIpAddressTable;
+	FARPROC oGetWPAOACSupportLevel;
+	FARPROC oIcmp6CreateFile;
+	FARPROC oIcmp6ParseReplies;
+	FARPROC oIcmp6SendEcho2;
+	FARPROC oIcmpCloseHandle;
+	FARPROC oIcmpCreateFile;
+	FARPROC oIcmpParseReplies;
+	FARPROC oIcmpSendEcho;
+	FARPROC oIcmpSendEcho2;
+	FARPROC oIcmpSendEcho2Ex;
+	FARPROC oInitializeCompartmentEntry;
+	FARPROC oInitializeIpForwardEntry;
+	FARPROC oInitializeIpInterfaceEntry;
+	FARPROC oInitializeUnicastIpAddressEntry;
+	FARPROC oInternalCleanupPersistentStore;
+	FARPROC oInternalCreateAnycastIpAddressEntry;
+	FARPROC oInternalCreateIpForwardEntry;
+	FARPROC oInternalCreateIpForwardEntry2;
+	FARPROC oInternalCreateIpNetEntry;
+	FARPROC oInternalCreateIpNetEntry2;
+	FARPROC oInternalCreateOrRefIpForwardEntry2;
+	FARPROC oInternalCreateUnicastIpAddressEntry;
+	FARPROC oInternalDeleteAnycastIpAddressEntry;
+	FARPROC oInternalDeleteIpForwardEntry;
+	FARPROC oInternalDeleteIpForwardEntry2;
+	FARPROC oInternalDeleteIpNetEntry;
+	FARPROC oInternalDeleteIpNetEntry2;
+	FARPROC oInternalDeleteUnicastIpAddressEntry;
+	FARPROC oInternalFindInterfaceByAddress;
+	FARPROC oInternalGetAnycastIpAddressEntry;
+	FARPROC oInternalGetAnycastIpAddressTable;
+	FARPROC oInternalGetBoundTcp6EndpointTable;
+	FARPROC oInternalGetBoundTcpEndpointTable;
+	FARPROC oInternalGetForwardIpTable2;
+	FARPROC oInternalGetIPPhysicalInterfaceForDestination;
+	FARPROC oInternalGetIfEntry2;
+	FARPROC oInternalGetIfTable;
+	FARPROC oInternalGetIfTable2;
+	FARPROC oInternalGetIpAddrTable;
+	FARPROC oInternalGetIpForwardEntry2;
+	FARPROC oInternalGetIpForwardTable;
+	FARPROC oInternalGetIpInterfaceEntry;
+	FARPROC oInternalGetIpInterfaceTable;
+	FARPROC oInternalGetIpNetEntry2;
+	FARPROC oInternalGetIpNetTable;
+	FARPROC oInternalGetIpNetTable2;
+	FARPROC oInternalGetMulticastIpAddressEntry;
+	FARPROC oInternalGetMulticastIpAddressTable;
+	FARPROC oInternalGetRtcSlotInformation;
+	FARPROC oInternalGetTcp6Table2;
+	FARPROC oInternalGetTcp6TableWithOwnerModule;
+	FARPROC oInternalGetTcp6TableWithOwnerPid;
+	FARPROC oInternalGetTcpTable;
+	FARPROC oInternalGetTcpTable2;
+	FARPROC oInternalGetTcpTableEx;
+	FARPROC oInternalGetTcpTableWithOwnerModule;
+	FARPROC oInternalGetTcpTableWithOwnerPid;
+	FARPROC oInternalGetTunnelPhysicalAdapter;
+	FARPROC oInternalGetUdp6TableWithOwnerModule;
+	FARPROC oInternalGetUdp6TableWithOwnerPid;
+	FARPROC oInternalGetUdpTable;
+	FARPROC oInternalGetUdpTableEx;
+	FARPROC oInternalGetUdpTableWithOwnerModule;
+	FARPROC oInternalGetUdpTableWithOwnerPid;
+	FARPROC oInternalGetUnicastIpAddressEntry;
+	FARPROC oInternalGetUnicastIpAddressTable;
+	FARPROC oInternalIcmpCreateFileEx;
+	FARPROC oInternalSetIfEntry;
+	FARPROC oInternalSetIpForwardEntry;
+	FARPROC oInternalSetIpForwardEntry2;
+	FARPROC oInternalSetIpInterfaceEntry;
+	FARPROC oInternalSetIpNetEntry;
+	FARPROC oInternalSetIpNetEntry2;
+	FARPROC oInternalSetIpStats;
+	FARPROC oInternalSetTcpEntry;
+	FARPROC oInternalSetTeredoPort;
+	FARPROC oInternalSetUnicastIpAddressEntry;
+	FARPROC oIpReleaseAddress;
+	FARPROC oIpRenewAddress;
+	FARPROC oLookupPersistentTcpPortReservation;
+	FARPROC oLookupPersistentUdpPortReservation;
+	FARPROC oNTPTimeToNTFileTime;
+	FARPROC oNTTimeToNTPTime;
+	FARPROC oNhGetGuidFromInterfaceName;
+	FARPROC oNhGetInterfaceDescriptionFromGuid;
+	FARPROC oNhGetInterfaceNameFromDeviceGuid;
+	FARPROC oNhGetInterfaceNameFromGuid;
+	FARPROC oNhpAllocateAndGetInterfaceInfoFromStack;
+	FARPROC oNotifyAddrChange;
+	FARPROC oNotifyCompartmentChange;
+	FARPROC oNotifyIfTimestampConfigChange;
+	FARPROC oNotifyIpInterfaceChange;
+	FARPROC oNotifyNetworkConnectivityHintChange;
+	FARPROC oNotifyRouteChange;
+	FARPROC oNotifyRouteChange2;
+	FARPROC oNotifyStableUnicastIpAddressTable;
+	FARPROC oNotifyTeredoPortChange;
+	FARPROC oNotifyUnicastIpAddressChange;
+	FARPROC oOpenCompartment;
+	FARPROC oParseNetworkString;
+	FARPROC oPfAddFiltersToInterface;
+	FARPROC oPfAddGlobalFilterToInterface;
+	FARPROC oPfBindInterfaceToIPAddress;
+	FARPROC oPfBindInterfaceToIndex;
+	FARPROC oPfCreateInterface;
+	FARPROC oPfDeleteInterface;
+	FARPROC oPfDeleteLog;
+	FARPROC oPfGetInterfaceStatistics;
+	FARPROC oPfMakeLog;
+	FARPROC oPfRebindFilters;
+	FARPROC oPfRemoveFilterHandles;
+	FARPROC oPfRemoveFiltersFromInterface;
+	FARPROC oPfRemoveGlobalFilterFromInterface;
+	FARPROC oPfSetLogBuffer;
+	FARPROC oPfTestPacket;
+	FARPROC oPfUnBindInterface;
+	FARPROC oResolveIpNetEntry2;
+	FARPROC oResolveNeighbor;
+	FARPROC oRestoreMediaSense;
+	FARPROC oSendARP;
+	FARPROC oSetAdapterIpAddress;
+	FARPROC oSetCurrentThreadCompartmentId;
+	FARPROC oSetCurrentThreadCompartmentScope;
+	FARPROC oSetDnsSettings;
+	FARPROC oSetIfEntry;
+	FARPROC oSetInterfaceDnsSettings;
+	FARPROC oSetIpForwardEntry;
+	FARPROC oSetIpForwardEntry2;
+	FARPROC oSetIpInterfaceEntry;
+	FARPROC oSetIpNetEntry;
+	FARPROC oSetIpNetEntry2;
+	FARPROC oSetIpStatistics;
+	FARPROC oSetIpStatisticsEx;
+	FARPROC oSetIpTTL;
+	FARPROC oSetJobCompartmentId;
+	FARPROC oSetNetworkInformation;
+	FARPROC oSetPerTcp6ConnectionEStats;
+	FARPROC oSetPerTcp6ConnectionStats;
+	FARPROC oSetPerTcpConnectionEStats;
+	FARPROC oSetPerTcpConnectionStats;
+	FARPROC oSetSessionCompartmentId;
+	FARPROC oSetTcpEntry;
+	FARPROC oSetUnicastIpAddressEntry;
+	FARPROC oUnenableRouter;
+	FARPROC odo_echo_rep;
+	FARPROC odo_echo_req;
+	FARPROC oif_indextoname;
+	FARPROC oif_nametoindex;
+	FARPROC oregister_icmp;
+} IPHLPAPI;
 
 extern "C" {
 	FARPROC PA = 0;
 	int runASM();
 
-	void fDbgHelpCreateUserDump() { PA = dbghelp.oDbgHelpCreateUserDump; runASM(); }
-	void fDbgHelpCreateUserDumpW() { PA = dbghelp.oDbgHelpCreateUserDumpW; runASM(); }
-	void fEnumDirTree() { PA = dbghelp.oEnumDirTree; runASM(); }
-	void fEnumDirTreeW() { PA = dbghelp.oEnumDirTreeW; runASM(); }
-	void fEnumerateLoadedModules() { PA = dbghelp.oEnumerateLoadedModules; runASM(); }
-	void fEnumerateLoadedModules64() { PA = dbghelp.oEnumerateLoadedModules64; runASM(); }
-	void fEnumerateLoadedModulesEx() { PA = dbghelp.oEnumerateLoadedModulesEx; runASM(); }
-	void fEnumerateLoadedModulesExW() { PA = dbghelp.oEnumerateLoadedModulesExW; runASM(); }
-	void fEnumerateLoadedModulesW64() { PA = dbghelp.oEnumerateLoadedModulesW64; runASM(); }
-	void fExtensionApiVersion() { PA = dbghelp.oExtensionApiVersion; runASM(); }
-	void fFindDebugInfoFile() { PA = dbghelp.oFindDebugInfoFile; runASM(); }
-	void fFindDebugInfoFileEx() { PA = dbghelp.oFindDebugInfoFileEx; runASM(); }
-	void fFindDebugInfoFileExW() { PA = dbghelp.oFindDebugInfoFileExW; runASM(); }
-	void fFindExecutableImage() { PA = dbghelp.oFindExecutableImage; runASM(); }
-	void fFindExecutableImageEx() { PA = dbghelp.oFindExecutableImageEx; runASM(); }
-	void fFindExecutableImageExW() { PA = dbghelp.oFindExecutableImageExW; runASM(); }
-	void fFindFileInPath() { PA = dbghelp.oFindFileInPath; runASM(); }
-	void fFindFileInSearchPath() { PA = dbghelp.oFindFileInSearchPath; runASM(); }
-	void fGetSymLoadError() { PA = dbghelp.oGetSymLoadError; runASM(); }
-	void fGetTimestampForLoadedLibrary() { PA = dbghelp.oGetTimestampForLoadedLibrary; runASM(); }
-	void fImageDirectoryEntryToData() { PA = dbghelp.oImageDirectoryEntryToData; runASM(); }
-	void fImageDirectoryEntryToDataEx() { PA = dbghelp.oImageDirectoryEntryToDataEx; runASM(); }
-	void fImageNtHeader() { PA = dbghelp.oImageNtHeader; runASM(); }
-	void fImageRvaToSection() { PA = dbghelp.oImageRvaToSection; runASM(); }
-	void fImageRvaToVa() { PA = dbghelp.oImageRvaToVa; runASM(); }
-	void fImagehlpApiVersion() { PA = dbghelp.oImagehlpApiVersion; runASM(); }
-	void fImagehlpApiVersionEx() { PA = dbghelp.oImagehlpApiVersionEx; runASM(); }
-	void fMakeSureDirectoryPathExists() { PA = dbghelp.oMakeSureDirectoryPathExists; runASM(); }
-	void fMiniDumpReadDumpStream() { PA = dbghelp.oMiniDumpReadDumpStream; runASM(); }
-	void fMiniDumpWriteDump() { PA = dbghelp.oMiniDumpWriteDump; runASM(); }
-	void fRangeMapAddPeImageSections() { PA = dbghelp.oRangeMapAddPeImageSections; runASM(); }
-	void fRangeMapCreate() { PA = dbghelp.oRangeMapCreate; runASM(); }
-	void fRangeMapFree() { PA = dbghelp.oRangeMapFree; runASM(); }
-	void fRangeMapRead() { PA = dbghelp.oRangeMapRead; runASM(); }
-	void fRangeMapRemove() { PA = dbghelp.oRangeMapRemove; runASM(); }
-	void fRangeMapWrite() { PA = dbghelp.oRangeMapWrite; runASM(); }
-	void fRemoveInvalidModuleList() { PA = dbghelp.oRemoveInvalidModuleList; runASM(); }
-	void fReportSymbolLoadSummary() { PA = dbghelp.oReportSymbolLoadSummary; runASM(); }
-	void fSearchTreeForFile() { PA = dbghelp.oSearchTreeForFile; runASM(); }
-	void fSearchTreeForFileW() { PA = dbghelp.oSearchTreeForFileW; runASM(); }
-	void fSetCheckUserInterruptShared() { PA = dbghelp.oSetCheckUserInterruptShared; runASM(); }
-	void fSetSymLoadError() { PA = dbghelp.oSetSymLoadError; runASM(); }
-	void fStackWalk() { PA = dbghelp.oStackWalk; runASM(); }
-	void fStackWalk64() { PA = dbghelp.oStackWalk64; runASM(); }
-	void fStackWalkEx() { PA = dbghelp.oStackWalkEx; runASM(); }
-	void fSymAddSourceStream() { PA = dbghelp.oSymAddSourceStream; runASM(); }
-	void fSymAddSourceStreamA() { PA = dbghelp.oSymAddSourceStreamA; runASM(); }
-	void fSymAddSourceStreamW() { PA = dbghelp.oSymAddSourceStreamW; runASM(); }
-	void fSymAddSymbol() { PA = dbghelp.oSymAddSymbol; runASM(); }
-	void fSymAddSymbolW() { PA = dbghelp.oSymAddSymbolW; runASM(); }
-	void fSymAddrIncludeInlineTrace() { PA = dbghelp.oSymAddrIncludeInlineTrace; runASM(); }
-	void fSymAllocDiaString() { PA = dbghelp.oSymAllocDiaString; runASM(); }
-	void fSymCleanup() { PA = dbghelp.oSymCleanup; runASM(); }
-	void fSymCompareInlineTrace() { PA = dbghelp.oSymCompareInlineTrace; runASM(); }
-	void fSymDeleteSymbol() { PA = dbghelp.oSymDeleteSymbol; runASM(); }
-	void fSymDeleteSymbolW() { PA = dbghelp.oSymDeleteSymbolW; runASM(); }
-	void fSymEnumLines() { PA = dbghelp.oSymEnumLines; runASM(); }
-	void fSymEnumLinesW() { PA = dbghelp.oSymEnumLinesW; runASM(); }
-	void fSymEnumProcesses() { PA = dbghelp.oSymEnumProcesses; runASM(); }
-	void fSymEnumSourceFileTokens() { PA = dbghelp.oSymEnumSourceFileTokens; runASM(); }
-	void fSymEnumSourceFiles() { PA = dbghelp.oSymEnumSourceFiles; runASM(); }
-	void fSymEnumSourceFilesW() { PA = dbghelp.oSymEnumSourceFilesW; runASM(); }
-	void fSymEnumSourceLines() { PA = dbghelp.oSymEnumSourceLines; runASM(); }
-	void fSymEnumSourceLinesW() { PA = dbghelp.oSymEnumSourceLinesW; runASM(); }
-	void fSymEnumSym() { PA = dbghelp.oSymEnumSym; runASM(); }
-	void fSymEnumSymbols() { PA = dbghelp.oSymEnumSymbols; runASM(); }
-	void fSymEnumSymbolsEx() { PA = dbghelp.oSymEnumSymbolsEx; runASM(); }
-	void fSymEnumSymbolsExW() { PA = dbghelp.oSymEnumSymbolsExW; runASM(); }
-	void fSymEnumSymbolsForAddr() { PA = dbghelp.oSymEnumSymbolsForAddr; runASM(); }
-	void fSymEnumSymbolsForAddrW() { PA = dbghelp.oSymEnumSymbolsForAddrW; runASM(); }
-	void fSymEnumSymbolsW() { PA = dbghelp.oSymEnumSymbolsW; runASM(); }
-	void fSymEnumTypes() { PA = dbghelp.oSymEnumTypes; runASM(); }
-	void fSymEnumTypesByName() { PA = dbghelp.oSymEnumTypesByName; runASM(); }
-	void fSymEnumTypesByNameW() { PA = dbghelp.oSymEnumTypesByNameW; runASM(); }
-	void fSymEnumTypesW() { PA = dbghelp.oSymEnumTypesW; runASM(); }
-	void fSymEnumerateModules() { PA = dbghelp.oSymEnumerateModules; runASM(); }
-	void fSymEnumerateModules64() { PA = dbghelp.oSymEnumerateModules64; runASM(); }
-	void fSymEnumerateModulesW64() { PA = dbghelp.oSymEnumerateModulesW64; runASM(); }
-	void fSymEnumerateSymbols() { PA = dbghelp.oSymEnumerateSymbols; runASM(); }
-	void fSymEnumerateSymbols64() { PA = dbghelp.oSymEnumerateSymbols64; runASM(); }
-	void fSymEnumerateSymbolsW() { PA = dbghelp.oSymEnumerateSymbolsW; runASM(); }
-	void fSymEnumerateSymbolsW64() { PA = dbghelp.oSymEnumerateSymbolsW64; runASM(); }
-	void fSymFindDebugInfoFile() { PA = dbghelp.oSymFindDebugInfoFile; runASM(); }
-	void fSymFindDebugInfoFileW() { PA = dbghelp.oSymFindDebugInfoFileW; runASM(); }
-	void fSymFindExecutableImage() { PA = dbghelp.oSymFindExecutableImage; runASM(); }
-	void fSymFindExecutableImageW() { PA = dbghelp.oSymFindExecutableImageW; runASM(); }
-	void fSymFindFileInPath() { PA = dbghelp.oSymFindFileInPath; runASM(); }
-	void fSymFindFileInPathW() { PA = dbghelp.oSymFindFileInPathW; runASM(); }
-	void fSymFreeDiaString() { PA = dbghelp.oSymFreeDiaString; runASM(); }
-	void fSymFromAddr() { PA = dbghelp.oSymFromAddr; runASM(); }
-	void fSymFromAddrW() { PA = dbghelp.oSymFromAddrW; runASM(); }
-	void fSymFromIndex() { PA = dbghelp.oSymFromIndex; runASM(); }
-	void fSymFromIndexW() { PA = dbghelp.oSymFromIndexW; runASM(); }
-	void fSymFromInlineContext() { PA = dbghelp.oSymFromInlineContext; runASM(); }
-	void fSymFromInlineContextW() { PA = dbghelp.oSymFromInlineContextW; runASM(); }
-	void fSymFromName() { PA = dbghelp.oSymFromName; runASM(); }
-	void fSymFromNameW() { PA = dbghelp.oSymFromNameW; runASM(); }
-	void fSymFromToken() { PA = dbghelp.oSymFromToken; runASM(); }
-	void fSymFromTokenW() { PA = dbghelp.oSymFromTokenW; runASM(); }
-	void fSymFunctionTableAccess() { PA = dbghelp.oSymFunctionTableAccess; runASM(); }
-	void fSymFunctionTableAccess64() { PA = dbghelp.oSymFunctionTableAccess64; runASM(); }
-	void fSymFunctionTableAccess64AccessRoutines() { PA = dbghelp.oSymFunctionTableAccess64AccessRoutines; runASM(); }
-	void fSymGetDiaSession() { PA = dbghelp.oSymGetDiaSession; runASM(); }
-	void fSymGetExtendedOption() { PA = dbghelp.oSymGetExtendedOption; runASM(); }
-	void fSymGetFileLineOffsets64() { PA = dbghelp.oSymGetFileLineOffsets64; runASM(); }
-	void fSymGetHomeDirectory() { PA = dbghelp.oSymGetHomeDirectory; runASM(); }
-	void fSymGetHomeDirectoryW() { PA = dbghelp.oSymGetHomeDirectoryW; runASM(); }
-	void fSymGetLineFromAddr() { PA = dbghelp.oSymGetLineFromAddr; runASM(); }
-	void fSymGetLineFromAddr64() { PA = dbghelp.oSymGetLineFromAddr64; runASM(); }
-	void fSymGetLineFromAddrEx() { PA = dbghelp.oSymGetLineFromAddrEx; runASM(); }
-	void fSymGetLineFromAddrW64() { PA = dbghelp.oSymGetLineFromAddrW64; runASM(); }
-	void fSymGetLineFromInlineContext() { PA = dbghelp.oSymGetLineFromInlineContext; runASM(); }
-	void fSymGetLineFromInlineContextW() { PA = dbghelp.oSymGetLineFromInlineContextW; runASM(); }
-	void fSymGetLineFromName() { PA = dbghelp.oSymGetLineFromName; runASM(); }
-	void fSymGetLineFromName64() { PA = dbghelp.oSymGetLineFromName64; runASM(); }
-	void fSymGetLineFromNameEx() { PA = dbghelp.oSymGetLineFromNameEx; runASM(); }
-	void fSymGetLineFromNameW64() { PA = dbghelp.oSymGetLineFromNameW64; runASM(); }
-	void fSymGetLineNext() { PA = dbghelp.oSymGetLineNext; runASM(); }
-	void fSymGetLineNext64() { PA = dbghelp.oSymGetLineNext64; runASM(); }
-	void fSymGetLineNextEx() { PA = dbghelp.oSymGetLineNextEx; runASM(); }
-	void fSymGetLineNextW64() { PA = dbghelp.oSymGetLineNextW64; runASM(); }
-	void fSymGetLinePrev() { PA = dbghelp.oSymGetLinePrev; runASM(); }
-	void fSymGetLinePrev64() { PA = dbghelp.oSymGetLinePrev64; runASM(); }
-	void fSymGetLinePrevEx() { PA = dbghelp.oSymGetLinePrevEx; runASM(); }
-	void fSymGetLinePrevW64() { PA = dbghelp.oSymGetLinePrevW64; runASM(); }
-	void fSymGetModuleBase() { PA = dbghelp.oSymGetModuleBase; runASM(); }
-	void fSymGetModuleBase64() { PA = dbghelp.oSymGetModuleBase64; runASM(); }
-	void fSymGetModuleInfo() { PA = dbghelp.oSymGetModuleInfo; runASM(); }
-	void fSymGetModuleInfo64() { PA = dbghelp.oSymGetModuleInfo64; runASM(); }
-	void fSymGetModuleInfoW() { PA = dbghelp.oSymGetModuleInfoW; runASM(); }
-	void fSymGetModuleInfoW64() { PA = dbghelp.oSymGetModuleInfoW64; runASM(); }
-	void fSymGetOmapBlockBase() { PA = dbghelp.oSymGetOmapBlockBase; runASM(); }
-	void fSymGetOmaps() { PA = dbghelp.oSymGetOmaps; runASM(); }
-	void fSymGetOptions() { PA = dbghelp.oSymGetOptions; runASM(); }
-	void fSymGetScope() { PA = dbghelp.oSymGetScope; runASM(); }
-	void fSymGetScopeW() { PA = dbghelp.oSymGetScopeW; runASM(); }
-	void fSymGetSearchPath() { PA = dbghelp.oSymGetSearchPath; runASM(); }
-	void fSymGetSearchPathW() { PA = dbghelp.oSymGetSearchPathW; runASM(); }
-	void fSymGetSourceFile() { PA = dbghelp.oSymGetSourceFile; runASM(); }
-	void fSymGetSourceFileChecksum() { PA = dbghelp.oSymGetSourceFileChecksum; runASM(); }
-	void fSymGetSourceFileChecksumW() { PA = dbghelp.oSymGetSourceFileChecksumW; runASM(); }
-	void fSymGetSourceFileFromToken() { PA = dbghelp.oSymGetSourceFileFromToken; runASM(); }
-	void fSymGetSourceFileFromTokenW() { PA = dbghelp.oSymGetSourceFileFromTokenW; runASM(); }
-	void fSymGetSourceFileToken() { PA = dbghelp.oSymGetSourceFileToken; runASM(); }
-	void fSymGetSourceFileTokenW() { PA = dbghelp.oSymGetSourceFileTokenW; runASM(); }
-	void fSymGetSourceFileW() { PA = dbghelp.oSymGetSourceFileW; runASM(); }
-	void fSymGetSourceVarFromToken() { PA = dbghelp.oSymGetSourceVarFromToken; runASM(); }
-	void fSymGetSourceVarFromTokenW() { PA = dbghelp.oSymGetSourceVarFromTokenW; runASM(); }
-	void fSymGetSymFromAddr() { PA = dbghelp.oSymGetSymFromAddr; runASM(); }
-	void fSymGetSymFromAddr64() { PA = dbghelp.oSymGetSymFromAddr64; runASM(); }
-	void fSymGetSymFromName() { PA = dbghelp.oSymGetSymFromName; runASM(); }
-	void fSymGetSymFromName64() { PA = dbghelp.oSymGetSymFromName64; runASM(); }
-	void fSymGetSymNext() { PA = dbghelp.oSymGetSymNext; runASM(); }
-	void fSymGetSymNext64() { PA = dbghelp.oSymGetSymNext64; runASM(); }
-	void fSymGetSymPrev() { PA = dbghelp.oSymGetSymPrev; runASM(); }
-	void fSymGetSymPrev64() { PA = dbghelp.oSymGetSymPrev64; runASM(); }
-	void fSymGetSymbolFile() { PA = dbghelp.oSymGetSymbolFile; runASM(); }
-	void fSymGetSymbolFileW() { PA = dbghelp.oSymGetSymbolFileW; runASM(); }
-	void fSymGetTypeFromName() { PA = dbghelp.oSymGetTypeFromName; runASM(); }
-	void fSymGetTypeFromNameW() { PA = dbghelp.oSymGetTypeFromNameW; runASM(); }
-	void fSymGetTypeInfo() { PA = dbghelp.oSymGetTypeInfo; runASM(); }
-	void fSymGetTypeInfoEx() { PA = dbghelp.oSymGetTypeInfoEx; runASM(); }
-	void fSymGetUnwindInfo() { PA = dbghelp.oSymGetUnwindInfo; runASM(); }
-	void fSymInitialize() { PA = dbghelp.oSymInitialize; runASM(); }
-	void fSymInitializeW() { PA = dbghelp.oSymInitializeW; runASM(); }
-	void fSymLoadModule() { PA = dbghelp.oSymLoadModule; runASM(); }
-	void fSymLoadModule64() { PA = dbghelp.oSymLoadModule64; runASM(); }
-	void fSymLoadModuleEx() { PA = dbghelp.oSymLoadModuleEx; runASM(); }
-	void fSymLoadModuleExW() { PA = dbghelp.oSymLoadModuleExW; runASM(); }
-	void fSymMatchFileName() { PA = dbghelp.oSymMatchFileName; runASM(); }
-	void fSymMatchFileNameW() { PA = dbghelp.oSymMatchFileNameW; runASM(); }
-	void fSymMatchString() { PA = dbghelp.oSymMatchString; runASM(); }
-	void fSymMatchStringA() { PA = dbghelp.oSymMatchStringA; runASM(); }
-	void fSymMatchStringW() { PA = dbghelp.oSymMatchStringW; runASM(); }
-	void fSymNext() { PA = dbghelp.oSymNext; runASM(); }
-	void fSymNextW() { PA = dbghelp.oSymNextW; runASM(); }
-	void fSymPrev() { PA = dbghelp.oSymPrev; runASM(); }
-	void fSymPrevW() { PA = dbghelp.oSymPrevW; runASM(); }
-	void fSymQueryInlineTrace() { PA = dbghelp.oSymQueryInlineTrace; runASM(); }
-	void fSymRefreshModuleList() { PA = dbghelp.oSymRefreshModuleList; runASM(); }
-	void fSymRegisterCallback() { PA = dbghelp.oSymRegisterCallback; runASM(); }
-	void fSymRegisterCallback64() { PA = dbghelp.oSymRegisterCallback64; runASM(); }
-	void fSymRegisterCallbackW64() { PA = dbghelp.oSymRegisterCallbackW64; runASM(); }
-	void fSymRegisterFunctionEntryCallback() { PA = dbghelp.oSymRegisterFunctionEntryCallback; runASM(); }
-	void fSymRegisterFunctionEntryCallback64() { PA = dbghelp.oSymRegisterFunctionEntryCallback64; runASM(); }
-	void fSymSearch() { PA = dbghelp.oSymSearch; runASM(); }
-	void fSymSearchW() { PA = dbghelp.oSymSearchW; runASM(); }
-	void fSymSetContext() { PA = dbghelp.oSymSetContext; runASM(); }
-	void fSymSetDiaSession() { PA = dbghelp.oSymSetDiaSession; runASM(); }
-	void fSymSetExtendedOption() { PA = dbghelp.oSymSetExtendedOption; runASM(); }
-	void fSymSetHomeDirectory() { PA = dbghelp.oSymSetHomeDirectory; runASM(); }
-	void fSymSetHomeDirectoryW() { PA = dbghelp.oSymSetHomeDirectoryW; runASM(); }
-	void fSymSetOptions() { PA = dbghelp.oSymSetOptions; runASM(); }
-	void fSymSetParentWindow() { PA = dbghelp.oSymSetParentWindow; runASM(); }
-	void fSymSetScopeFromAddr() { PA = dbghelp.oSymSetScopeFromAddr; runASM(); }
-	void fSymSetScopeFromIndex() { PA = dbghelp.oSymSetScopeFromIndex; runASM(); }
-	void fSymSetScopeFromInlineContext() { PA = dbghelp.oSymSetScopeFromInlineContext; runASM(); }
-	void fSymSetSearchPath() { PA = dbghelp.oSymSetSearchPath; runASM(); }
-	void fSymSetSearchPathW() { PA = dbghelp.oSymSetSearchPathW; runASM(); }
-	void fSymSrvDeltaName() { PA = dbghelp.oSymSrvDeltaName; runASM(); }
-	void fSymSrvDeltaNameW() { PA = dbghelp.oSymSrvDeltaNameW; runASM(); }
-	void fSymSrvGetFileIndexInfo() { PA = dbghelp.oSymSrvGetFileIndexInfo; runASM(); }
-	void fSymSrvGetFileIndexInfoW() { PA = dbghelp.oSymSrvGetFileIndexInfoW; runASM(); }
-	void fSymSrvGetFileIndexString() { PA = dbghelp.oSymSrvGetFileIndexString; runASM(); }
-	void fSymSrvGetFileIndexStringW() { PA = dbghelp.oSymSrvGetFileIndexStringW; runASM(); }
-	void fSymSrvGetFileIndexes() { PA = dbghelp.oSymSrvGetFileIndexes; runASM(); }
-	void fSymSrvGetFileIndexesW() { PA = dbghelp.oSymSrvGetFileIndexesW; runASM(); }
-	void fSymSrvGetSupplement() { PA = dbghelp.oSymSrvGetSupplement; runASM(); }
-	void fSymSrvGetSupplementW() { PA = dbghelp.oSymSrvGetSupplementW; runASM(); }
-	void fSymSrvIsStore() { PA = dbghelp.oSymSrvIsStore; runASM(); }
-	void fSymSrvIsStoreW() { PA = dbghelp.oSymSrvIsStoreW; runASM(); }
-	void fSymSrvStoreFile() { PA = dbghelp.oSymSrvStoreFile; runASM(); }
-	void fSymSrvStoreFileW() { PA = dbghelp.oSymSrvStoreFileW; runASM(); }
-	void fSymSrvStoreSupplement() { PA = dbghelp.oSymSrvStoreSupplement; runASM(); }
-	void fSymSrvStoreSupplementW() { PA = dbghelp.oSymSrvStoreSupplementW; runASM(); }
-	void fSymUnDName() { PA = dbghelp.oSymUnDName; runASM(); }
-	void fSymUnDName64() { PA = dbghelp.oSymUnDName64; runASM(); }
-	void fSymUnloadModule() { PA = dbghelp.oSymUnloadModule; runASM(); }
-	void fSymUnloadModule64() { PA = dbghelp.oSymUnloadModule64; runASM(); }
-	void fUnDecorateSymbolName() { PA = dbghelp.oUnDecorateSymbolName; runASM(); }
-	void fUnDecorateSymbolNameW() { PA = dbghelp.oUnDecorateSymbolNameW; runASM(); }
-	void fWinDbgExtensionDllInit() { PA = dbghelp.oWinDbgExtensionDllInit; runASM(); }
-	void f_EFN_DumpImage() { PA = dbghelp.o_EFN_DumpImage; runASM(); }
-	void fblock() { PA = dbghelp.oblock; runASM(); }
-	void fchksym() { PA = dbghelp.ochksym; runASM(); }
-	void fdbghelp() { PA = dbghelp.odbghelp; runASM(); }
-	void fdh() { PA = dbghelp.odh; runASM(); }
-	void ffptr() { PA = dbghelp.ofptr; runASM(); }
-	void fhomedir() { PA = dbghelp.ohomedir; runASM(); }
-	void finlinedbg() { PA = dbghelp.oinlinedbg; runASM(); }
-	void fitoldyouso() { PA = dbghelp.oitoldyouso; runASM(); }
-	void flmi() { PA = dbghelp.olmi; runASM(); }
-	void flminfo() { PA = dbghelp.olminfo; runASM(); }
-	void fomap() { PA = dbghelp.oomap; runASM(); }
-	void foptdbgdump() { PA = dbghelp.ooptdbgdump; runASM(); }
-	void foptdbgdumpaddr() { PA = dbghelp.ooptdbgdumpaddr; runASM(); }
-	void fsrcfiles() { PA = dbghelp.osrcfiles; runASM(); }
-	void fstack_force_ebp() { PA = dbghelp.ostack_force_ebp; runASM(); }
-	void fstackdbg() { PA = dbghelp.ostackdbg; runASM(); }
-	void fsym() { PA = dbghelp.osym; runASM(); }
-	void fsymsrv() { PA = dbghelp.osymsrv; runASM(); }
-	void fvc7fpo() { PA = dbghelp.ovc7fpo; runASM(); }
+	void fAddIPAddress() { PA = IPHLPAPI.oAddIPAddress; runASM(); }
+	void fAllocateAndGetInterfaceInfoFromStack() { PA = IPHLPAPI.oAllocateAndGetInterfaceInfoFromStack; runASM(); }
+	void fAllocateAndGetIpAddrTableFromStack() { PA = IPHLPAPI.oAllocateAndGetIpAddrTableFromStack; runASM(); }
+	void fCancelIPChangeNotify() { PA = IPHLPAPI.oCancelIPChangeNotify; runASM(); }
+	void fCancelIfTimestampConfigChange() { PA = IPHLPAPI.oCancelIfTimestampConfigChange; runASM(); }
+	void fCancelMibChangeNotify2() { PA = IPHLPAPI.oCancelMibChangeNotify2; runASM(); }
+	void fCaptureInterfaceHardwareCrossTimestamp() { PA = IPHLPAPI.oCaptureInterfaceHardwareCrossTimestamp; runASM(); }
+	void fCloseCompartment() { PA = IPHLPAPI.oCloseCompartment; runASM(); }
+	void fCloseGetIPPhysicalInterfaceForDestination() { PA = IPHLPAPI.oCloseGetIPPhysicalInterfaceForDestination; runASM(); }
+	void fConvertCompartmentGuidToId() { PA = IPHLPAPI.oConvertCompartmentGuidToId; runASM(); }
+	void fConvertCompartmentIdToGuid() { PA = IPHLPAPI.oConvertCompartmentIdToGuid; runASM(); }
+	void fConvertGuidToStringA() { PA = IPHLPAPI.oConvertGuidToStringA; runASM(); }
+	void fConvertGuidToStringW() { PA = IPHLPAPI.oConvertGuidToStringW; runASM(); }
+	void fConvertInterfaceAliasToLuid() { PA = IPHLPAPI.oConvertInterfaceAliasToLuid; runASM(); }
+	void fConvertInterfaceGuidToLuid() { PA = IPHLPAPI.oConvertInterfaceGuidToLuid; runASM(); }
+	void fConvertInterfaceIndexToLuid() { PA = IPHLPAPI.oConvertInterfaceIndexToLuid; runASM(); }
+	void fConvertInterfaceLuidToAlias() { PA = IPHLPAPI.oConvertInterfaceLuidToAlias; runASM(); }
+	void fConvertInterfaceLuidToGuid() { PA = IPHLPAPI.oConvertInterfaceLuidToGuid; runASM(); }
+	void fConvertInterfaceLuidToIndex() { PA = IPHLPAPI.oConvertInterfaceLuidToIndex; runASM(); }
+	void fConvertInterfaceLuidToNameA() { PA = IPHLPAPI.oConvertInterfaceLuidToNameA; runASM(); }
+	void fConvertInterfaceLuidToNameW() { PA = IPHLPAPI.oConvertInterfaceLuidToNameW; runASM(); }
+	void fConvertInterfaceNameToLuidA() { PA = IPHLPAPI.oConvertInterfaceNameToLuidA; runASM(); }
+	void fConvertInterfaceNameToLuidW() { PA = IPHLPAPI.oConvertInterfaceNameToLuidW; runASM(); }
+	void fConvertInterfacePhysicalAddressToLuid() { PA = IPHLPAPI.oConvertInterfacePhysicalAddressToLuid; runASM(); }
+	void fConvertIpv4MaskToLength() { PA = IPHLPAPI.oConvertIpv4MaskToLength; runASM(); }
+	void fConvertLengthToIpv4Mask() { PA = IPHLPAPI.oConvertLengthToIpv4Mask; runASM(); }
+	void fConvertRemoteInterfaceAliasToLuid() { PA = IPHLPAPI.oConvertRemoteInterfaceAliasToLuid; runASM(); }
+	void fConvertRemoteInterfaceGuidToLuid() { PA = IPHLPAPI.oConvertRemoteInterfaceGuidToLuid; runASM(); }
+	void fConvertRemoteInterfaceIndexToLuid() { PA = IPHLPAPI.oConvertRemoteInterfaceIndexToLuid; runASM(); }
+	void fConvertRemoteInterfaceLuidToAlias() { PA = IPHLPAPI.oConvertRemoteInterfaceLuidToAlias; runASM(); }
+	void fConvertRemoteInterfaceLuidToGuid() { PA = IPHLPAPI.oConvertRemoteInterfaceLuidToGuid; runASM(); }
+	void fConvertRemoteInterfaceLuidToIndex() { PA = IPHLPAPI.oConvertRemoteInterfaceLuidToIndex; runASM(); }
+	void fConvertStringToGuidA() { PA = IPHLPAPI.oConvertStringToGuidA; runASM(); }
+	void fConvertStringToGuidW() { PA = IPHLPAPI.oConvertStringToGuidW; runASM(); }
+	void fConvertStringToInterfacePhysicalAddress() { PA = IPHLPAPI.oConvertStringToInterfacePhysicalAddress; runASM(); }
+	void fCreateAnycastIpAddressEntry() { PA = IPHLPAPI.oCreateAnycastIpAddressEntry; runASM(); }
+	void fCreateCompartment() { PA = IPHLPAPI.oCreateCompartment; runASM(); }
+	void fCreateIpForwardEntry() { PA = IPHLPAPI.oCreateIpForwardEntry; runASM(); }
+	void fCreateIpForwardEntry2() { PA = IPHLPAPI.oCreateIpForwardEntry2; runASM(); }
+	void fCreateIpNetEntry() { PA = IPHLPAPI.oCreateIpNetEntry; runASM(); }
+	void fCreateIpNetEntry2() { PA = IPHLPAPI.oCreateIpNetEntry2; runASM(); }
+	void fCreatePersistentTcpPortReservation() { PA = IPHLPAPI.oCreatePersistentTcpPortReservation; runASM(); }
+	void fCreatePersistentUdpPortReservation() { PA = IPHLPAPI.oCreatePersistentUdpPortReservation; runASM(); }
+	void fCreateProxyArpEntry() { PA = IPHLPAPI.oCreateProxyArpEntry; runASM(); }
+	void fCreateSortedAddressPairs() { PA = IPHLPAPI.oCreateSortedAddressPairs; runASM(); }
+	void fCreateUnicastIpAddressEntry() { PA = IPHLPAPI.oCreateUnicastIpAddressEntry; runASM(); }
+	void fDeleteAnycastIpAddressEntry() { PA = IPHLPAPI.oDeleteAnycastIpAddressEntry; runASM(); }
+	void fDeleteCompartment() { PA = IPHLPAPI.oDeleteCompartment; runASM(); }
+	void fDeleteIPAddress() { PA = IPHLPAPI.oDeleteIPAddress; runASM(); }
+	void fDeleteIpForwardEntry() { PA = IPHLPAPI.oDeleteIpForwardEntry; runASM(); }
+	void fDeleteIpForwardEntry2() { PA = IPHLPAPI.oDeleteIpForwardEntry2; runASM(); }
+	void fDeleteIpNetEntry() { PA = IPHLPAPI.oDeleteIpNetEntry; runASM(); }
+	void fDeleteIpNetEntry2() { PA = IPHLPAPI.oDeleteIpNetEntry2; runASM(); }
+	void fDeletePersistentTcpPortReservation() { PA = IPHLPAPI.oDeletePersistentTcpPortReservation; runASM(); }
+	void fDeletePersistentUdpPortReservation() { PA = IPHLPAPI.oDeletePersistentUdpPortReservation; runASM(); }
+	void fDeleteProxyArpEntry() { PA = IPHLPAPI.oDeleteProxyArpEntry; runASM(); }
+	void fDeleteUnicastIpAddressEntry() { PA = IPHLPAPI.oDeleteUnicastIpAddressEntry; runASM(); }
+	void fDisableMediaSense() { PA = IPHLPAPI.oDisableMediaSense; runASM(); }
+	void fEnableRouter() { PA = IPHLPAPI.oEnableRouter; runASM(); }
+	void fFlushIpNetTable() { PA = IPHLPAPI.oFlushIpNetTable; runASM(); }
+	void fFlushIpNetTable2() { PA = IPHLPAPI.oFlushIpNetTable2; runASM(); }
+	void fFlushIpPathTable() { PA = IPHLPAPI.oFlushIpPathTable; runASM(); }
+	void fFreeDnsSettings() { PA = IPHLPAPI.oFreeDnsSettings; runASM(); }
+	void fFreeInterfaceDnsSettings() { PA = IPHLPAPI.oFreeInterfaceDnsSettings; runASM(); }
+	void fFreeMibTable() { PA = IPHLPAPI.oFreeMibTable; runASM(); }
+	void fGetAdapterIndex() { PA = IPHLPAPI.oGetAdapterIndex; runASM(); }
+	void fGetAdapterOrderMap() { PA = IPHLPAPI.oGetAdapterOrderMap; runASM(); }
+	void fGetAdaptersAddresses() { PA = IPHLPAPI.oGetAdaptersAddresses; runASM(); }
+	void fGetAdaptersInfo() { PA = IPHLPAPI.oGetAdaptersInfo; runASM(); }
+	void fGetAnycastIpAddressEntry() { PA = IPHLPAPI.oGetAnycastIpAddressEntry; runASM(); }
+	void fGetAnycastIpAddressTable() { PA = IPHLPAPI.oGetAnycastIpAddressTable; runASM(); }
+	void fGetBestInterface() { PA = IPHLPAPI.oGetBestInterface; runASM(); }
+	void fGetBestInterfaceEx() { PA = IPHLPAPI.oGetBestInterfaceEx; runASM(); }
+	void fGetBestRoute() { PA = IPHLPAPI.oGetBestRoute; runASM(); }
+	void fGetBestRoute2() { PA = IPHLPAPI.oGetBestRoute2; runASM(); }
+	void fGetCurrentThreadCompartmentId() { PA = IPHLPAPI.oGetCurrentThreadCompartmentId; runASM(); }
+	void fGetCurrentThreadCompartmentScope() { PA = IPHLPAPI.oGetCurrentThreadCompartmentScope; runASM(); }
+	void fGetDefaultCompartmentId() { PA = IPHLPAPI.oGetDefaultCompartmentId; runASM(); }
+	void fGetDnsSettings() { PA = IPHLPAPI.oGetDnsSettings; runASM(); }
+	void fGetExtendedTcpTable() { PA = IPHLPAPI.oGetExtendedTcpTable; runASM(); }
+	void fGetExtendedUdpTable() { PA = IPHLPAPI.oGetExtendedUdpTable; runASM(); }
+	void fGetFriendlyIfIndex() { PA = IPHLPAPI.oGetFriendlyIfIndex; runASM(); }
+	void fGetIcmpStatistics() { PA = IPHLPAPI.oGetIcmpStatistics; runASM(); }
+	void fGetIcmpStatisticsEx() { PA = IPHLPAPI.oGetIcmpStatisticsEx; runASM(); }
+	void fGetIfEntry() { PA = IPHLPAPI.oGetIfEntry; runASM(); }
+	void fGetIfEntry2() { PA = IPHLPAPI.oGetIfEntry2; runASM(); }
+	void fGetIfEntry2Ex() { PA = IPHLPAPI.oGetIfEntry2Ex; runASM(); }
+	void fGetIfStackTable() { PA = IPHLPAPI.oGetIfStackTable; runASM(); }
+	void fGetIfTable() { PA = IPHLPAPI.oGetIfTable; runASM(); }
+	void fGetIfTable2() { PA = IPHLPAPI.oGetIfTable2; runASM(); }
+	void fGetIfTable2Ex() { PA = IPHLPAPI.oGetIfTable2Ex; runASM(); }
+	void fGetInterfaceCompartmentId() { PA = IPHLPAPI.oGetInterfaceCompartmentId; runASM(); }
+	void fGetInterfaceCurrentTimestampCapabilities() { PA = IPHLPAPI.oGetInterfaceCurrentTimestampCapabilities; runASM(); }
+	void fGetInterfaceDnsSettings() { PA = IPHLPAPI.oGetInterfaceDnsSettings; runASM(); }
+	void fGetInterfaceHardwareTimestampCapabilities() { PA = IPHLPAPI.oGetInterfaceHardwareTimestampCapabilities; runASM(); }
+	void fGetInterfaceInfo() { PA = IPHLPAPI.oGetInterfaceInfo; runASM(); }
+	void fGetInvertedIfStackTable() { PA = IPHLPAPI.oGetInvertedIfStackTable; runASM(); }
+	void fGetIpAddrTable() { PA = IPHLPAPI.oGetIpAddrTable; runASM(); }
+	void fGetIpErrorString() { PA = IPHLPAPI.oGetIpErrorString; runASM(); }
+	void fGetIpForwardEntry2() { PA = IPHLPAPI.oGetIpForwardEntry2; runASM(); }
+	void fGetIpForwardTable() { PA = IPHLPAPI.oGetIpForwardTable; runASM(); }
+	void fGetIpForwardTable2() { PA = IPHLPAPI.oGetIpForwardTable2; runASM(); }
+	void fGetIpInterfaceEntry() { PA = IPHLPAPI.oGetIpInterfaceEntry; runASM(); }
+	void fGetIpInterfaceTable() { PA = IPHLPAPI.oGetIpInterfaceTable; runASM(); }
+	void fGetIpNetEntry2() { PA = IPHLPAPI.oGetIpNetEntry2; runASM(); }
+	void fGetIpNetTable() { PA = IPHLPAPI.oGetIpNetTable; runASM(); }
+	void fGetIpNetTable2() { PA = IPHLPAPI.oGetIpNetTable2; runASM(); }
+	void fGetIpNetworkConnectionBandwidthEstimates() { PA = IPHLPAPI.oGetIpNetworkConnectionBandwidthEstimates; runASM(); }
+	void fGetIpPathEntry() { PA = IPHLPAPI.oGetIpPathEntry; runASM(); }
+	void fGetIpPathTable() { PA = IPHLPAPI.oGetIpPathTable; runASM(); }
+	void fGetIpStatistics() { PA = IPHLPAPI.oGetIpStatistics; runASM(); }
+	void fGetIpStatisticsEx() { PA = IPHLPAPI.oGetIpStatisticsEx; runASM(); }
+	void fGetJobCompartmentId() { PA = IPHLPAPI.oGetJobCompartmentId; runASM(); }
+	void fGetMulticastIpAddressEntry() { PA = IPHLPAPI.oGetMulticastIpAddressEntry; runASM(); }
+	void fGetMulticastIpAddressTable() { PA = IPHLPAPI.oGetMulticastIpAddressTable; runASM(); }
+	void fGetNetworkConnectivityHint() { PA = IPHLPAPI.oGetNetworkConnectivityHint; runASM(); }
+	void fGetNetworkConnectivityHintForInterface() { PA = IPHLPAPI.oGetNetworkConnectivityHintForInterface; runASM(); }
+	void fGetNetworkInformation() { PA = IPHLPAPI.oGetNetworkInformation; runASM(); }
+	void fGetNetworkParams() { PA = IPHLPAPI.oGetNetworkParams; runASM(); }
+	void fGetNumberOfInterfaces() { PA = IPHLPAPI.oGetNumberOfInterfaces; runASM(); }
+	void fGetOwnerModuleFromPidAndInfo() { PA = IPHLPAPI.oGetOwnerModuleFromPidAndInfo; runASM(); }
+	void fGetOwnerModuleFromTcp6Entry() { PA = IPHLPAPI.oGetOwnerModuleFromTcp6Entry; runASM(); }
+	void fGetOwnerModuleFromTcpEntry() { PA = IPHLPAPI.oGetOwnerModuleFromTcpEntry; runASM(); }
+	void fGetOwnerModuleFromUdp6Entry() { PA = IPHLPAPI.oGetOwnerModuleFromUdp6Entry; runASM(); }
+	void fGetOwnerModuleFromUdpEntry() { PA = IPHLPAPI.oGetOwnerModuleFromUdpEntry; runASM(); }
+	void fGetPerAdapterInfo() { PA = IPHLPAPI.oGetPerAdapterInfo; runASM(); }
+	void fGetPerTcp6ConnectionEStats() { PA = IPHLPAPI.oGetPerTcp6ConnectionEStats; runASM(); }
+	void fGetPerTcp6ConnectionStats() { PA = IPHLPAPI.oGetPerTcp6ConnectionStats; runASM(); }
+	void fGetPerTcpConnectionEStats() { PA = IPHLPAPI.oGetPerTcpConnectionEStats; runASM(); }
+	void fGetPerTcpConnectionStats() { PA = IPHLPAPI.oGetPerTcpConnectionStats; runASM(); }
+	void fGetRTTAndHopCount() { PA = IPHLPAPI.oGetRTTAndHopCount; runASM(); }
+	void fGetSessionCompartmentId() { PA = IPHLPAPI.oGetSessionCompartmentId; runASM(); }
+	void fGetTcp6Table() { PA = IPHLPAPI.oGetTcp6Table; runASM(); }
+	void fGetTcp6Table2() { PA = IPHLPAPI.oGetTcp6Table2; runASM(); }
+	void fGetTcpStatistics() { PA = IPHLPAPI.oGetTcpStatistics; runASM(); }
+	void fGetTcpStatisticsEx() { PA = IPHLPAPI.oGetTcpStatisticsEx; runASM(); }
+	void fGetTcpStatisticsEx2() { PA = IPHLPAPI.oGetTcpStatisticsEx2; runASM(); }
+	void fGetTcpTable() { PA = IPHLPAPI.oGetTcpTable; runASM(); }
+	void fGetTcpTable2() { PA = IPHLPAPI.oGetTcpTable2; runASM(); }
+	void fGetTeredoPort() { PA = IPHLPAPI.oGetTeredoPort; runASM(); }
+	void fGetUdp6Table() { PA = IPHLPAPI.oGetUdp6Table; runASM(); }
+	void fGetUdpStatistics() { PA = IPHLPAPI.oGetUdpStatistics; runASM(); }
+	void fGetUdpStatisticsEx() { PA = IPHLPAPI.oGetUdpStatisticsEx; runASM(); }
+	void fGetUdpStatisticsEx2() { PA = IPHLPAPI.oGetUdpStatisticsEx2; runASM(); }
+	void fGetUdpTable() { PA = IPHLPAPI.oGetUdpTable; runASM(); }
+	void fGetUniDirectionalAdapterInfo() { PA = IPHLPAPI.oGetUniDirectionalAdapterInfo; runASM(); }
+	void fGetUnicastIpAddressEntry() { PA = IPHLPAPI.oGetUnicastIpAddressEntry; runASM(); }
+	void fGetUnicastIpAddressTable() { PA = IPHLPAPI.oGetUnicastIpAddressTable; runASM(); }
+	void fGetWPAOACSupportLevel() { PA = IPHLPAPI.oGetWPAOACSupportLevel; runASM(); }
+	void fIcmp6CreateFile() { PA = IPHLPAPI.oIcmp6CreateFile; runASM(); }
+	void fIcmp6ParseReplies() { PA = IPHLPAPI.oIcmp6ParseReplies; runASM(); }
+	void fIcmp6SendEcho2() { PA = IPHLPAPI.oIcmp6SendEcho2; runASM(); }
+	void fIcmpCloseHandle() { PA = IPHLPAPI.oIcmpCloseHandle; runASM(); }
+	void fIcmpCreateFile() { PA = IPHLPAPI.oIcmpCreateFile; runASM(); }
+	void fIcmpParseReplies() { PA = IPHLPAPI.oIcmpParseReplies; runASM(); }
+	void fIcmpSendEcho() { PA = IPHLPAPI.oIcmpSendEcho; runASM(); }
+	void fIcmpSendEcho2() { PA = IPHLPAPI.oIcmpSendEcho2; runASM(); }
+	void fIcmpSendEcho2Ex() { PA = IPHLPAPI.oIcmpSendEcho2Ex; runASM(); }
+	void fInitializeCompartmentEntry() { PA = IPHLPAPI.oInitializeCompartmentEntry; runASM(); }
+	void fInitializeIpForwardEntry() { PA = IPHLPAPI.oInitializeIpForwardEntry; runASM(); }
+	void fInitializeIpInterfaceEntry() { PA = IPHLPAPI.oInitializeIpInterfaceEntry; runASM(); }
+	void fInitializeUnicastIpAddressEntry() { PA = IPHLPAPI.oInitializeUnicastIpAddressEntry; runASM(); }
+	void fInternalCleanupPersistentStore() { PA = IPHLPAPI.oInternalCleanupPersistentStore; runASM(); }
+	void fInternalCreateAnycastIpAddressEntry() { PA = IPHLPAPI.oInternalCreateAnycastIpAddressEntry; runASM(); }
+	void fInternalCreateIpForwardEntry() { PA = IPHLPAPI.oInternalCreateIpForwardEntry; runASM(); }
+	void fInternalCreateIpForwardEntry2() { PA = IPHLPAPI.oInternalCreateIpForwardEntry2; runASM(); }
+	void fInternalCreateIpNetEntry() { PA = IPHLPAPI.oInternalCreateIpNetEntry; runASM(); }
+	void fInternalCreateIpNetEntry2() { PA = IPHLPAPI.oInternalCreateIpNetEntry2; runASM(); }
+	void fInternalCreateOrRefIpForwardEntry2() { PA = IPHLPAPI.oInternalCreateOrRefIpForwardEntry2; runASM(); }
+	void fInternalCreateUnicastIpAddressEntry() { PA = IPHLPAPI.oInternalCreateUnicastIpAddressEntry; runASM(); }
+	void fInternalDeleteAnycastIpAddressEntry() { PA = IPHLPAPI.oInternalDeleteAnycastIpAddressEntry; runASM(); }
+	void fInternalDeleteIpForwardEntry() { PA = IPHLPAPI.oInternalDeleteIpForwardEntry; runASM(); }
+	void fInternalDeleteIpForwardEntry2() { PA = IPHLPAPI.oInternalDeleteIpForwardEntry2; runASM(); }
+	void fInternalDeleteIpNetEntry() { PA = IPHLPAPI.oInternalDeleteIpNetEntry; runASM(); }
+	void fInternalDeleteIpNetEntry2() { PA = IPHLPAPI.oInternalDeleteIpNetEntry2; runASM(); }
+	void fInternalDeleteUnicastIpAddressEntry() { PA = IPHLPAPI.oInternalDeleteUnicastIpAddressEntry; runASM(); }
+	void fInternalFindInterfaceByAddress() { PA = IPHLPAPI.oInternalFindInterfaceByAddress; runASM(); }
+	void fInternalGetAnycastIpAddressEntry() { PA = IPHLPAPI.oInternalGetAnycastIpAddressEntry; runASM(); }
+	void fInternalGetAnycastIpAddressTable() { PA = IPHLPAPI.oInternalGetAnycastIpAddressTable; runASM(); }
+	void fInternalGetBoundTcp6EndpointTable() { PA = IPHLPAPI.oInternalGetBoundTcp6EndpointTable; runASM(); }
+	void fInternalGetBoundTcpEndpointTable() { PA = IPHLPAPI.oInternalGetBoundTcpEndpointTable; runASM(); }
+	void fInternalGetForwardIpTable2() { PA = IPHLPAPI.oInternalGetForwardIpTable2; runASM(); }
+	void fInternalGetIPPhysicalInterfaceForDestination() { PA = IPHLPAPI.oInternalGetIPPhysicalInterfaceForDestination; runASM(); }
+	void fInternalGetIfEntry2() { PA = IPHLPAPI.oInternalGetIfEntry2; runASM(); }
+	void fInternalGetIfTable() { PA = IPHLPAPI.oInternalGetIfTable; runASM(); }
+	void fInternalGetIfTable2() { PA = IPHLPAPI.oInternalGetIfTable2; runASM(); }
+	void fInternalGetIpAddrTable() { PA = IPHLPAPI.oInternalGetIpAddrTable; runASM(); }
+	void fInternalGetIpForwardEntry2() { PA = IPHLPAPI.oInternalGetIpForwardEntry2; runASM(); }
+	void fInternalGetIpForwardTable() { PA = IPHLPAPI.oInternalGetIpForwardTable; runASM(); }
+	void fInternalGetIpInterfaceEntry() { PA = IPHLPAPI.oInternalGetIpInterfaceEntry; runASM(); }
+	void fInternalGetIpInterfaceTable() { PA = IPHLPAPI.oInternalGetIpInterfaceTable; runASM(); }
+	void fInternalGetIpNetEntry2() { PA = IPHLPAPI.oInternalGetIpNetEntry2; runASM(); }
+	void fInternalGetIpNetTable() { PA = IPHLPAPI.oInternalGetIpNetTable; runASM(); }
+	void fInternalGetIpNetTable2() { PA = IPHLPAPI.oInternalGetIpNetTable2; runASM(); }
+	void fInternalGetMulticastIpAddressEntry() { PA = IPHLPAPI.oInternalGetMulticastIpAddressEntry; runASM(); }
+	void fInternalGetMulticastIpAddressTable() { PA = IPHLPAPI.oInternalGetMulticastIpAddressTable; runASM(); }
+	void fInternalGetRtcSlotInformation() { PA = IPHLPAPI.oInternalGetRtcSlotInformation; runASM(); }
+	void fInternalGetTcp6Table2() { PA = IPHLPAPI.oInternalGetTcp6Table2; runASM(); }
+	void fInternalGetTcp6TableWithOwnerModule() { PA = IPHLPAPI.oInternalGetTcp6TableWithOwnerModule; runASM(); }
+	void fInternalGetTcp6TableWithOwnerPid() { PA = IPHLPAPI.oInternalGetTcp6TableWithOwnerPid; runASM(); }
+	void fInternalGetTcpTable() { PA = IPHLPAPI.oInternalGetTcpTable; runASM(); }
+	void fInternalGetTcpTable2() { PA = IPHLPAPI.oInternalGetTcpTable2; runASM(); }
+	void fInternalGetTcpTableEx() { PA = IPHLPAPI.oInternalGetTcpTableEx; runASM(); }
+	void fInternalGetTcpTableWithOwnerModule() { PA = IPHLPAPI.oInternalGetTcpTableWithOwnerModule; runASM(); }
+	void fInternalGetTcpTableWithOwnerPid() { PA = IPHLPAPI.oInternalGetTcpTableWithOwnerPid; runASM(); }
+	void fInternalGetTunnelPhysicalAdapter() { PA = IPHLPAPI.oInternalGetTunnelPhysicalAdapter; runASM(); }
+	void fInternalGetUdp6TableWithOwnerModule() { PA = IPHLPAPI.oInternalGetUdp6TableWithOwnerModule; runASM(); }
+	void fInternalGetUdp6TableWithOwnerPid() { PA = IPHLPAPI.oInternalGetUdp6TableWithOwnerPid; runASM(); }
+	void fInternalGetUdpTable() { PA = IPHLPAPI.oInternalGetUdpTable; runASM(); }
+	void fInternalGetUdpTableEx() { PA = IPHLPAPI.oInternalGetUdpTableEx; runASM(); }
+	void fInternalGetUdpTableWithOwnerModule() { PA = IPHLPAPI.oInternalGetUdpTableWithOwnerModule; runASM(); }
+	void fInternalGetUdpTableWithOwnerPid() { PA = IPHLPAPI.oInternalGetUdpTableWithOwnerPid; runASM(); }
+	void fInternalGetUnicastIpAddressEntry() { PA = IPHLPAPI.oInternalGetUnicastIpAddressEntry; runASM(); }
+	void fInternalGetUnicastIpAddressTable() { PA = IPHLPAPI.oInternalGetUnicastIpAddressTable; runASM(); }
+	void fInternalIcmpCreateFileEx() { PA = IPHLPAPI.oInternalIcmpCreateFileEx; runASM(); }
+	void fInternalSetIfEntry() { PA = IPHLPAPI.oInternalSetIfEntry; runASM(); }
+	void fInternalSetIpForwardEntry() { PA = IPHLPAPI.oInternalSetIpForwardEntry; runASM(); }
+	void fInternalSetIpForwardEntry2() { PA = IPHLPAPI.oInternalSetIpForwardEntry2; runASM(); }
+	void fInternalSetIpInterfaceEntry() { PA = IPHLPAPI.oInternalSetIpInterfaceEntry; runASM(); }
+	void fInternalSetIpNetEntry() { PA = IPHLPAPI.oInternalSetIpNetEntry; runASM(); }
+	void fInternalSetIpNetEntry2() { PA = IPHLPAPI.oInternalSetIpNetEntry2; runASM(); }
+	void fInternalSetIpStats() { PA = IPHLPAPI.oInternalSetIpStats; runASM(); }
+	void fInternalSetTcpEntry() { PA = IPHLPAPI.oInternalSetTcpEntry; runASM(); }
+	void fInternalSetTeredoPort() { PA = IPHLPAPI.oInternalSetTeredoPort; runASM(); }
+	void fInternalSetUnicastIpAddressEntry() { PA = IPHLPAPI.oInternalSetUnicastIpAddressEntry; runASM(); }
+	void fIpReleaseAddress() { PA = IPHLPAPI.oIpReleaseAddress; runASM(); }
+	void fIpRenewAddress() { PA = IPHLPAPI.oIpRenewAddress; runASM(); }
+	void fLookupPersistentTcpPortReservation() { PA = IPHLPAPI.oLookupPersistentTcpPortReservation; runASM(); }
+	void fLookupPersistentUdpPortReservation() { PA = IPHLPAPI.oLookupPersistentUdpPortReservation; runASM(); }
+	void fNTPTimeToNTFileTime() { PA = IPHLPAPI.oNTPTimeToNTFileTime; runASM(); }
+	void fNTTimeToNTPTime() { PA = IPHLPAPI.oNTTimeToNTPTime; runASM(); }
+	void fNhGetGuidFromInterfaceName() { PA = IPHLPAPI.oNhGetGuidFromInterfaceName; runASM(); }
+	void fNhGetInterfaceDescriptionFromGuid() { PA = IPHLPAPI.oNhGetInterfaceDescriptionFromGuid; runASM(); }
+	void fNhGetInterfaceNameFromDeviceGuid() { PA = IPHLPAPI.oNhGetInterfaceNameFromDeviceGuid; runASM(); }
+	void fNhGetInterfaceNameFromGuid() { PA = IPHLPAPI.oNhGetInterfaceNameFromGuid; runASM(); }
+	void fNhpAllocateAndGetInterfaceInfoFromStack() { PA = IPHLPAPI.oNhpAllocateAndGetInterfaceInfoFromStack; runASM(); }
+	void fNotifyAddrChange() { PA = IPHLPAPI.oNotifyAddrChange; runASM(); }
+	void fNotifyCompartmentChange() { PA = IPHLPAPI.oNotifyCompartmentChange; runASM(); }
+	void fNotifyIfTimestampConfigChange() { PA = IPHLPAPI.oNotifyIfTimestampConfigChange; runASM(); }
+	void fNotifyIpInterfaceChange() { PA = IPHLPAPI.oNotifyIpInterfaceChange; runASM(); }
+	void fNotifyNetworkConnectivityHintChange() { PA = IPHLPAPI.oNotifyNetworkConnectivityHintChange; runASM(); }
+	void fNotifyRouteChange() { PA = IPHLPAPI.oNotifyRouteChange; runASM(); }
+	void fNotifyRouteChange2() { PA = IPHLPAPI.oNotifyRouteChange2; runASM(); }
+	void fNotifyStableUnicastIpAddressTable() { PA = IPHLPAPI.oNotifyStableUnicastIpAddressTable; runASM(); }
+	void fNotifyTeredoPortChange() { PA = IPHLPAPI.oNotifyTeredoPortChange; runASM(); }
+	void fNotifyUnicastIpAddressChange() { PA = IPHLPAPI.oNotifyUnicastIpAddressChange; runASM(); }
+	void fOpenCompartment() { PA = IPHLPAPI.oOpenCompartment; runASM(); }
+	void fParseNetworkString() { PA = IPHLPAPI.oParseNetworkString; runASM(); }
+	void fPfAddFiltersToInterface() { PA = IPHLPAPI.oPfAddFiltersToInterface; runASM(); }
+	void fPfAddGlobalFilterToInterface() { PA = IPHLPAPI.oPfAddGlobalFilterToInterface; runASM(); }
+	void fPfBindInterfaceToIPAddress() { PA = IPHLPAPI.oPfBindInterfaceToIPAddress; runASM(); }
+	void fPfBindInterfaceToIndex() { PA = IPHLPAPI.oPfBindInterfaceToIndex; runASM(); }
+	void fPfCreateInterface() { PA = IPHLPAPI.oPfCreateInterface; runASM(); }
+	void fPfDeleteInterface() { PA = IPHLPAPI.oPfDeleteInterface; runASM(); }
+	void fPfDeleteLog() { PA = IPHLPAPI.oPfDeleteLog; runASM(); }
+	void fPfGetInterfaceStatistics() { PA = IPHLPAPI.oPfGetInterfaceStatistics; runASM(); }
+	void fPfMakeLog() { PA = IPHLPAPI.oPfMakeLog; runASM(); }
+	void fPfRebindFilters() { PA = IPHLPAPI.oPfRebindFilters; runASM(); }
+	void fPfRemoveFilterHandles() { PA = IPHLPAPI.oPfRemoveFilterHandles; runASM(); }
+	void fPfRemoveFiltersFromInterface() { PA = IPHLPAPI.oPfRemoveFiltersFromInterface; runASM(); }
+	void fPfRemoveGlobalFilterFromInterface() { PA = IPHLPAPI.oPfRemoveGlobalFilterFromInterface; runASM(); }
+	void fPfSetLogBuffer() { PA = IPHLPAPI.oPfSetLogBuffer; runASM(); }
+	void fPfTestPacket() { PA = IPHLPAPI.oPfTestPacket; runASM(); }
+	void fPfUnBindInterface() { PA = IPHLPAPI.oPfUnBindInterface; runASM(); }
+	void fResolveIpNetEntry2() { PA = IPHLPAPI.oResolveIpNetEntry2; runASM(); }
+	void fResolveNeighbor() { PA = IPHLPAPI.oResolveNeighbor; runASM(); }
+	void fRestoreMediaSense() { PA = IPHLPAPI.oRestoreMediaSense; runASM(); }
+	void fSendARP() { PA = IPHLPAPI.oSendARP; runASM(); }
+	void fSetAdapterIpAddress() { PA = IPHLPAPI.oSetAdapterIpAddress; runASM(); }
+	void fSetCurrentThreadCompartmentId() { PA = IPHLPAPI.oSetCurrentThreadCompartmentId; runASM(); }
+	void fSetCurrentThreadCompartmentScope() { PA = IPHLPAPI.oSetCurrentThreadCompartmentScope; runASM(); }
+	void fSetDnsSettings() { PA = IPHLPAPI.oSetDnsSettings; runASM(); }
+	void fSetIfEntry() { PA = IPHLPAPI.oSetIfEntry; runASM(); }
+	void fSetInterfaceDnsSettings() { PA = IPHLPAPI.oSetInterfaceDnsSettings; runASM(); }
+	void fSetIpForwardEntry() { PA = IPHLPAPI.oSetIpForwardEntry; runASM(); }
+	void fSetIpForwardEntry2() { PA = IPHLPAPI.oSetIpForwardEntry2; runASM(); }
+	void fSetIpInterfaceEntry() { PA = IPHLPAPI.oSetIpInterfaceEntry; runASM(); }
+	void fSetIpNetEntry() { PA = IPHLPAPI.oSetIpNetEntry; runASM(); }
+	void fSetIpNetEntry2() { PA = IPHLPAPI.oSetIpNetEntry2; runASM(); }
+	void fSetIpStatistics() { PA = IPHLPAPI.oSetIpStatistics; runASM(); }
+	void fSetIpStatisticsEx() { PA = IPHLPAPI.oSetIpStatisticsEx; runASM(); }
+	void fSetIpTTL() { PA = IPHLPAPI.oSetIpTTL; runASM(); }
+	void fSetJobCompartmentId() { PA = IPHLPAPI.oSetJobCompartmentId; runASM(); }
+	void fSetNetworkInformation() { PA = IPHLPAPI.oSetNetworkInformation; runASM(); }
+	void fSetPerTcp6ConnectionEStats() { PA = IPHLPAPI.oSetPerTcp6ConnectionEStats; runASM(); }
+	void fSetPerTcp6ConnectionStats() { PA = IPHLPAPI.oSetPerTcp6ConnectionStats; runASM(); }
+	void fSetPerTcpConnectionEStats() { PA = IPHLPAPI.oSetPerTcpConnectionEStats; runASM(); }
+	void fSetPerTcpConnectionStats() { PA = IPHLPAPI.oSetPerTcpConnectionStats; runASM(); }
+	void fSetSessionCompartmentId() { PA = IPHLPAPI.oSetSessionCompartmentId; runASM(); }
+	void fSetTcpEntry() { PA = IPHLPAPI.oSetTcpEntry; runASM(); }
+	void fSetUnicastIpAddressEntry() { PA = IPHLPAPI.oSetUnicastIpAddressEntry; runASM(); }
+	void fUnenableRouter() { PA = IPHLPAPI.oUnenableRouter; runASM(); }
+	void fdo_echo_rep() { PA = IPHLPAPI.odo_echo_rep; runASM(); }
+	void fdo_echo_req() { PA = IPHLPAPI.odo_echo_req; runASM(); }
+	void fif_indextoname() { PA = IPHLPAPI.oif_indextoname; runASM(); }
+	void fif_nametoindex() { PA = IPHLPAPI.oif_nametoindex; runASM(); }
+	void fregister_icmp() { PA = IPHLPAPI.oregister_icmp; runASM(); }
 }
 
 void setupFunctions() {
-	dbghelp.oDbgHelpCreateUserDump = GetProcAddress(dbghelp.dll, "DbgHelpCreateUserDump");
-	dbghelp.oDbgHelpCreateUserDumpW = GetProcAddress(dbghelp.dll, "DbgHelpCreateUserDumpW");
-	dbghelp.oEnumDirTree = GetProcAddress(dbghelp.dll, "EnumDirTree");
-	dbghelp.oEnumDirTreeW = GetProcAddress(dbghelp.dll, "EnumDirTreeW");
-	dbghelp.oEnumerateLoadedModules = GetProcAddress(dbghelp.dll, "EnumerateLoadedModules");
-	dbghelp.oEnumerateLoadedModules64 = GetProcAddress(dbghelp.dll, "EnumerateLoadedModules64");
-	dbghelp.oEnumerateLoadedModulesEx = GetProcAddress(dbghelp.dll, "EnumerateLoadedModulesEx");
-	dbghelp.oEnumerateLoadedModulesExW = GetProcAddress(dbghelp.dll, "EnumerateLoadedModulesExW");
-	dbghelp.oEnumerateLoadedModulesW64 = GetProcAddress(dbghelp.dll, "EnumerateLoadedModulesW64");
-	dbghelp.oExtensionApiVersion = GetProcAddress(dbghelp.dll, "ExtensionApiVersion");
-	dbghelp.oFindDebugInfoFile = GetProcAddress(dbghelp.dll, "FindDebugInfoFile");
-	dbghelp.oFindDebugInfoFileEx = GetProcAddress(dbghelp.dll, "FindDebugInfoFileEx");
-	dbghelp.oFindDebugInfoFileExW = GetProcAddress(dbghelp.dll, "FindDebugInfoFileExW");
-	dbghelp.oFindExecutableImage = GetProcAddress(dbghelp.dll, "FindExecutableImage");
-	dbghelp.oFindExecutableImageEx = GetProcAddress(dbghelp.dll, "FindExecutableImageEx");
-	dbghelp.oFindExecutableImageExW = GetProcAddress(dbghelp.dll, "FindExecutableImageExW");
-	dbghelp.oFindFileInPath = GetProcAddress(dbghelp.dll, "FindFileInPath");
-	dbghelp.oFindFileInSearchPath = GetProcAddress(dbghelp.dll, "FindFileInSearchPath");
-	dbghelp.oGetSymLoadError = GetProcAddress(dbghelp.dll, "GetSymLoadError");
-	dbghelp.oGetTimestampForLoadedLibrary = GetProcAddress(dbghelp.dll, "GetTimestampForLoadedLibrary");
-	dbghelp.oImageDirectoryEntryToData = GetProcAddress(dbghelp.dll, "ImageDirectoryEntryToData");
-	dbghelp.oImageDirectoryEntryToDataEx = GetProcAddress(dbghelp.dll, "ImageDirectoryEntryToDataEx");
-	dbghelp.oImageNtHeader = GetProcAddress(dbghelp.dll, "ImageNtHeader");
-	dbghelp.oImageRvaToSection = GetProcAddress(dbghelp.dll, "ImageRvaToSection");
-	dbghelp.oImageRvaToVa = GetProcAddress(dbghelp.dll, "ImageRvaToVa");
-	dbghelp.oImagehlpApiVersion = GetProcAddress(dbghelp.dll, "ImagehlpApiVersion");
-	dbghelp.oImagehlpApiVersionEx = GetProcAddress(dbghelp.dll, "ImagehlpApiVersionEx");
-	dbghelp.oMakeSureDirectoryPathExists = GetProcAddress(dbghelp.dll, "MakeSureDirectoryPathExists");
-	dbghelp.oMiniDumpReadDumpStream = GetProcAddress(dbghelp.dll, "MiniDumpReadDumpStream");
-	dbghelp.oMiniDumpWriteDump = GetProcAddress(dbghelp.dll, "MiniDumpWriteDump");
-	dbghelp.oRangeMapAddPeImageSections = GetProcAddress(dbghelp.dll, "RangeMapAddPeImageSections");
-	dbghelp.oRangeMapCreate = GetProcAddress(dbghelp.dll, "RangeMapCreate");
-	dbghelp.oRangeMapFree = GetProcAddress(dbghelp.dll, "RangeMapFree");
-	dbghelp.oRangeMapRead = GetProcAddress(dbghelp.dll, "RangeMapRead");
-	dbghelp.oRangeMapRemove = GetProcAddress(dbghelp.dll, "RangeMapRemove");
-	dbghelp.oRangeMapWrite = GetProcAddress(dbghelp.dll, "RangeMapWrite");
-	dbghelp.oRemoveInvalidModuleList = GetProcAddress(dbghelp.dll, "RemoveInvalidModuleList");
-	dbghelp.oReportSymbolLoadSummary = GetProcAddress(dbghelp.dll, "ReportSymbolLoadSummary");
-	dbghelp.oSearchTreeForFile = GetProcAddress(dbghelp.dll, "SearchTreeForFile");
-	dbghelp.oSearchTreeForFileW = GetProcAddress(dbghelp.dll, "SearchTreeForFileW");
-	dbghelp.oSetCheckUserInterruptShared = GetProcAddress(dbghelp.dll, "SetCheckUserInterruptShared");
-	dbghelp.oSetSymLoadError = GetProcAddress(dbghelp.dll, "SetSymLoadError");
-	dbghelp.oStackWalk = GetProcAddress(dbghelp.dll, "StackWalk");
-	dbghelp.oStackWalk64 = GetProcAddress(dbghelp.dll, "StackWalk64");
-	dbghelp.oStackWalkEx = GetProcAddress(dbghelp.dll, "StackWalkEx");
-	dbghelp.oSymAddSourceStream = GetProcAddress(dbghelp.dll, "SymAddSourceStream");
-	dbghelp.oSymAddSourceStreamA = GetProcAddress(dbghelp.dll, "SymAddSourceStreamA");
-	dbghelp.oSymAddSourceStreamW = GetProcAddress(dbghelp.dll, "SymAddSourceStreamW");
-	dbghelp.oSymAddSymbol = GetProcAddress(dbghelp.dll, "SymAddSymbol");
-	dbghelp.oSymAddSymbolW = GetProcAddress(dbghelp.dll, "SymAddSymbolW");
-	dbghelp.oSymAddrIncludeInlineTrace = GetProcAddress(dbghelp.dll, "SymAddrIncludeInlineTrace");
-	dbghelp.oSymAllocDiaString = GetProcAddress(dbghelp.dll, "SymAllocDiaString");
-	dbghelp.oSymCleanup = GetProcAddress(dbghelp.dll, "SymCleanup");
-	dbghelp.oSymCompareInlineTrace = GetProcAddress(dbghelp.dll, "SymCompareInlineTrace");
-	dbghelp.oSymDeleteSymbol = GetProcAddress(dbghelp.dll, "SymDeleteSymbol");
-	dbghelp.oSymDeleteSymbolW = GetProcAddress(dbghelp.dll, "SymDeleteSymbolW");
-	dbghelp.oSymEnumLines = GetProcAddress(dbghelp.dll, "SymEnumLines");
-	dbghelp.oSymEnumLinesW = GetProcAddress(dbghelp.dll, "SymEnumLinesW");
-	dbghelp.oSymEnumProcesses = GetProcAddress(dbghelp.dll, "SymEnumProcesses");
-	dbghelp.oSymEnumSourceFileTokens = GetProcAddress(dbghelp.dll, "SymEnumSourceFileTokens");
-	dbghelp.oSymEnumSourceFiles = GetProcAddress(dbghelp.dll, "SymEnumSourceFiles");
-	dbghelp.oSymEnumSourceFilesW = GetProcAddress(dbghelp.dll, "SymEnumSourceFilesW");
-	dbghelp.oSymEnumSourceLines = GetProcAddress(dbghelp.dll, "SymEnumSourceLines");
-	dbghelp.oSymEnumSourceLinesW = GetProcAddress(dbghelp.dll, "SymEnumSourceLinesW");
-	dbghelp.oSymEnumSym = GetProcAddress(dbghelp.dll, "SymEnumSym");
-	dbghelp.oSymEnumSymbols = GetProcAddress(dbghelp.dll, "SymEnumSymbols");
-	dbghelp.oSymEnumSymbolsEx = GetProcAddress(dbghelp.dll, "SymEnumSymbolsEx");
-	dbghelp.oSymEnumSymbolsExW = GetProcAddress(dbghelp.dll, "SymEnumSymbolsExW");
-	dbghelp.oSymEnumSymbolsForAddr = GetProcAddress(dbghelp.dll, "SymEnumSymbolsForAddr");
-	dbghelp.oSymEnumSymbolsForAddrW = GetProcAddress(dbghelp.dll, "SymEnumSymbolsForAddrW");
-	dbghelp.oSymEnumSymbolsW = GetProcAddress(dbghelp.dll, "SymEnumSymbolsW");
-	dbghelp.oSymEnumTypes = GetProcAddress(dbghelp.dll, "SymEnumTypes");
-	dbghelp.oSymEnumTypesByName = GetProcAddress(dbghelp.dll, "SymEnumTypesByName");
-	dbghelp.oSymEnumTypesByNameW = GetProcAddress(dbghelp.dll, "SymEnumTypesByNameW");
-	dbghelp.oSymEnumTypesW = GetProcAddress(dbghelp.dll, "SymEnumTypesW");
-	dbghelp.oSymEnumerateModules = GetProcAddress(dbghelp.dll, "SymEnumerateModules");
-	dbghelp.oSymEnumerateModules64 = GetProcAddress(dbghelp.dll, "SymEnumerateModules64");
-	dbghelp.oSymEnumerateModulesW64 = GetProcAddress(dbghelp.dll, "SymEnumerateModulesW64");
-	dbghelp.oSymEnumerateSymbols = GetProcAddress(dbghelp.dll, "SymEnumerateSymbols");
-	dbghelp.oSymEnumerateSymbols64 = GetProcAddress(dbghelp.dll, "SymEnumerateSymbols64");
-	dbghelp.oSymEnumerateSymbolsW = GetProcAddress(dbghelp.dll, "SymEnumerateSymbolsW");
-	dbghelp.oSymEnumerateSymbolsW64 = GetProcAddress(dbghelp.dll, "SymEnumerateSymbolsW64");
-	dbghelp.oSymFindDebugInfoFile = GetProcAddress(dbghelp.dll, "SymFindDebugInfoFile");
-	dbghelp.oSymFindDebugInfoFileW = GetProcAddress(dbghelp.dll, "SymFindDebugInfoFileW");
-	dbghelp.oSymFindExecutableImage = GetProcAddress(dbghelp.dll, "SymFindExecutableImage");
-	dbghelp.oSymFindExecutableImageW = GetProcAddress(dbghelp.dll, "SymFindExecutableImageW");
-	dbghelp.oSymFindFileInPath = GetProcAddress(dbghelp.dll, "SymFindFileInPath");
-	dbghelp.oSymFindFileInPathW = GetProcAddress(dbghelp.dll, "SymFindFileInPathW");
-	dbghelp.oSymFreeDiaString = GetProcAddress(dbghelp.dll, "SymFreeDiaString");
-	dbghelp.oSymFromAddr = GetProcAddress(dbghelp.dll, "SymFromAddr");
-	dbghelp.oSymFromAddrW = GetProcAddress(dbghelp.dll, "SymFromAddrW");
-	dbghelp.oSymFromIndex = GetProcAddress(dbghelp.dll, "SymFromIndex");
-	dbghelp.oSymFromIndexW = GetProcAddress(dbghelp.dll, "SymFromIndexW");
-	dbghelp.oSymFromInlineContext = GetProcAddress(dbghelp.dll, "SymFromInlineContext");
-	dbghelp.oSymFromInlineContextW = GetProcAddress(dbghelp.dll, "SymFromInlineContextW");
-	dbghelp.oSymFromName = GetProcAddress(dbghelp.dll, "SymFromName");
-	dbghelp.oSymFromNameW = GetProcAddress(dbghelp.dll, "SymFromNameW");
-	dbghelp.oSymFromToken = GetProcAddress(dbghelp.dll, "SymFromToken");
-	dbghelp.oSymFromTokenW = GetProcAddress(dbghelp.dll, "SymFromTokenW");
-	dbghelp.oSymFunctionTableAccess = GetProcAddress(dbghelp.dll, "SymFunctionTableAccess");
-	dbghelp.oSymFunctionTableAccess64 = GetProcAddress(dbghelp.dll, "SymFunctionTableAccess64");
-	dbghelp.oSymFunctionTableAccess64AccessRoutines = GetProcAddress(dbghelp.dll, "SymFunctionTableAccess64AccessRoutines");
-	dbghelp.oSymGetDiaSession = GetProcAddress(dbghelp.dll, "SymGetDiaSession");
-	dbghelp.oSymGetExtendedOption = GetProcAddress(dbghelp.dll, "SymGetExtendedOption");
-	dbghelp.oSymGetFileLineOffsets64 = GetProcAddress(dbghelp.dll, "SymGetFileLineOffsets64");
-	dbghelp.oSymGetHomeDirectory = GetProcAddress(dbghelp.dll, "SymGetHomeDirectory");
-	dbghelp.oSymGetHomeDirectoryW = GetProcAddress(dbghelp.dll, "SymGetHomeDirectoryW");
-	dbghelp.oSymGetLineFromAddr = GetProcAddress(dbghelp.dll, "SymGetLineFromAddr");
-	dbghelp.oSymGetLineFromAddr64 = GetProcAddress(dbghelp.dll, "SymGetLineFromAddr64");
-	dbghelp.oSymGetLineFromAddrEx = GetProcAddress(dbghelp.dll, "SymGetLineFromAddrEx");
-	dbghelp.oSymGetLineFromAddrW64 = GetProcAddress(dbghelp.dll, "SymGetLineFromAddrW64");
-	dbghelp.oSymGetLineFromInlineContext = GetProcAddress(dbghelp.dll, "SymGetLineFromInlineContext");
-	dbghelp.oSymGetLineFromInlineContextW = GetProcAddress(dbghelp.dll, "SymGetLineFromInlineContextW");
-	dbghelp.oSymGetLineFromName = GetProcAddress(dbghelp.dll, "SymGetLineFromName");
-	dbghelp.oSymGetLineFromName64 = GetProcAddress(dbghelp.dll, "SymGetLineFromName64");
-	dbghelp.oSymGetLineFromNameEx = GetProcAddress(dbghelp.dll, "SymGetLineFromNameEx");
-	dbghelp.oSymGetLineFromNameW64 = GetProcAddress(dbghelp.dll, "SymGetLineFromNameW64");
-	dbghelp.oSymGetLineNext = GetProcAddress(dbghelp.dll, "SymGetLineNext");
-	dbghelp.oSymGetLineNext64 = GetProcAddress(dbghelp.dll, "SymGetLineNext64");
-	dbghelp.oSymGetLineNextEx = GetProcAddress(dbghelp.dll, "SymGetLineNextEx");
-	dbghelp.oSymGetLineNextW64 = GetProcAddress(dbghelp.dll, "SymGetLineNextW64");
-	dbghelp.oSymGetLinePrev = GetProcAddress(dbghelp.dll, "SymGetLinePrev");
-	dbghelp.oSymGetLinePrev64 = GetProcAddress(dbghelp.dll, "SymGetLinePrev64");
-	dbghelp.oSymGetLinePrevEx = GetProcAddress(dbghelp.dll, "SymGetLinePrevEx");
-	dbghelp.oSymGetLinePrevW64 = GetProcAddress(dbghelp.dll, "SymGetLinePrevW64");
-	dbghelp.oSymGetModuleBase = GetProcAddress(dbghelp.dll, "SymGetModuleBase");
-	dbghelp.oSymGetModuleBase64 = GetProcAddress(dbghelp.dll, "SymGetModuleBase64");
-	dbghelp.oSymGetModuleInfo = GetProcAddress(dbghelp.dll, "SymGetModuleInfo");
-	dbghelp.oSymGetModuleInfo64 = GetProcAddress(dbghelp.dll, "SymGetModuleInfo64");
-	dbghelp.oSymGetModuleInfoW = GetProcAddress(dbghelp.dll, "SymGetModuleInfoW");
-	dbghelp.oSymGetModuleInfoW64 = GetProcAddress(dbghelp.dll, "SymGetModuleInfoW64");
-	dbghelp.oSymGetOmapBlockBase = GetProcAddress(dbghelp.dll, "SymGetOmapBlockBase");
-	dbghelp.oSymGetOmaps = GetProcAddress(dbghelp.dll, "SymGetOmaps");
-	dbghelp.oSymGetOptions = GetProcAddress(dbghelp.dll, "SymGetOptions");
-	dbghelp.oSymGetScope = GetProcAddress(dbghelp.dll, "SymGetScope");
-	dbghelp.oSymGetScopeW = GetProcAddress(dbghelp.dll, "SymGetScopeW");
-	dbghelp.oSymGetSearchPath = GetProcAddress(dbghelp.dll, "SymGetSearchPath");
-	dbghelp.oSymGetSearchPathW = GetProcAddress(dbghelp.dll, "SymGetSearchPathW");
-	dbghelp.oSymGetSourceFile = GetProcAddress(dbghelp.dll, "SymGetSourceFile");
-	dbghelp.oSymGetSourceFileChecksum = GetProcAddress(dbghelp.dll, "SymGetSourceFileChecksum");
-	dbghelp.oSymGetSourceFileChecksumW = GetProcAddress(dbghelp.dll, "SymGetSourceFileChecksumW");
-	dbghelp.oSymGetSourceFileFromToken = GetProcAddress(dbghelp.dll, "SymGetSourceFileFromToken");
-	dbghelp.oSymGetSourceFileFromTokenW = GetProcAddress(dbghelp.dll, "SymGetSourceFileFromTokenW");
-	dbghelp.oSymGetSourceFileToken = GetProcAddress(dbghelp.dll, "SymGetSourceFileToken");
-	dbghelp.oSymGetSourceFileTokenW = GetProcAddress(dbghelp.dll, "SymGetSourceFileTokenW");
-	dbghelp.oSymGetSourceFileW = GetProcAddress(dbghelp.dll, "SymGetSourceFileW");
-	dbghelp.oSymGetSourceVarFromToken = GetProcAddress(dbghelp.dll, "SymGetSourceVarFromToken");
-	dbghelp.oSymGetSourceVarFromTokenW = GetProcAddress(dbghelp.dll, "SymGetSourceVarFromTokenW");
-	dbghelp.oSymGetSymFromAddr = GetProcAddress(dbghelp.dll, "SymGetSymFromAddr");
-	dbghelp.oSymGetSymFromAddr64 = GetProcAddress(dbghelp.dll, "SymGetSymFromAddr64");
-	dbghelp.oSymGetSymFromName = GetProcAddress(dbghelp.dll, "SymGetSymFromName");
-	dbghelp.oSymGetSymFromName64 = GetProcAddress(dbghelp.dll, "SymGetSymFromName64");
-	dbghelp.oSymGetSymNext = GetProcAddress(dbghelp.dll, "SymGetSymNext");
-	dbghelp.oSymGetSymNext64 = GetProcAddress(dbghelp.dll, "SymGetSymNext64");
-	dbghelp.oSymGetSymPrev = GetProcAddress(dbghelp.dll, "SymGetSymPrev");
-	dbghelp.oSymGetSymPrev64 = GetProcAddress(dbghelp.dll, "SymGetSymPrev64");
-	dbghelp.oSymGetSymbolFile = GetProcAddress(dbghelp.dll, "SymGetSymbolFile");
-	dbghelp.oSymGetSymbolFileW = GetProcAddress(dbghelp.dll, "SymGetSymbolFileW");
-	dbghelp.oSymGetTypeFromName = GetProcAddress(dbghelp.dll, "SymGetTypeFromName");
-	dbghelp.oSymGetTypeFromNameW = GetProcAddress(dbghelp.dll, "SymGetTypeFromNameW");
-	dbghelp.oSymGetTypeInfo = GetProcAddress(dbghelp.dll, "SymGetTypeInfo");
-	dbghelp.oSymGetTypeInfoEx = GetProcAddress(dbghelp.dll, "SymGetTypeInfoEx");
-	dbghelp.oSymGetUnwindInfo = GetProcAddress(dbghelp.dll, "SymGetUnwindInfo");
-	dbghelp.oSymInitialize = GetProcAddress(dbghelp.dll, "SymInitialize");
-	dbghelp.oSymInitializeW = GetProcAddress(dbghelp.dll, "SymInitializeW");
-	dbghelp.oSymLoadModule = GetProcAddress(dbghelp.dll, "SymLoadModule");
-	dbghelp.oSymLoadModule64 = GetProcAddress(dbghelp.dll, "SymLoadModule64");
-	dbghelp.oSymLoadModuleEx = GetProcAddress(dbghelp.dll, "SymLoadModuleEx");
-	dbghelp.oSymLoadModuleExW = GetProcAddress(dbghelp.dll, "SymLoadModuleExW");
-	dbghelp.oSymMatchFileName = GetProcAddress(dbghelp.dll, "SymMatchFileName");
-	dbghelp.oSymMatchFileNameW = GetProcAddress(dbghelp.dll, "SymMatchFileNameW");
-	dbghelp.oSymMatchString = GetProcAddress(dbghelp.dll, "SymMatchString");
-	dbghelp.oSymMatchStringA = GetProcAddress(dbghelp.dll, "SymMatchStringA");
-	dbghelp.oSymMatchStringW = GetProcAddress(dbghelp.dll, "SymMatchStringW");
-	dbghelp.oSymNext = GetProcAddress(dbghelp.dll, "SymNext");
-	dbghelp.oSymNextW = GetProcAddress(dbghelp.dll, "SymNextW");
-	dbghelp.oSymPrev = GetProcAddress(dbghelp.dll, "SymPrev");
-	dbghelp.oSymPrevW = GetProcAddress(dbghelp.dll, "SymPrevW");
-	dbghelp.oSymQueryInlineTrace = GetProcAddress(dbghelp.dll, "SymQueryInlineTrace");
-	dbghelp.oSymRefreshModuleList = GetProcAddress(dbghelp.dll, "SymRefreshModuleList");
-	dbghelp.oSymRegisterCallback = GetProcAddress(dbghelp.dll, "SymRegisterCallback");
-	dbghelp.oSymRegisterCallback64 = GetProcAddress(dbghelp.dll, "SymRegisterCallback64");
-	dbghelp.oSymRegisterCallbackW64 = GetProcAddress(dbghelp.dll, "SymRegisterCallbackW64");
-	dbghelp.oSymRegisterFunctionEntryCallback = GetProcAddress(dbghelp.dll, "SymRegisterFunctionEntryCallback");
-	dbghelp.oSymRegisterFunctionEntryCallback64 = GetProcAddress(dbghelp.dll, "SymRegisterFunctionEntryCallback64");
-	dbghelp.oSymSearch = GetProcAddress(dbghelp.dll, "SymSearch");
-	dbghelp.oSymSearchW = GetProcAddress(dbghelp.dll, "SymSearchW");
-	dbghelp.oSymSetContext = GetProcAddress(dbghelp.dll, "SymSetContext");
-	dbghelp.oSymSetDiaSession = GetProcAddress(dbghelp.dll, "SymSetDiaSession");
-	dbghelp.oSymSetExtendedOption = GetProcAddress(dbghelp.dll, "SymSetExtendedOption");
-	dbghelp.oSymSetHomeDirectory = GetProcAddress(dbghelp.dll, "SymSetHomeDirectory");
-	dbghelp.oSymSetHomeDirectoryW = GetProcAddress(dbghelp.dll, "SymSetHomeDirectoryW");
-	dbghelp.oSymSetOptions = GetProcAddress(dbghelp.dll, "SymSetOptions");
-	dbghelp.oSymSetParentWindow = GetProcAddress(dbghelp.dll, "SymSetParentWindow");
-	dbghelp.oSymSetScopeFromAddr = GetProcAddress(dbghelp.dll, "SymSetScopeFromAddr");
-	dbghelp.oSymSetScopeFromIndex = GetProcAddress(dbghelp.dll, "SymSetScopeFromIndex");
-	dbghelp.oSymSetScopeFromInlineContext = GetProcAddress(dbghelp.dll, "SymSetScopeFromInlineContext");
-	dbghelp.oSymSetSearchPath = GetProcAddress(dbghelp.dll, "SymSetSearchPath");
-	dbghelp.oSymSetSearchPathW = GetProcAddress(dbghelp.dll, "SymSetSearchPathW");
-	dbghelp.oSymSrvDeltaName = GetProcAddress(dbghelp.dll, "SymSrvDeltaName");
-	dbghelp.oSymSrvDeltaNameW = GetProcAddress(dbghelp.dll, "SymSrvDeltaNameW");
-	dbghelp.oSymSrvGetFileIndexInfo = GetProcAddress(dbghelp.dll, "SymSrvGetFileIndexInfo");
-	dbghelp.oSymSrvGetFileIndexInfoW = GetProcAddress(dbghelp.dll, "SymSrvGetFileIndexInfoW");
-	dbghelp.oSymSrvGetFileIndexString = GetProcAddress(dbghelp.dll, "SymSrvGetFileIndexString");
-	dbghelp.oSymSrvGetFileIndexStringW = GetProcAddress(dbghelp.dll, "SymSrvGetFileIndexStringW");
-	dbghelp.oSymSrvGetFileIndexes = GetProcAddress(dbghelp.dll, "SymSrvGetFileIndexes");
-	dbghelp.oSymSrvGetFileIndexesW = GetProcAddress(dbghelp.dll, "SymSrvGetFileIndexesW");
-	dbghelp.oSymSrvGetSupplement = GetProcAddress(dbghelp.dll, "SymSrvGetSupplement");
-	dbghelp.oSymSrvGetSupplementW = GetProcAddress(dbghelp.dll, "SymSrvGetSupplementW");
-	dbghelp.oSymSrvIsStore = GetProcAddress(dbghelp.dll, "SymSrvIsStore");
-	dbghelp.oSymSrvIsStoreW = GetProcAddress(dbghelp.dll, "SymSrvIsStoreW");
-	dbghelp.oSymSrvStoreFile = GetProcAddress(dbghelp.dll, "SymSrvStoreFile");
-	dbghelp.oSymSrvStoreFileW = GetProcAddress(dbghelp.dll, "SymSrvStoreFileW");
-	dbghelp.oSymSrvStoreSupplement = GetProcAddress(dbghelp.dll, "SymSrvStoreSupplement");
-	dbghelp.oSymSrvStoreSupplementW = GetProcAddress(dbghelp.dll, "SymSrvStoreSupplementW");
-	dbghelp.oSymUnDName = GetProcAddress(dbghelp.dll, "SymUnDName");
-	dbghelp.oSymUnDName64 = GetProcAddress(dbghelp.dll, "SymUnDName64");
-	dbghelp.oSymUnloadModule = GetProcAddress(dbghelp.dll, "SymUnloadModule");
-	dbghelp.oSymUnloadModule64 = GetProcAddress(dbghelp.dll, "SymUnloadModule64");
-	dbghelp.oUnDecorateSymbolName = GetProcAddress(dbghelp.dll, "UnDecorateSymbolName");
-	dbghelp.oUnDecorateSymbolNameW = GetProcAddress(dbghelp.dll, "UnDecorateSymbolNameW");
-	dbghelp.oWinDbgExtensionDllInit = GetProcAddress(dbghelp.dll, "WinDbgExtensionDllInit");
-	dbghelp.o_EFN_DumpImage = GetProcAddress(dbghelp.dll, "_EFN_DumpImage");
-	dbghelp.oblock = GetProcAddress(dbghelp.dll, "block");
-	dbghelp.ochksym = GetProcAddress(dbghelp.dll, "chksym");
-	dbghelp.odbghelp = GetProcAddress(dbghelp.dll, "dbghelp");
-	dbghelp.odh = GetProcAddress(dbghelp.dll, "dh");
-	dbghelp.ofptr = GetProcAddress(dbghelp.dll, "fptr");
-	dbghelp.ohomedir = GetProcAddress(dbghelp.dll, "homedir");
-	dbghelp.oinlinedbg = GetProcAddress(dbghelp.dll, "inlinedbg");
-	dbghelp.oitoldyouso = GetProcAddress(dbghelp.dll, "itoldyouso");
-	dbghelp.olmi = GetProcAddress(dbghelp.dll, "lmi");
-	dbghelp.olminfo = GetProcAddress(dbghelp.dll, "lminfo");
-	dbghelp.oomap = GetProcAddress(dbghelp.dll, "omap");
-	dbghelp.ooptdbgdump = GetProcAddress(dbghelp.dll, "optdbgdump");
-	dbghelp.ooptdbgdumpaddr = GetProcAddress(dbghelp.dll, "optdbgdumpaddr");
-	dbghelp.osrcfiles = GetProcAddress(dbghelp.dll, "srcfiles");
-	dbghelp.ostack_force_ebp = GetProcAddress(dbghelp.dll, "stack_force_ebp");
-	dbghelp.ostackdbg = GetProcAddress(dbghelp.dll, "stackdbg");
-	dbghelp.osym = GetProcAddress(dbghelp.dll, "sym");
-	dbghelp.osymsrv = GetProcAddress(dbghelp.dll, "symsrv");
-	dbghelp.ovc7fpo = GetProcAddress(dbghelp.dll, "vc7fpo");
+	IPHLPAPI.oAddIPAddress = GetProcAddress(IPHLPAPI.dll, "AddIPAddress");
+	IPHLPAPI.oAllocateAndGetInterfaceInfoFromStack = GetProcAddress(IPHLPAPI.dll, "AllocateAndGetInterfaceInfoFromStack");
+	IPHLPAPI.oAllocateAndGetIpAddrTableFromStack = GetProcAddress(IPHLPAPI.dll, "AllocateAndGetIpAddrTableFromStack");
+	IPHLPAPI.oCancelIPChangeNotify = GetProcAddress(IPHLPAPI.dll, "CancelIPChangeNotify");
+	IPHLPAPI.oCancelIfTimestampConfigChange = GetProcAddress(IPHLPAPI.dll, "CancelIfTimestampConfigChange");
+	IPHLPAPI.oCancelMibChangeNotify2 = GetProcAddress(IPHLPAPI.dll, "CancelMibChangeNotify2");
+	IPHLPAPI.oCaptureInterfaceHardwareCrossTimestamp = GetProcAddress(IPHLPAPI.dll, "CaptureInterfaceHardwareCrossTimestamp");
+	IPHLPAPI.oCloseCompartment = GetProcAddress(IPHLPAPI.dll, "CloseCompartment");
+	IPHLPAPI.oCloseGetIPPhysicalInterfaceForDestination = GetProcAddress(IPHLPAPI.dll, "CloseGetIPPhysicalInterfaceForDestination");
+	IPHLPAPI.oConvertCompartmentGuidToId = GetProcAddress(IPHLPAPI.dll, "ConvertCompartmentGuidToId");
+	IPHLPAPI.oConvertCompartmentIdToGuid = GetProcAddress(IPHLPAPI.dll, "ConvertCompartmentIdToGuid");
+	IPHLPAPI.oConvertGuidToStringA = GetProcAddress(IPHLPAPI.dll, "ConvertGuidToStringA");
+	IPHLPAPI.oConvertGuidToStringW = GetProcAddress(IPHLPAPI.dll, "ConvertGuidToStringW");
+	IPHLPAPI.oConvertInterfaceAliasToLuid = GetProcAddress(IPHLPAPI.dll, "ConvertInterfaceAliasToLuid");
+	IPHLPAPI.oConvertInterfaceGuidToLuid = GetProcAddress(IPHLPAPI.dll, "ConvertInterfaceGuidToLuid");
+	IPHLPAPI.oConvertInterfaceIndexToLuid = GetProcAddress(IPHLPAPI.dll, "ConvertInterfaceIndexToLuid");
+	IPHLPAPI.oConvertInterfaceLuidToAlias = GetProcAddress(IPHLPAPI.dll, "ConvertInterfaceLuidToAlias");
+	IPHLPAPI.oConvertInterfaceLuidToGuid = GetProcAddress(IPHLPAPI.dll, "ConvertInterfaceLuidToGuid");
+	IPHLPAPI.oConvertInterfaceLuidToIndex = GetProcAddress(IPHLPAPI.dll, "ConvertInterfaceLuidToIndex");
+	IPHLPAPI.oConvertInterfaceLuidToNameA = GetProcAddress(IPHLPAPI.dll, "ConvertInterfaceLuidToNameA");
+	IPHLPAPI.oConvertInterfaceLuidToNameW = GetProcAddress(IPHLPAPI.dll, "ConvertInterfaceLuidToNameW");
+	IPHLPAPI.oConvertInterfaceNameToLuidA = GetProcAddress(IPHLPAPI.dll, "ConvertInterfaceNameToLuidA");
+	IPHLPAPI.oConvertInterfaceNameToLuidW = GetProcAddress(IPHLPAPI.dll, "ConvertInterfaceNameToLuidW");
+	IPHLPAPI.oConvertInterfacePhysicalAddressToLuid = GetProcAddress(IPHLPAPI.dll, "ConvertInterfacePhysicalAddressToLuid");
+	IPHLPAPI.oConvertIpv4MaskToLength = GetProcAddress(IPHLPAPI.dll, "ConvertIpv4MaskToLength");
+	IPHLPAPI.oConvertLengthToIpv4Mask = GetProcAddress(IPHLPAPI.dll, "ConvertLengthToIpv4Mask");
+	IPHLPAPI.oConvertRemoteInterfaceAliasToLuid = GetProcAddress(IPHLPAPI.dll, "ConvertRemoteInterfaceAliasToLuid");
+	IPHLPAPI.oConvertRemoteInterfaceGuidToLuid = GetProcAddress(IPHLPAPI.dll, "ConvertRemoteInterfaceGuidToLuid");
+	IPHLPAPI.oConvertRemoteInterfaceIndexToLuid = GetProcAddress(IPHLPAPI.dll, "ConvertRemoteInterfaceIndexToLuid");
+	IPHLPAPI.oConvertRemoteInterfaceLuidToAlias = GetProcAddress(IPHLPAPI.dll, "ConvertRemoteInterfaceLuidToAlias");
+	IPHLPAPI.oConvertRemoteInterfaceLuidToGuid = GetProcAddress(IPHLPAPI.dll, "ConvertRemoteInterfaceLuidToGuid");
+	IPHLPAPI.oConvertRemoteInterfaceLuidToIndex = GetProcAddress(IPHLPAPI.dll, "ConvertRemoteInterfaceLuidToIndex");
+	IPHLPAPI.oConvertStringToGuidA = GetProcAddress(IPHLPAPI.dll, "ConvertStringToGuidA");
+	IPHLPAPI.oConvertStringToGuidW = GetProcAddress(IPHLPAPI.dll, "ConvertStringToGuidW");
+	IPHLPAPI.oConvertStringToInterfacePhysicalAddress = GetProcAddress(IPHLPAPI.dll, "ConvertStringToInterfacePhysicalAddress");
+	IPHLPAPI.oCreateAnycastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "CreateAnycastIpAddressEntry");
+	IPHLPAPI.oCreateCompartment = GetProcAddress(IPHLPAPI.dll, "CreateCompartment");
+	IPHLPAPI.oCreateIpForwardEntry = GetProcAddress(IPHLPAPI.dll, "CreateIpForwardEntry");
+	IPHLPAPI.oCreateIpForwardEntry2 = GetProcAddress(IPHLPAPI.dll, "CreateIpForwardEntry2");
+	IPHLPAPI.oCreateIpNetEntry = GetProcAddress(IPHLPAPI.dll, "CreateIpNetEntry");
+	IPHLPAPI.oCreateIpNetEntry2 = GetProcAddress(IPHLPAPI.dll, "CreateIpNetEntry2");
+	IPHLPAPI.oCreatePersistentTcpPortReservation = GetProcAddress(IPHLPAPI.dll, "CreatePersistentTcpPortReservation");
+	IPHLPAPI.oCreatePersistentUdpPortReservation = GetProcAddress(IPHLPAPI.dll, "CreatePersistentUdpPortReservation");
+	IPHLPAPI.oCreateProxyArpEntry = GetProcAddress(IPHLPAPI.dll, "CreateProxyArpEntry");
+	IPHLPAPI.oCreateSortedAddressPairs = GetProcAddress(IPHLPAPI.dll, "CreateSortedAddressPairs");
+	IPHLPAPI.oCreateUnicastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "CreateUnicastIpAddressEntry");
+	IPHLPAPI.oDeleteAnycastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "DeleteAnycastIpAddressEntry");
+	IPHLPAPI.oDeleteCompartment = GetProcAddress(IPHLPAPI.dll, "DeleteCompartment");
+	IPHLPAPI.oDeleteIPAddress = GetProcAddress(IPHLPAPI.dll, "DeleteIPAddress");
+	IPHLPAPI.oDeleteIpForwardEntry = GetProcAddress(IPHLPAPI.dll, "DeleteIpForwardEntry");
+	IPHLPAPI.oDeleteIpForwardEntry2 = GetProcAddress(IPHLPAPI.dll, "DeleteIpForwardEntry2");
+	IPHLPAPI.oDeleteIpNetEntry = GetProcAddress(IPHLPAPI.dll, "DeleteIpNetEntry");
+	IPHLPAPI.oDeleteIpNetEntry2 = GetProcAddress(IPHLPAPI.dll, "DeleteIpNetEntry2");
+	IPHLPAPI.oDeletePersistentTcpPortReservation = GetProcAddress(IPHLPAPI.dll, "DeletePersistentTcpPortReservation");
+	IPHLPAPI.oDeletePersistentUdpPortReservation = GetProcAddress(IPHLPAPI.dll, "DeletePersistentUdpPortReservation");
+	IPHLPAPI.oDeleteProxyArpEntry = GetProcAddress(IPHLPAPI.dll, "DeleteProxyArpEntry");
+	IPHLPAPI.oDeleteUnicastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "DeleteUnicastIpAddressEntry");
+	IPHLPAPI.oDisableMediaSense = GetProcAddress(IPHLPAPI.dll, "DisableMediaSense");
+	IPHLPAPI.oEnableRouter = GetProcAddress(IPHLPAPI.dll, "EnableRouter");
+	IPHLPAPI.oFlushIpNetTable = GetProcAddress(IPHLPAPI.dll, "FlushIpNetTable");
+	IPHLPAPI.oFlushIpNetTable2 = GetProcAddress(IPHLPAPI.dll, "FlushIpNetTable2");
+	IPHLPAPI.oFlushIpPathTable = GetProcAddress(IPHLPAPI.dll, "FlushIpPathTable");
+	IPHLPAPI.oFreeDnsSettings = GetProcAddress(IPHLPAPI.dll, "FreeDnsSettings");
+	IPHLPAPI.oFreeInterfaceDnsSettings = GetProcAddress(IPHLPAPI.dll, "FreeInterfaceDnsSettings");
+	IPHLPAPI.oFreeMibTable = GetProcAddress(IPHLPAPI.dll, "FreeMibTable");
+	IPHLPAPI.oGetAdapterIndex = GetProcAddress(IPHLPAPI.dll, "GetAdapterIndex");
+	IPHLPAPI.oGetAdapterOrderMap = GetProcAddress(IPHLPAPI.dll, "GetAdapterOrderMap");
+	IPHLPAPI.oGetAdaptersAddresses = GetProcAddress(IPHLPAPI.dll, "GetAdaptersAddresses");
+	IPHLPAPI.oGetAdaptersInfo = GetProcAddress(IPHLPAPI.dll, "GetAdaptersInfo");
+	IPHLPAPI.oGetAnycastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "GetAnycastIpAddressEntry");
+	IPHLPAPI.oGetAnycastIpAddressTable = GetProcAddress(IPHLPAPI.dll, "GetAnycastIpAddressTable");
+	IPHLPAPI.oGetBestInterface = GetProcAddress(IPHLPAPI.dll, "GetBestInterface");
+	IPHLPAPI.oGetBestInterfaceEx = GetProcAddress(IPHLPAPI.dll, "GetBestInterfaceEx");
+	IPHLPAPI.oGetBestRoute = GetProcAddress(IPHLPAPI.dll, "GetBestRoute");
+	IPHLPAPI.oGetBestRoute2 = GetProcAddress(IPHLPAPI.dll, "GetBestRoute2");
+	IPHLPAPI.oGetCurrentThreadCompartmentId = GetProcAddress(IPHLPAPI.dll, "GetCurrentThreadCompartmentId");
+	IPHLPAPI.oGetCurrentThreadCompartmentScope = GetProcAddress(IPHLPAPI.dll, "GetCurrentThreadCompartmentScope");
+	IPHLPAPI.oGetDefaultCompartmentId = GetProcAddress(IPHLPAPI.dll, "GetDefaultCompartmentId");
+	IPHLPAPI.oGetDnsSettings = GetProcAddress(IPHLPAPI.dll, "GetDnsSettings");
+	IPHLPAPI.oGetExtendedTcpTable = GetProcAddress(IPHLPAPI.dll, "GetExtendedTcpTable");
+	IPHLPAPI.oGetExtendedUdpTable = GetProcAddress(IPHLPAPI.dll, "GetExtendedUdpTable");
+	IPHLPAPI.oGetFriendlyIfIndex = GetProcAddress(IPHLPAPI.dll, "GetFriendlyIfIndex");
+	IPHLPAPI.oGetIcmpStatistics = GetProcAddress(IPHLPAPI.dll, "GetIcmpStatistics");
+	IPHLPAPI.oGetIcmpStatisticsEx = GetProcAddress(IPHLPAPI.dll, "GetIcmpStatisticsEx");
+	IPHLPAPI.oGetIfEntry = GetProcAddress(IPHLPAPI.dll, "GetIfEntry");
+	IPHLPAPI.oGetIfEntry2 = GetProcAddress(IPHLPAPI.dll, "GetIfEntry2");
+	IPHLPAPI.oGetIfEntry2Ex = GetProcAddress(IPHLPAPI.dll, "GetIfEntry2Ex");
+	IPHLPAPI.oGetIfStackTable = GetProcAddress(IPHLPAPI.dll, "GetIfStackTable");
+	IPHLPAPI.oGetIfTable = GetProcAddress(IPHLPAPI.dll, "GetIfTable");
+	IPHLPAPI.oGetIfTable2 = GetProcAddress(IPHLPAPI.dll, "GetIfTable2");
+	IPHLPAPI.oGetIfTable2Ex = GetProcAddress(IPHLPAPI.dll, "GetIfTable2Ex");
+	IPHLPAPI.oGetInterfaceCompartmentId = GetProcAddress(IPHLPAPI.dll, "GetInterfaceCompartmentId");
+	IPHLPAPI.oGetInterfaceCurrentTimestampCapabilities = GetProcAddress(IPHLPAPI.dll, "GetInterfaceCurrentTimestampCapabilities");
+	IPHLPAPI.oGetInterfaceDnsSettings = GetProcAddress(IPHLPAPI.dll, "GetInterfaceDnsSettings");
+	IPHLPAPI.oGetInterfaceHardwareTimestampCapabilities = GetProcAddress(IPHLPAPI.dll, "GetInterfaceHardwareTimestampCapabilities");
+	IPHLPAPI.oGetInterfaceInfo = GetProcAddress(IPHLPAPI.dll, "GetInterfaceInfo");
+	IPHLPAPI.oGetInvertedIfStackTable = GetProcAddress(IPHLPAPI.dll, "GetInvertedIfStackTable");
+	IPHLPAPI.oGetIpAddrTable = GetProcAddress(IPHLPAPI.dll, "GetIpAddrTable");
+	IPHLPAPI.oGetIpErrorString = GetProcAddress(IPHLPAPI.dll, "GetIpErrorString");
+	IPHLPAPI.oGetIpForwardEntry2 = GetProcAddress(IPHLPAPI.dll, "GetIpForwardEntry2");
+	IPHLPAPI.oGetIpForwardTable = GetProcAddress(IPHLPAPI.dll, "GetIpForwardTable");
+	IPHLPAPI.oGetIpForwardTable2 = GetProcAddress(IPHLPAPI.dll, "GetIpForwardTable2");
+	IPHLPAPI.oGetIpInterfaceEntry = GetProcAddress(IPHLPAPI.dll, "GetIpInterfaceEntry");
+	IPHLPAPI.oGetIpInterfaceTable = GetProcAddress(IPHLPAPI.dll, "GetIpInterfaceTable");
+	IPHLPAPI.oGetIpNetEntry2 = GetProcAddress(IPHLPAPI.dll, "GetIpNetEntry2");
+	IPHLPAPI.oGetIpNetTable = GetProcAddress(IPHLPAPI.dll, "GetIpNetTable");
+	IPHLPAPI.oGetIpNetTable2 = GetProcAddress(IPHLPAPI.dll, "GetIpNetTable2");
+	IPHLPAPI.oGetIpNetworkConnectionBandwidthEstimates = GetProcAddress(IPHLPAPI.dll, "GetIpNetworkConnectionBandwidthEstimates");
+	IPHLPAPI.oGetIpPathEntry = GetProcAddress(IPHLPAPI.dll, "GetIpPathEntry");
+	IPHLPAPI.oGetIpPathTable = GetProcAddress(IPHLPAPI.dll, "GetIpPathTable");
+	IPHLPAPI.oGetIpStatistics = GetProcAddress(IPHLPAPI.dll, "GetIpStatistics");
+	IPHLPAPI.oGetIpStatisticsEx = GetProcAddress(IPHLPAPI.dll, "GetIpStatisticsEx");
+	IPHLPAPI.oGetJobCompartmentId = GetProcAddress(IPHLPAPI.dll, "GetJobCompartmentId");
+	IPHLPAPI.oGetMulticastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "GetMulticastIpAddressEntry");
+	IPHLPAPI.oGetMulticastIpAddressTable = GetProcAddress(IPHLPAPI.dll, "GetMulticastIpAddressTable");
+	IPHLPAPI.oGetNetworkConnectivityHint = GetProcAddress(IPHLPAPI.dll, "GetNetworkConnectivityHint");
+	IPHLPAPI.oGetNetworkConnectivityHintForInterface = GetProcAddress(IPHLPAPI.dll, "GetNetworkConnectivityHintForInterface");
+	IPHLPAPI.oGetNetworkInformation = GetProcAddress(IPHLPAPI.dll, "GetNetworkInformation");
+	IPHLPAPI.oGetNetworkParams = GetProcAddress(IPHLPAPI.dll, "GetNetworkParams");
+	IPHLPAPI.oGetNumberOfInterfaces = GetProcAddress(IPHLPAPI.dll, "GetNumberOfInterfaces");
+	IPHLPAPI.oGetOwnerModuleFromPidAndInfo = GetProcAddress(IPHLPAPI.dll, "GetOwnerModuleFromPidAndInfo");
+	IPHLPAPI.oGetOwnerModuleFromTcp6Entry = GetProcAddress(IPHLPAPI.dll, "GetOwnerModuleFromTcp6Entry");
+	IPHLPAPI.oGetOwnerModuleFromTcpEntry = GetProcAddress(IPHLPAPI.dll, "GetOwnerModuleFromTcpEntry");
+	IPHLPAPI.oGetOwnerModuleFromUdp6Entry = GetProcAddress(IPHLPAPI.dll, "GetOwnerModuleFromUdp6Entry");
+	IPHLPAPI.oGetOwnerModuleFromUdpEntry = GetProcAddress(IPHLPAPI.dll, "GetOwnerModuleFromUdpEntry");
+	IPHLPAPI.oGetPerAdapterInfo = GetProcAddress(IPHLPAPI.dll, "GetPerAdapterInfo");
+	IPHLPAPI.oGetPerTcp6ConnectionEStats = GetProcAddress(IPHLPAPI.dll, "GetPerTcp6ConnectionEStats");
+	IPHLPAPI.oGetPerTcp6ConnectionStats = GetProcAddress(IPHLPAPI.dll, "GetPerTcp6ConnectionStats");
+	IPHLPAPI.oGetPerTcpConnectionEStats = GetProcAddress(IPHLPAPI.dll, "GetPerTcpConnectionEStats");
+	IPHLPAPI.oGetPerTcpConnectionStats = GetProcAddress(IPHLPAPI.dll, "GetPerTcpConnectionStats");
+	IPHLPAPI.oGetRTTAndHopCount = GetProcAddress(IPHLPAPI.dll, "GetRTTAndHopCount");
+	IPHLPAPI.oGetSessionCompartmentId = GetProcAddress(IPHLPAPI.dll, "GetSessionCompartmentId");
+	IPHLPAPI.oGetTcp6Table = GetProcAddress(IPHLPAPI.dll, "GetTcp6Table");
+	IPHLPAPI.oGetTcp6Table2 = GetProcAddress(IPHLPAPI.dll, "GetTcp6Table2");
+	IPHLPAPI.oGetTcpStatistics = GetProcAddress(IPHLPAPI.dll, "GetTcpStatistics");
+	IPHLPAPI.oGetTcpStatisticsEx = GetProcAddress(IPHLPAPI.dll, "GetTcpStatisticsEx");
+	IPHLPAPI.oGetTcpStatisticsEx2 = GetProcAddress(IPHLPAPI.dll, "GetTcpStatisticsEx2");
+	IPHLPAPI.oGetTcpTable = GetProcAddress(IPHLPAPI.dll, "GetTcpTable");
+	IPHLPAPI.oGetTcpTable2 = GetProcAddress(IPHLPAPI.dll, "GetTcpTable2");
+	IPHLPAPI.oGetTeredoPort = GetProcAddress(IPHLPAPI.dll, "GetTeredoPort");
+	IPHLPAPI.oGetUdp6Table = GetProcAddress(IPHLPAPI.dll, "GetUdp6Table");
+	IPHLPAPI.oGetUdpStatistics = GetProcAddress(IPHLPAPI.dll, "GetUdpStatistics");
+	IPHLPAPI.oGetUdpStatisticsEx = GetProcAddress(IPHLPAPI.dll, "GetUdpStatisticsEx");
+	IPHLPAPI.oGetUdpStatisticsEx2 = GetProcAddress(IPHLPAPI.dll, "GetUdpStatisticsEx2");
+	IPHLPAPI.oGetUdpTable = GetProcAddress(IPHLPAPI.dll, "GetUdpTable");
+	IPHLPAPI.oGetUniDirectionalAdapterInfo = GetProcAddress(IPHLPAPI.dll, "GetUniDirectionalAdapterInfo");
+	IPHLPAPI.oGetUnicastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "GetUnicastIpAddressEntry");
+	IPHLPAPI.oGetUnicastIpAddressTable = GetProcAddress(IPHLPAPI.dll, "GetUnicastIpAddressTable");
+	IPHLPAPI.oGetWPAOACSupportLevel = GetProcAddress(IPHLPAPI.dll, "GetWPAOACSupportLevel");
+	IPHLPAPI.oIcmp6CreateFile = GetProcAddress(IPHLPAPI.dll, "Icmp6CreateFile");
+	IPHLPAPI.oIcmp6ParseReplies = GetProcAddress(IPHLPAPI.dll, "Icmp6ParseReplies");
+	IPHLPAPI.oIcmp6SendEcho2 = GetProcAddress(IPHLPAPI.dll, "Icmp6SendEcho2");
+	IPHLPAPI.oIcmpCloseHandle = GetProcAddress(IPHLPAPI.dll, "IcmpCloseHandle");
+	IPHLPAPI.oIcmpCreateFile = GetProcAddress(IPHLPAPI.dll, "IcmpCreateFile");
+	IPHLPAPI.oIcmpParseReplies = GetProcAddress(IPHLPAPI.dll, "IcmpParseReplies");
+	IPHLPAPI.oIcmpSendEcho = GetProcAddress(IPHLPAPI.dll, "IcmpSendEcho");
+	IPHLPAPI.oIcmpSendEcho2 = GetProcAddress(IPHLPAPI.dll, "IcmpSendEcho2");
+	IPHLPAPI.oIcmpSendEcho2Ex = GetProcAddress(IPHLPAPI.dll, "IcmpSendEcho2Ex");
+	IPHLPAPI.oInitializeCompartmentEntry = GetProcAddress(IPHLPAPI.dll, "InitializeCompartmentEntry");
+	IPHLPAPI.oInitializeIpForwardEntry = GetProcAddress(IPHLPAPI.dll, "InitializeIpForwardEntry");
+	IPHLPAPI.oInitializeIpInterfaceEntry = GetProcAddress(IPHLPAPI.dll, "InitializeIpInterfaceEntry");
+	IPHLPAPI.oInitializeUnicastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "InitializeUnicastIpAddressEntry");
+	IPHLPAPI.oInternalCleanupPersistentStore = GetProcAddress(IPHLPAPI.dll, "InternalCleanupPersistentStore");
+	IPHLPAPI.oInternalCreateAnycastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "InternalCreateAnycastIpAddressEntry");
+	IPHLPAPI.oInternalCreateIpForwardEntry = GetProcAddress(IPHLPAPI.dll, "InternalCreateIpForwardEntry");
+	IPHLPAPI.oInternalCreateIpForwardEntry2 = GetProcAddress(IPHLPAPI.dll, "InternalCreateIpForwardEntry2");
+	IPHLPAPI.oInternalCreateIpNetEntry = GetProcAddress(IPHLPAPI.dll, "InternalCreateIpNetEntry");
+	IPHLPAPI.oInternalCreateIpNetEntry2 = GetProcAddress(IPHLPAPI.dll, "InternalCreateIpNetEntry2");
+	IPHLPAPI.oInternalCreateOrRefIpForwardEntry2 = GetProcAddress(IPHLPAPI.dll, "InternalCreateOrRefIpForwardEntry2");
+	IPHLPAPI.oInternalCreateUnicastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "InternalCreateUnicastIpAddressEntry");
+	IPHLPAPI.oInternalDeleteAnycastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "InternalDeleteAnycastIpAddressEntry");
+	IPHLPAPI.oInternalDeleteIpForwardEntry = GetProcAddress(IPHLPAPI.dll, "InternalDeleteIpForwardEntry");
+	IPHLPAPI.oInternalDeleteIpForwardEntry2 = GetProcAddress(IPHLPAPI.dll, "InternalDeleteIpForwardEntry2");
+	IPHLPAPI.oInternalDeleteIpNetEntry = GetProcAddress(IPHLPAPI.dll, "InternalDeleteIpNetEntry");
+	IPHLPAPI.oInternalDeleteIpNetEntry2 = GetProcAddress(IPHLPAPI.dll, "InternalDeleteIpNetEntry2");
+	IPHLPAPI.oInternalDeleteUnicastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "InternalDeleteUnicastIpAddressEntry");
+	IPHLPAPI.oInternalFindInterfaceByAddress = GetProcAddress(IPHLPAPI.dll, "InternalFindInterfaceByAddress");
+	IPHLPAPI.oInternalGetAnycastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "InternalGetAnycastIpAddressEntry");
+	IPHLPAPI.oInternalGetAnycastIpAddressTable = GetProcAddress(IPHLPAPI.dll, "InternalGetAnycastIpAddressTable");
+	IPHLPAPI.oInternalGetBoundTcp6EndpointTable = GetProcAddress(IPHLPAPI.dll, "InternalGetBoundTcp6EndpointTable");
+	IPHLPAPI.oInternalGetBoundTcpEndpointTable = GetProcAddress(IPHLPAPI.dll, "InternalGetBoundTcpEndpointTable");
+	IPHLPAPI.oInternalGetForwardIpTable2 = GetProcAddress(IPHLPAPI.dll, "InternalGetForwardIpTable2");
+	IPHLPAPI.oInternalGetIPPhysicalInterfaceForDestination = GetProcAddress(IPHLPAPI.dll, "InternalGetIPPhysicalInterfaceForDestination");
+	IPHLPAPI.oInternalGetIfEntry2 = GetProcAddress(IPHLPAPI.dll, "InternalGetIfEntry2");
+	IPHLPAPI.oInternalGetIfTable = GetProcAddress(IPHLPAPI.dll, "InternalGetIfTable");
+	IPHLPAPI.oInternalGetIfTable2 = GetProcAddress(IPHLPAPI.dll, "InternalGetIfTable2");
+	IPHLPAPI.oInternalGetIpAddrTable = GetProcAddress(IPHLPAPI.dll, "InternalGetIpAddrTable");
+	IPHLPAPI.oInternalGetIpForwardEntry2 = GetProcAddress(IPHLPAPI.dll, "InternalGetIpForwardEntry2");
+	IPHLPAPI.oInternalGetIpForwardTable = GetProcAddress(IPHLPAPI.dll, "InternalGetIpForwardTable");
+	IPHLPAPI.oInternalGetIpInterfaceEntry = GetProcAddress(IPHLPAPI.dll, "InternalGetIpInterfaceEntry");
+	IPHLPAPI.oInternalGetIpInterfaceTable = GetProcAddress(IPHLPAPI.dll, "InternalGetIpInterfaceTable");
+	IPHLPAPI.oInternalGetIpNetEntry2 = GetProcAddress(IPHLPAPI.dll, "InternalGetIpNetEntry2");
+	IPHLPAPI.oInternalGetIpNetTable = GetProcAddress(IPHLPAPI.dll, "InternalGetIpNetTable");
+	IPHLPAPI.oInternalGetIpNetTable2 = GetProcAddress(IPHLPAPI.dll, "InternalGetIpNetTable2");
+	IPHLPAPI.oInternalGetMulticastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "InternalGetMulticastIpAddressEntry");
+	IPHLPAPI.oInternalGetMulticastIpAddressTable = GetProcAddress(IPHLPAPI.dll, "InternalGetMulticastIpAddressTable");
+	IPHLPAPI.oInternalGetRtcSlotInformation = GetProcAddress(IPHLPAPI.dll, "InternalGetRtcSlotInformation");
+	IPHLPAPI.oInternalGetTcp6Table2 = GetProcAddress(IPHLPAPI.dll, "InternalGetTcp6Table2");
+	IPHLPAPI.oInternalGetTcp6TableWithOwnerModule = GetProcAddress(IPHLPAPI.dll, "InternalGetTcp6TableWithOwnerModule");
+	IPHLPAPI.oInternalGetTcp6TableWithOwnerPid = GetProcAddress(IPHLPAPI.dll, "InternalGetTcp6TableWithOwnerPid");
+	IPHLPAPI.oInternalGetTcpTable = GetProcAddress(IPHLPAPI.dll, "InternalGetTcpTable");
+	IPHLPAPI.oInternalGetTcpTable2 = GetProcAddress(IPHLPAPI.dll, "InternalGetTcpTable2");
+	IPHLPAPI.oInternalGetTcpTableEx = GetProcAddress(IPHLPAPI.dll, "InternalGetTcpTableEx");
+	IPHLPAPI.oInternalGetTcpTableWithOwnerModule = GetProcAddress(IPHLPAPI.dll, "InternalGetTcpTableWithOwnerModule");
+	IPHLPAPI.oInternalGetTcpTableWithOwnerPid = GetProcAddress(IPHLPAPI.dll, "InternalGetTcpTableWithOwnerPid");
+	IPHLPAPI.oInternalGetTunnelPhysicalAdapter = GetProcAddress(IPHLPAPI.dll, "InternalGetTunnelPhysicalAdapter");
+	IPHLPAPI.oInternalGetUdp6TableWithOwnerModule = GetProcAddress(IPHLPAPI.dll, "InternalGetUdp6TableWithOwnerModule");
+	IPHLPAPI.oInternalGetUdp6TableWithOwnerPid = GetProcAddress(IPHLPAPI.dll, "InternalGetUdp6TableWithOwnerPid");
+	IPHLPAPI.oInternalGetUdpTable = GetProcAddress(IPHLPAPI.dll, "InternalGetUdpTable");
+	IPHLPAPI.oInternalGetUdpTableEx = GetProcAddress(IPHLPAPI.dll, "InternalGetUdpTableEx");
+	IPHLPAPI.oInternalGetUdpTableWithOwnerModule = GetProcAddress(IPHLPAPI.dll, "InternalGetUdpTableWithOwnerModule");
+	IPHLPAPI.oInternalGetUdpTableWithOwnerPid = GetProcAddress(IPHLPAPI.dll, "InternalGetUdpTableWithOwnerPid");
+	IPHLPAPI.oInternalGetUnicastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "InternalGetUnicastIpAddressEntry");
+	IPHLPAPI.oInternalGetUnicastIpAddressTable = GetProcAddress(IPHLPAPI.dll, "InternalGetUnicastIpAddressTable");
+	IPHLPAPI.oInternalIcmpCreateFileEx = GetProcAddress(IPHLPAPI.dll, "InternalIcmpCreateFileEx");
+	IPHLPAPI.oInternalSetIfEntry = GetProcAddress(IPHLPAPI.dll, "InternalSetIfEntry");
+	IPHLPAPI.oInternalSetIpForwardEntry = GetProcAddress(IPHLPAPI.dll, "InternalSetIpForwardEntry");
+	IPHLPAPI.oInternalSetIpForwardEntry2 = GetProcAddress(IPHLPAPI.dll, "InternalSetIpForwardEntry2");
+	IPHLPAPI.oInternalSetIpInterfaceEntry = GetProcAddress(IPHLPAPI.dll, "InternalSetIpInterfaceEntry");
+	IPHLPAPI.oInternalSetIpNetEntry = GetProcAddress(IPHLPAPI.dll, "InternalSetIpNetEntry");
+	IPHLPAPI.oInternalSetIpNetEntry2 = GetProcAddress(IPHLPAPI.dll, "InternalSetIpNetEntry2");
+	IPHLPAPI.oInternalSetIpStats = GetProcAddress(IPHLPAPI.dll, "InternalSetIpStats");
+	IPHLPAPI.oInternalSetTcpEntry = GetProcAddress(IPHLPAPI.dll, "InternalSetTcpEntry");
+	IPHLPAPI.oInternalSetTeredoPort = GetProcAddress(IPHLPAPI.dll, "InternalSetTeredoPort");
+	IPHLPAPI.oInternalSetUnicastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "InternalSetUnicastIpAddressEntry");
+	IPHLPAPI.oIpReleaseAddress = GetProcAddress(IPHLPAPI.dll, "IpReleaseAddress");
+	IPHLPAPI.oIpRenewAddress = GetProcAddress(IPHLPAPI.dll, "IpRenewAddress");
+	IPHLPAPI.oLookupPersistentTcpPortReservation = GetProcAddress(IPHLPAPI.dll, "LookupPersistentTcpPortReservation");
+	IPHLPAPI.oLookupPersistentUdpPortReservation = GetProcAddress(IPHLPAPI.dll, "LookupPersistentUdpPortReservation");
+	IPHLPAPI.oNTPTimeToNTFileTime = GetProcAddress(IPHLPAPI.dll, "NTPTimeToNTFileTime");
+	IPHLPAPI.oNTTimeToNTPTime = GetProcAddress(IPHLPAPI.dll, "NTTimeToNTPTime");
+	IPHLPAPI.oNhGetGuidFromInterfaceName = GetProcAddress(IPHLPAPI.dll, "NhGetGuidFromInterfaceName");
+	IPHLPAPI.oNhGetInterfaceDescriptionFromGuid = GetProcAddress(IPHLPAPI.dll, "NhGetInterfaceDescriptionFromGuid");
+	IPHLPAPI.oNhGetInterfaceNameFromDeviceGuid = GetProcAddress(IPHLPAPI.dll, "NhGetInterfaceNameFromDeviceGuid");
+	IPHLPAPI.oNhGetInterfaceNameFromGuid = GetProcAddress(IPHLPAPI.dll, "NhGetInterfaceNameFromGuid");
+	IPHLPAPI.oNhpAllocateAndGetInterfaceInfoFromStack = GetProcAddress(IPHLPAPI.dll, "NhpAllocateAndGetInterfaceInfoFromStack");
+	IPHLPAPI.oNotifyAddrChange = GetProcAddress(IPHLPAPI.dll, "NotifyAddrChange");
+	IPHLPAPI.oNotifyCompartmentChange = GetProcAddress(IPHLPAPI.dll, "NotifyCompartmentChange");
+	IPHLPAPI.oNotifyIfTimestampConfigChange = GetProcAddress(IPHLPAPI.dll, "NotifyIfTimestampConfigChange");
+	IPHLPAPI.oNotifyIpInterfaceChange = GetProcAddress(IPHLPAPI.dll, "NotifyIpInterfaceChange");
+	IPHLPAPI.oNotifyNetworkConnectivityHintChange = GetProcAddress(IPHLPAPI.dll, "NotifyNetworkConnectivityHintChange");
+	IPHLPAPI.oNotifyRouteChange = GetProcAddress(IPHLPAPI.dll, "NotifyRouteChange");
+	IPHLPAPI.oNotifyRouteChange2 = GetProcAddress(IPHLPAPI.dll, "NotifyRouteChange2");
+	IPHLPAPI.oNotifyStableUnicastIpAddressTable = GetProcAddress(IPHLPAPI.dll, "NotifyStableUnicastIpAddressTable");
+	IPHLPAPI.oNotifyTeredoPortChange = GetProcAddress(IPHLPAPI.dll, "NotifyTeredoPortChange");
+	IPHLPAPI.oNotifyUnicastIpAddressChange = GetProcAddress(IPHLPAPI.dll, "NotifyUnicastIpAddressChange");
+	IPHLPAPI.oOpenCompartment = GetProcAddress(IPHLPAPI.dll, "OpenCompartment");
+	IPHLPAPI.oParseNetworkString = GetProcAddress(IPHLPAPI.dll, "ParseNetworkString");
+	IPHLPAPI.oPfAddFiltersToInterface = GetProcAddress(IPHLPAPI.dll, "PfAddFiltersToInterface");
+	IPHLPAPI.oPfAddGlobalFilterToInterface = GetProcAddress(IPHLPAPI.dll, "PfAddGlobalFilterToInterface");
+	IPHLPAPI.oPfBindInterfaceToIPAddress = GetProcAddress(IPHLPAPI.dll, "PfBindInterfaceToIPAddress");
+	IPHLPAPI.oPfBindInterfaceToIndex = GetProcAddress(IPHLPAPI.dll, "PfBindInterfaceToIndex");
+	IPHLPAPI.oPfCreateInterface = GetProcAddress(IPHLPAPI.dll, "PfCreateInterface");
+	IPHLPAPI.oPfDeleteInterface = GetProcAddress(IPHLPAPI.dll, "PfDeleteInterface");
+	IPHLPAPI.oPfDeleteLog = GetProcAddress(IPHLPAPI.dll, "PfDeleteLog");
+	IPHLPAPI.oPfGetInterfaceStatistics = GetProcAddress(IPHLPAPI.dll, "PfGetInterfaceStatistics");
+	IPHLPAPI.oPfMakeLog = GetProcAddress(IPHLPAPI.dll, "PfMakeLog");
+	IPHLPAPI.oPfRebindFilters = GetProcAddress(IPHLPAPI.dll, "PfRebindFilters");
+	IPHLPAPI.oPfRemoveFilterHandles = GetProcAddress(IPHLPAPI.dll, "PfRemoveFilterHandles");
+	IPHLPAPI.oPfRemoveFiltersFromInterface = GetProcAddress(IPHLPAPI.dll, "PfRemoveFiltersFromInterface");
+	IPHLPAPI.oPfRemoveGlobalFilterFromInterface = GetProcAddress(IPHLPAPI.dll, "PfRemoveGlobalFilterFromInterface");
+	IPHLPAPI.oPfSetLogBuffer = GetProcAddress(IPHLPAPI.dll, "PfSetLogBuffer");
+	IPHLPAPI.oPfTestPacket = GetProcAddress(IPHLPAPI.dll, "PfTestPacket");
+	IPHLPAPI.oPfUnBindInterface = GetProcAddress(IPHLPAPI.dll, "PfUnBindInterface");
+	IPHLPAPI.oResolveIpNetEntry2 = GetProcAddress(IPHLPAPI.dll, "ResolveIpNetEntry2");
+	IPHLPAPI.oResolveNeighbor = GetProcAddress(IPHLPAPI.dll, "ResolveNeighbor");
+	IPHLPAPI.oRestoreMediaSense = GetProcAddress(IPHLPAPI.dll, "RestoreMediaSense");
+	IPHLPAPI.oSendARP = GetProcAddress(IPHLPAPI.dll, "SendARP");
+	IPHLPAPI.oSetAdapterIpAddress = GetProcAddress(IPHLPAPI.dll, "SetAdapterIpAddress");
+	IPHLPAPI.oSetCurrentThreadCompartmentId = GetProcAddress(IPHLPAPI.dll, "SetCurrentThreadCompartmentId");
+	IPHLPAPI.oSetCurrentThreadCompartmentScope = GetProcAddress(IPHLPAPI.dll, "SetCurrentThreadCompartmentScope");
+	IPHLPAPI.oSetDnsSettings = GetProcAddress(IPHLPAPI.dll, "SetDnsSettings");
+	IPHLPAPI.oSetIfEntry = GetProcAddress(IPHLPAPI.dll, "SetIfEntry");
+	IPHLPAPI.oSetInterfaceDnsSettings = GetProcAddress(IPHLPAPI.dll, "SetInterfaceDnsSettings");
+	IPHLPAPI.oSetIpForwardEntry = GetProcAddress(IPHLPAPI.dll, "SetIpForwardEntry");
+	IPHLPAPI.oSetIpForwardEntry2 = GetProcAddress(IPHLPAPI.dll, "SetIpForwardEntry2");
+	IPHLPAPI.oSetIpInterfaceEntry = GetProcAddress(IPHLPAPI.dll, "SetIpInterfaceEntry");
+	IPHLPAPI.oSetIpNetEntry = GetProcAddress(IPHLPAPI.dll, "SetIpNetEntry");
+	IPHLPAPI.oSetIpNetEntry2 = GetProcAddress(IPHLPAPI.dll, "SetIpNetEntry2");
+	IPHLPAPI.oSetIpStatistics = GetProcAddress(IPHLPAPI.dll, "SetIpStatistics");
+	IPHLPAPI.oSetIpStatisticsEx = GetProcAddress(IPHLPAPI.dll, "SetIpStatisticsEx");
+	IPHLPAPI.oSetIpTTL = GetProcAddress(IPHLPAPI.dll, "SetIpTTL");
+	IPHLPAPI.oSetJobCompartmentId = GetProcAddress(IPHLPAPI.dll, "SetJobCompartmentId");
+	IPHLPAPI.oSetNetworkInformation = GetProcAddress(IPHLPAPI.dll, "SetNetworkInformation");
+	IPHLPAPI.oSetPerTcp6ConnectionEStats = GetProcAddress(IPHLPAPI.dll, "SetPerTcp6ConnectionEStats");
+	IPHLPAPI.oSetPerTcp6ConnectionStats = GetProcAddress(IPHLPAPI.dll, "SetPerTcp6ConnectionStats");
+	IPHLPAPI.oSetPerTcpConnectionEStats = GetProcAddress(IPHLPAPI.dll, "SetPerTcpConnectionEStats");
+	IPHLPAPI.oSetPerTcpConnectionStats = GetProcAddress(IPHLPAPI.dll, "SetPerTcpConnectionStats");
+	IPHLPAPI.oSetSessionCompartmentId = GetProcAddress(IPHLPAPI.dll, "SetSessionCompartmentId");
+	IPHLPAPI.oSetTcpEntry = GetProcAddress(IPHLPAPI.dll, "SetTcpEntry");
+	IPHLPAPI.oSetUnicastIpAddressEntry = GetProcAddress(IPHLPAPI.dll, "SetUnicastIpAddressEntry");
+	IPHLPAPI.oUnenableRouter = GetProcAddress(IPHLPAPI.dll, "UnenableRouter");
+	IPHLPAPI.odo_echo_rep = GetProcAddress(IPHLPAPI.dll, "do_echo_rep");
+	IPHLPAPI.odo_echo_req = GetProcAddress(IPHLPAPI.dll, "do_echo_req");
+	IPHLPAPI.oif_indextoname = GetProcAddress(IPHLPAPI.dll, "if_indextoname");
+	IPHLPAPI.oif_nametoindex = GetProcAddress(IPHLPAPI.dll, "if_nametoindex");
+	IPHLPAPI.oregister_icmp = GetProcAddress(IPHLPAPI.dll, "register_icmp");
 }
 #pragma endregion
-
-#include <iostream>
-#include "BedrockMod.h"
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
 	switch (ul_reason_for_call) {
 	case DLL_PROCESS_ATTACH:
 		char path[MAX_PATH];
 		GetWindowsDirectory(path, sizeof(path));
-
-		// Example: "\\System32\\version.dll"
-		strcat_s(path, "\\System32\\dbghelp.dll");
-		dbghelp.dll = LoadLibrary(path);
+		strcat_s(path, "\\System32\\IPHLPAPI.dll");
+		IPHLPAPI.dll = LoadLibrary(path);
 		setupFunctions();
-
-		// Add here your code, I recommend you to create a thread
 		std::cout << "Injected DLL" << std::endl;
 		g_BedrockMod = new BedrockMod();
 		g_BedrockMod->Init();
 		break;
 	case DLL_PROCESS_DETACH:
-		FreeLibrary(dbghelp.dll);
+		FreeLibrary(IPHLPAPI.dll);
 		break;
 	}
 	return 1;

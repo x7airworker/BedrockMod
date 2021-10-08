@@ -1,6 +1,5 @@
 LIBRARY IPHLPAPI
 EXPORTS
-	AddIPAddress=fAddIPAddress @1
 	AllocateAndGetInterfaceInfoFromStack=fAllocateAndGetInterfaceInfoFromStack @2
 	AllocateAndGetIpAddrTableFromStack=fAllocateAndGetIpAddrTableFromStack @3
 	CancelIPChangeNotify=fCancelIPChangeNotify @4

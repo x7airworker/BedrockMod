@@ -34,7 +34,16 @@
   {
     "ClassName": "Minecraft",
     "Extends": null,
-    "Fields": [],
+    "Fields": [
+        {
+            "Name": "networkHandler",
+            "Offset": "28",
+            "Type": {
+                "TypeName": "class NetworkHandler*",
+                "TypeSize": 8
+            }
+        }
+    ],
     "Functions": [
       {
         "Name": "init",
@@ -122,5 +131,65 @@
             "Type": "unsigned int"
         }
     ]
+  },
+  {
+    "ClassName": "Packet",
+    "Extends": null,
+    "Fields": [],
+    "Functions": [],
+    "Virtuals": [
+        {
+            "Name": "getId",
+            "Offset": "1",
+            "Parameters": [],
+            "Type": "int"
+        },
+        {
+            "Name": "getName",
+            "Offset": "2",
+            "Parameters": [],
+            "Type": "Utils::string"
+        }
+    ]
+  },
+  {
+    "ClassName": "NetworkHandler",
+    "Extends": null,
+    "Fields": [],
+    "Functions": [
+        {
+            "Name": "send",
+            "Signature": "48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 48 89 7C 24 ?? 41 56 48 83 EC 20 4C 8B F1 41 0F B6 D9",
+            "Parameters": [
+                {
+                    "Name": "s",
+                    "Type": "class NetworkHandler*"
+                },
+                {
+                    "Name": "i",
+                    "Type": "class NetworkIdentifier*"
+                },
+                {
+                    "Name": "packet",
+                    "Type": "class Packet*"
+                },
+                {
+                    "Name": "flags",
+                    "Type": "unsigned char"
+                }
+            ],
+            "Type": "void",
+            "Convention": "__fastcall",
+            "PreInit": true
+        }
+    ],
+    "Virtuals": []
+  },
+  {
+    "ClassName": "NetworkIdentifier",
+    "Extends": null,
+    "Fields": [],
+    "Functions": [],
+    "Virtuals": []
   }
 ]

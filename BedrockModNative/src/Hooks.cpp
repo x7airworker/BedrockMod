@@ -13,7 +13,12 @@ void hkMinecraftInit(Minecraft* instance)
 void hkMinecraftUpdate(Minecraft* instance)
 {
 	instance->update();
-	std::cout << "Seed: " << instance->getLevel()->getSeed() << std::endl;
+}
+
+void hkNetworkHandlerSend(NetworkHandler* handler, NetworkIdentifier* i, Packet* packet, unsigned char flags)
+{
+	std::cout << "Sended packet: " << packet->getId() << std::endl;
+	handler->send(handler, i, packet, flags);
 }
 
 void Hooks::Install()
@@ -22,5 +27,6 @@ void Hooks::Install()
 	DetourUpdateThread(GetCurrentThread());
 	DetourAttach(&(LPVOID&)Minecraft::holder_init, &hkMinecraftInit);
 	DetourAttach(&(LPVOID&)Minecraft::holder_update, &hkMinecraftUpdate);
+	DetourAttach(&(LPVOID&)NetworkHandler::holder_send, &hkNetworkHandlerSend);
 	DetourTransactionCommit();
 }

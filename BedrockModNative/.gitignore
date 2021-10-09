@@ -2,7 +2,7 @@ out/
 .idea
 *.iml
 .vs
-build64/
+build*
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles

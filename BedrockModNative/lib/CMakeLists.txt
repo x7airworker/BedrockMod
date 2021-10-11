@@ -1,3 +1,10 @@
-add_subdirectory(Detours)
 add_subdirectory(ClassBuilder)
-add_subdirectory(GSL)
+
+if (UNIX)
+	set(SUBHOOK_TESTS OFF)
+	add_subdirectory(subhook)
+endif(UNIX)
+
+if (WIN32)
+	add_subdirectory(Detours)
+endif(WIN32)

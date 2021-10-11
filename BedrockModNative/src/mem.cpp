@@ -1,5 +1,12 @@
 #include "mem.h"
 
+#ifdef __linux__
+#include <dlfcn.h>
+#elif _WIN32
+#include <Windows.h>
+#endif
+
+
 uintptr_t Mem::FindMLvlPtr(uintptr_t baseAddr, std::vector<unsigned int> offsets) {
 	uintptr_t addr = baseAddr;
 	for (int I = 0; I < offsets.size(); I++) {
@@ -15,7 +22,7 @@ auto Mem::getModuleBase() -> long long {
 	return (long long)GetModuleHandleA(nullptr);
 }
 
-auto Mem::getModuleBaseHandle() -> HMODULE {
+auto Mem::getModuleBaseHandle() -> void* {
 	return GetModuleHandleA(nullptr);
 }
 
@@ -27,10 +34,10 @@ auto Mem::getBaseModuleEnd() -> long long {
 	return getModuleBase() + getBaseModuleSize();
 }
 
-void Mem::SetThisModule(HMODULE mod) {
+void Mem::SetThisModule(void* mod) {
 	thisMod = mod;
 }
-auto Mem::GetThisModule() -> HMODULE {
+auto Mem::GetThisModule() -> void* {
 	return thisMod;
 }
 

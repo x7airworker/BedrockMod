@@ -1,12 +1,11 @@
 #pragma once
 
 #include <memory>
-#include <Windows.h>
 
 class BedrockMod
 {
 private:
-	DWORD threadID;
+	unsigned long threadID;
 public:
 	void Init();
 };

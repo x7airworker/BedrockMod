@@ -8,7 +8,6 @@ endif()
 
 add_library(bedrock
         BedrockMod.cpp
-        "../include/BedrockMod.h"
         Hooks.cpp
         Hooks.h
         util.cpp
@@ -19,9 +18,19 @@ target_include_directories(bedrock
 	PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
 
-target_link_libraries(bedrock
-	lib_detours
-)
+if (UNIX)
+	target_link_libraries(bedrock PUBLIC
+		subhook
+	)
+endif(UNIX)
+
+if (WIN32)
+	target_link_libraries(bedrock PUBLIC
+		lib_detours
+	)
+
+	set_target_properties(bedrock PROPERTIES LINK_FLAGS /EXPORT:DetourFinishHelperProcess,@1,NONAME)
+endif(WIN32)
 
 add_custom_target(
 	sdk

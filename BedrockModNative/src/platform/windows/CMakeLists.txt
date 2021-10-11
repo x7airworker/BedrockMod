@@ -12,5 +12,3 @@ target_compile_definitions(IPHLPAPI PRIVATE
 		_CRT_SECURE_NO_WARNINGS
 		NOMINMAX
 )
-
-set_target_properties(IPHLPAPI PROPERTIES LINK_FLAGS /EXPORT:DetourFinishHelperProcess,@1,NONAME)

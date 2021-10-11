@@ -1,6 +1,9 @@
-[submodule "BedrockModNative/lib/Detours"]
-	path = BedrockModNative/lib/Detours
-	url = https://github.com/0xeb/detours-cmake
 [submodule "BedrockModNative/lib/ClassBuilder"]
 	path = BedrockModNative/lib/ClassBuilder
 	url = https://github.com/DisabledMallis/ClassBuilder.git
+[submodule "BedrockModNative/lib/subhook"]
+	path = BedrockModNative/lib/subhook
+	url = https://github.com/Zeex/subhook.git
+[submodule "BedrockModNative/lib/Detours"]
+	path = BedrockModNative/lib/Detours
+	url = https://github.com/0xeb/detours-cmake

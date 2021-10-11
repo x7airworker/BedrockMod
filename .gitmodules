@@ -4,6 +4,3 @@
 [submodule "BedrockModNative/lib/ClassBuilder"]
 	path = BedrockModNative/lib/ClassBuilder
 	url = https://github.com/DisabledMallis/ClassBuilder.git
-[submodule "BedrockModNative/lib/GSL"]
-	path = BedrockModNative/lib/GSL
-	url = https://github.com/microsoft/GSL.git

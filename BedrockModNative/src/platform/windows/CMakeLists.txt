@@ -13,6 +13,4 @@ target_compile_definitions(IPHLPAPI PRIVATE
 		NOMINMAX
 )
 
-target_include_directories(IPHLPAPI PRIVATE "${PROJECT_SOURCE_DIR}/lib/GSL/include/")
-
 set_target_properties(IPHLPAPI PROPERTIES LINK_FLAGS /EXPORT:DetourFinishHelperProcess,@1,NONAME)

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Windows.h>
-#include <Psapi.h>
 #include <vector>
 #include <string>
 
@@ -12,15 +10,15 @@
 #define PI 3.14159265359
 
 class Mem {
-	static inline HMODULE thisMod;
+	static inline void* thisMod;
 public:
 	static uintptr_t FindMLvlPtr(uintptr_t, std::vector<unsigned int>);
 	static auto FindSig(const char* pattern)->uintptr_t;
 	static auto FindSig(long long rangeStart, long long rangeEnd, const char* pattern)->uintptr_t;
 	static auto getModuleBase() -> long long;
-	static auto getModuleBaseHandle()->HMODULE;
+	static auto getModuleBaseHandle()->void*;
 	static auto getBaseModuleSize() -> long long;
 	static auto getBaseModuleEnd() -> long long;
-	static void SetThisModule(HMODULE);
-	static auto GetThisModule()->HMODULE;
+	static void SetThisModule(void*);
+	static auto GetThisModule()->void*;
 };

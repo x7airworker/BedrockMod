@@ -6,35 +6,28 @@ add_compile_options(
 )
 endif()
 
-add_library(IPHLPAPI SHARED
-		IPHLPAPI.def
-		IPHLPAPI.asm
+add_library(bedrock
         BedrockMod.cpp
-        BedrockMod.h
-        dllmain.cpp
+        "../include/BedrockMod.h"
         Hooks.cpp
         Hooks.h
         util.cpp
-		mem.cpp)
+		mem.cpp
+)
+
+target_include_directories(bedrock
+	PUBLIC ${PROJECT_SOURCE_DIR}/include
+)
+
+target_link_libraries(bedrock
+	lib_detours
+)
 
 add_custom_target(
 	sdk
 	COMMAND $<TARGET_FILE:BedrockMod> --proj ${PROJECT_SOURCE_DIR}/sdk.json --gen CppGen --output ${PROJECT_SOURCE_DIR}/include/api/sdk/ || (exit 0)
 )
 
-add_dependencies(IPHLPAPI sdk)
+add_dependencies(bedrock sdk)
 
-if(MSVC)
-	target_compile_definitions(IPHLPAPI PRIVATE
-		_CRT_SECURE_NO_WARNINGS
-		NOMINMAX
-	)
-endif()
-
-target_include_directories(IPHLPAPI PRIVATE "${PROJECT_SOURCE_DIR}/lib/GSL/include/")
-
-target_link_libraries(IPHLPAPI 
-    lib_detours
-)
-
-set_target_properties(IPHLPAPI PROPERTIES LINK_FLAGS /EXPORT:DetourFinishHelperProcess,@1,NONAME)
+add_subdirectory(platform)
